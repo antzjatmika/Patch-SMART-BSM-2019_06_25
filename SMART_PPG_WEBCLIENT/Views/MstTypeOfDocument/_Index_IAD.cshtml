@@ -1,0 +1,140 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<MVCSmartClient01.Models.mstTypeOfDocument>
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    //Tipe Dokumen Rekanan
+    settings.Name = "GTypeOfDocument";
+    settings.KeyFieldName = "IdTypeOfDoc";
+    settings.Settings.ShowGroupPanel = false;
+    settings.Settings.ShowGroupedColumns = false;
+
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.CallbackRouteValues = new { Controller = "MstTypeOfDocument", Action = "_Index" };
+    settings.Width = Unit.Percentage(100);
+
+    settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+    settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "MstTypeOfDocument", Action = "AddUpdateDocument" };
+    settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "MstTypeOfDocument", Action = "AddUpdateDocument" };
+    settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "MstTypeOfDocument", Action = "DeleteDocument" };
+    settings.SettingsBehavior.ConfirmDelete = true;
+
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowNewButtonInHeader = true;
+    settings.CommandColumn.ShowEditButton = true;
+    settings.CommandColumn.ShowDeleteButton = true;
+    settings.SettingsPager.PageSize = 20;
+
+    settings.CellEditorInitialize = (sender, e) =>
+    {
+        MVCxGridView gridView = sender as MVCxGridView;
+        if (sender == null || !gridView.IsNewRowEditing)
+            return;
+
+        e.Editor.Value = string.Format("Default{0}", e.Column.FieldName);
+    };
+
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+    settings.Columns.Add("IdTypeOfDoc").Visible = false;
+    settings.Columns.Add("CreatedUser").Visible = false;
+    settings.Columns.Add("CreatedDate").Visible = false;
+    settings.Columns.Add("IsActive").Visible = false;
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NameType";
+        column.Caption = "Nama Dokumen";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.SetEditFormTemplateContent(
+    c =>
+    {
+        var user = ViewData["UserInfo"] != null ? ViewData["UserInfo"] : c.DataItem;
+
+        //BARIS 1
+        ViewContext.Writer.Write("<div style=\"float : left; display : inline-block; width : 25%; margin-bottom: 7px;\">");
+        ViewContext.Writer.Write("<span style=\"width : 150px; display : inline-block; margin-bottom: 3px;\">Nama Dokumen</span>");
+        Html.DevExpress().TextBox(
+            edtSettings =>
+            {
+                edtSettings.Name = "NameType";
+                edtSettings.ControlStyle.CssClass = "editor";
+                edtSettings.ShowModelErrors = true;
+                edtSettings.Width = 200;
+            }
+        )
+        .Bind(DataBinder.Eval(user, "NameType"))
+        .Render();
+        
+        Html.DevExpress().TextBox(
+            edtSettings =>
+            {
+                edtSettings.Name = "CreatedUser";
+                edtSettings.ShowModelErrors = true;
+                edtSettings.ClientVisible = false;
+            }
+        )
+        .Bind(DataBinder.Eval(user, "CreatedUser"))
+        .Render();
+
+        Html.DevExpress().TextBox(
+            edtSettings =>
+            {
+                edtSettings.Name = "CreatedDate";
+                edtSettings.ShowModelErrors = true;
+                edtSettings.ClientVisible = false;
+            }
+        )
+        .Bind(DataBinder.Eval(user, "CreatedDate"))
+        .Render();
+
+        Html.DevExpress().TextBox(
+            edtSettings =>
+            {
+                edtSettings.Name = "IsActive";
+                edtSettings.ShowModelErrors = true;
+                edtSettings.ClientVisible = false;
+            }
+        )
+        .Bind(DataBinder.Eval(user, "IsActive"))
+        .Render();
+
+        ViewContext.Writer.Write("</div><br /><div class=\"clearfix\"></div>");
+
+        ViewContext.Writer.Write(
+            "<div style=\"text-align: right; padding: 2px 2px 2px 2px\">" +
+                string.Format("<a href=\"#\" onclick=\"{0}.UpdateEdit()\">Update</a> ", settings.Name) +
+                string.Format("<a href=\"#\" onclick=\"{0}.CancelEdit()\">Cancel</a>", settings.Name) +
+            "</div>"
+        );
+        ViewContext.Writer.Write("</div>");
+    }
+);
+
+}).Bind(Model).GetHtml()

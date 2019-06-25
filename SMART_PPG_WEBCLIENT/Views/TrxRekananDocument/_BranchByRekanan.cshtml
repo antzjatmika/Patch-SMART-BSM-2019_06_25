@@ -1,0 +1,125 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<MVCSmartClient01.Models.trxBranchOffice>
+@{
+    var callbackRouteValues = new { Controller = "TrxBranchOffice", Action = "_BranchByRekanan" };
+}
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "_BranchByIdOrganisasi";
+    settings.Settings.ShowGroupPanel = true;
+    settings.Settings.ShowGroupedColumns = true;
+
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.CallbackRouteValues = new { Controller = "TrxBranchOffice", Action = "_BranchByRekanan" };
+    settings.Width = Unit.Percentage(100);
+
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "#";
+        column.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                "<table><tr><td>" +
+                Html.ActionLink("Edit", "_AddEditBranch", "TrxBranchOffice", new
+                {
+                    @class = "updateLink", IdData = DataBinder.Eval(c.DataItem, "IdCabang")
+                }, new { }) + "&nbsp;" +
+                "</td><td>" +
+                Html.ActionLink("Delete", "_DeleteBranch", "TrxBranchOffice", new { @class = "deleteLink", IdData = DataBinder.Eval(c.DataItem, "IdCabang") },
+                    new { onclick = "return confirm('Apakah Anda yakin akan menghapus data ini ?')" })
+                + "</td></tr></table>"
+            );
+        });
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                Html.ActionLink("New", "_AddEditBranch", "TrxBranchOffice", new { IdData = -1 }, new { }).ToHtmlString()
+            );
+        });
+        column.Width = 70;
+    });
+
+    settings.KeyFieldName = "IdCabang";
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Name";
+        column.Caption = "Nama Cabang";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "JumlahPegawai";
+        column.Caption = "Jumlah Pegawai";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 120;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Address";
+        column.Caption = "Alamat";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Telephone1";
+        column.Caption = "Telepon";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 120;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ZipCode";
+        column.Caption = "Kode Pos";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 120;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IsActive";
+        column.HeaderStyle.Font.Bold = true;
+        column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+}).Bind(Model).GetHtml()

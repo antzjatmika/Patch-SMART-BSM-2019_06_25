@@ -1,0 +1,164 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<MVCSmartClient01.Models.trxTenagaAhli>
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    //settings.Name = "_GridTAhli" + System.Guid.NewGuid().ToString();
+    settings.Name = "_GridTAhli";
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+
+    settings.CallbackRouteValues = new { Controller = "TrxTenagaAhliHeader", Action = "_AddEditTAHeader", GuidHeader = ViewData["IdHeader"] };
+    settings.Width = Unit.Percentage(100);
+
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+
+    settings.KeyFieldName = "IdTenagaAhli";
+
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NamaLengkap";
+        column.Caption = "Nama Lengkap";
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Jabatan";
+        column.Caption = "Jabatan";
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "MulaiMendudukiJabatan";
+        column.Caption = "Mulai Menjabat";
+        column.HeaderStyle.Font.Bold = true;
+        column.Width = 20;
+        column.HeaderStyle.Wrap = DefaultBoolean.True;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "MulaiBekerjaSebagaiPenilai";
+        column.Caption = "Mulai Bekerja";
+        column.Width = 20;
+        column.HeaderStyle.Wrap = DefaultBoolean.True;
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RiwayatPekerjaan";
+        column.Caption = "Riwayat Pekerjaan";
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "LingkupPekerjaan";
+        column.Caption = "Lingkup Pekerjaan";
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "AlumniPTNPTS";
+        column.Caption = "Alumni PTN/PTS";
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "JenjangPendidikan";
+        column.Caption = "Jenjang Pendidikan";
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "KeanggotaanMAPPI";
+        column.Caption = "Keanggotaan MAPPI";
+        column.Width = 30;
+        column.HeaderStyle.Wrap = DefaultBoolean.True;
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NoIjinPenilai";
+        column.Caption = "No. Ijin Penilai";
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "KantorPusatCabang";
+        column.Caption = "Kantor/PusatCabang";
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "Catatan";
+    //    column.Caption = "Catatan";
+    //    column.HeaderStyle.Font.Bold = true;
+    //    column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+    //    column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+    //    column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    //});
+
+}).Bind(Model).GetHtml()

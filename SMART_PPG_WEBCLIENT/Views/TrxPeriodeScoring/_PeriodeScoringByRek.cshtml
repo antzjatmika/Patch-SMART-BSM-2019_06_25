@@ -1,0 +1,113 @@
+﻿@using DevExpress.Data.Filtering;
+@using System.Web.UI.WebControls
+@using MVCSmartClient01.Models;
+
+@model IEnumerable<MVCSmartClient01.Models.fPeriodeScoringByRekanan_Result>
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "GetPeriodeScoring";
+    settings.CallbackRouteValues = new { Controller = "TrxPeriodeScoring", Action = "_PeriodeScoringByRek", IdRekanan = @ViewBag.IdRekanan };
+    settings.Width = Unit.Percentage(40);
+    settings.SettingsPager.PageSize = 10;
+    settings.Styles.Row.Font.Size = 11;
+    settings.Styles.Header.Font.Size = 11;
+    //settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "TrxPeriodeScoring", Action = "EditPeriode" };
+    //settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "TrxPeriodeScoring", Action = "DeletePeriode" };    
+    settings.SettingsEditing.Mode = GridViewEditingMode.Inline;
+    //settings.SettingsBehavior.ConfirmDelete = true;
+
+    if (ViewBag.RoleName == "PCPKAR")
+    {
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.Width = 50;
+        settings.CommandColumn.ShowNewButtonInHeader = true;
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "TrxPeriodeScoring", Action = "AddPeriode", IdRekanan = @ViewBag.IdRekanan };
+    }
+    //settings.CommandColumn.ShowDeleteButton = true;
+    //settings.CommandColumn.ShowEditButton = true;
+        
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+
+    settings.KeyFieldName = "IdTrxPeriodeScoring";
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        column.HeaderStyle.Font.Bold = true;
+        column.CellStyle.BackColor = System.Drawing.Color.WhiteSmoke;
+        column.ReadOnly = true;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TahunBulan";
+        column.Caption = "Tahun Bulan";
+        column.HeaderStyle.Font.Bold = true;
+        column.Width = 80;
+        column.CellStyle.BackColor = System.Drawing.Color.LightYellow;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Detail";
+        column.HeaderStyle.Font.Bold = true;
+        column.SetDataItemTemplateContent(c =>
+        {
+            if (ViewBag.RoleName == "Rekanan")
+            {
+                ViewContext.Writer.Write(
+                    "<table><tr><td>" +
+                    Html.ActionLink("Detail", "DetailScoringByPeriodeRek", new
+                    {
+                        IdRekanan = DataBinder.Eval(c.DataItem, "IdRekanan")
+                        ,
+                        TahunBulan = DataBinder.Eval(c.DataItem, "TahunBulan")
+                        ,
+                        IdTypeOfRekanan = DataBinder.Eval(c.DataItem, "IdTypeOfRekanan")
+                    }) + "&nbsp;"
+                    + "</td></tr></table>"
+                );
+            }
+            else
+            {
+                ViewContext.Writer.Write(
+                    "<table><tr><td>" +
+                    Html.ActionLink("Detail", "DetailScoringByPeriode", new
+                    {
+                        IdRekanan = DataBinder.Eval(c.DataItem, "IdRekanan")
+                        ,
+                        TahunBulan = DataBinder.Eval(c.DataItem, "TahunBulan")
+                        ,
+                        IdTypeOfRekanan = DataBinder.Eval(c.DataItem, "IdTypeOfRekanan")
+                    }) + "&nbsp;"
+                    + "</td></tr></table>"
+                );
+            }
+        });
+        column.Width = 70;
+    });
+}).Bind(Model).GetHtml()
+<style>
+    .hiddencol {
+        display: none;
+    }
+</style>

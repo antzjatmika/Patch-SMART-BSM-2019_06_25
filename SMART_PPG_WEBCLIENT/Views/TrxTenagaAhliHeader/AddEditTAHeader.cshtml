@@ -1,0 +1,101 @@
+﻿@model MVCSmartClient01.Models.trxTenagaAhliHeaderForm
+@{
+    ViewBag.Title = "Index";
+}
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">@ViewBag.JudulDaftarTenaga</legend>
+</div>
+
+<div style="margin-bottom:10px">
+    @using (Html.BeginForm("AddEditTAHeader", "TrxTenagaAhliHeader", FormMethod.Post))
+    {
+        @Html.HiddenFor(model => model.IdTenagaAhliHeader)
+        @Html.HiddenFor(model => model.IdTipeTenaga)
+        @Html.HiddenFor(model => model.GuidHeader)
+        @Html.HiddenFor(model => model.IdRekanan)
+        @Html.HiddenFor(model => model.CreatedDate)
+        @Html.HiddenFor(model => model.CreatedUser)
+
+        <div>
+            @*<form role="form">
+            <div class="form-group col-xs-10 col-sm-7 col-md-7 col-lg-7">
+                @Html.DevExpress().Label(
+        settings =>
+        {
+            settings.ControlStyle.CssClass = "col-xs-1 control-label";
+            settings.Text = "Catatan";
+            settings.AssociatedControlName = "Catatan";
+            settings.ClientVisible = false;
+        }
+    ).GetHtml()
+                @Html.DevExpress().Memo(
+        settings =>
+        {
+            settings.Name = "Catatan";
+            settings.Height = 40;
+            settings.Width = 300;
+            settings.ControlStyle.CssClass = "editor";
+            settings.ClientVisible = false;
+        }
+        ).Bind(Model.Catatan).GetHtml()
+                @Html.ValidationMessageFor(model => model.Catatan, null, new { @class = "validator" })
+            </div>
+        <div class="clearfix"></div>
+        </form>*@
+            @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Update";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+            @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxDataOrganisasi", Action = "GetByRekanan" }) + "'; }";
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        </div>
+    }
+</div>
+<div class="form-group">
+    <label for="textinput">Download Template :</label>
+    <div>
+        @*@Html.ActionLink("ListTenagaAhli.xlsx", "FileTemplate", "TrxTenagaAhliHeader", new { fileName = "ListTenagaAhli" }, new { @target = "_blank" })*@
+        <a href='~/Content/FileDownload/ListTenagaAhli.xlsx' target="_blank">ListTenagaAhli.xlsx</a>
+    </div>
+</div>
+<label for="textinput">Upload File :</label>
+@using (Html.BeginForm("_PopulateTAFromFile", "TrxTenagaAhliHeader", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="file"/>
+    <input type="submit" value="OK" />
+    <input type="hidden" id="IdTenagaAhliHeader" name='IdTenagaAhliHeader' value=@Model.IdTenagaAhliHeader />
+    <input type="hidden" id="IdTipeTenaga" name='IdTipeTenaga' value=@Model.IdTipeTenaga />
+    @*<input type="hidden" id="yourCatatan" name="yourCatatan" value=@Model.Catatan />*@
+}
+<div style="margin-bottom:10px;margin-top:10px">
+@*@if (Model.IdTipeTenaga == 1)
+{
+    @Html.Partial("_AddEditTAHeader", Model.TenagaAhliColls, new ViewDataDictionary { { "IdHeader", ViewData["GuidHeader"] } })
+}
+else
+{
+    @Html.Partial("_AddEditTAHeader", Model.TenagaAhliTTColls, new ViewDataDictionary { { "IdHeader", ViewData["GuidHeader"] } })
+}*@
+@Html.Partial("_AddEditTAHeader", Model.TenagaAhliColls, new ViewDataDictionary { { "IdHeader", ViewData["GuidHeader"] } })
+
+</div>
+<button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdate').click();">
+    <span class="glyphicon glyphicon-ok"></span>&nbsp;Simpan
+</button>
+<button type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();">
+    <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+</button>

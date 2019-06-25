@@ -1,0 +1,98 @@
+﻿@using System.Web.UI.WebControls
+@model MVCSmartClient01.Models.mstRekananMulti
+
+@{
+    Html.EnableClientValidation();
+}
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.CommandColumn.SetHeaderTemplateContent(c =>
+        {
+            Html.DevExpress().CheckBox(settingsCheckBox =>
+            {
+                settingsCheckBox.Name = "cbSelectAll";
+                settingsCheckBox.Properties.ClientSideEvents.CheckedChanged = string.Format("function(s, e) {{ if(s.GetChecked()) {0}.SelectRows(); else {0}.UnselectRows(); }}", settings.Name);
+                settingsCheckBox.Checked = c.Grid.VisibleRowCount == c.Grid.Selection.Count;
+            }).Render();
+        });
+
+        settings.SettingsBehavior.AllowSelectByRowClick = true;
+
+        settings.SetFooterRowTemplateContent(c =>
+        {
+            Html.DevExpress().Button(btn =>
+            {
+                btn.Name = "btnSelectSubjectTo";
+                btn.Text = "Pilih";
+                btn.ClientSideEvents.Click = "function (s, e) { var tab = draftContainer.GetTab(0);draftContainer.SetActiveTab(tab);return false; }";
+            }).GetHtml();
+
+        });
+        settings.Name = "gvRowSelection";
+        settings.Settings.ShowFilterRow = true;
+        settings.Settings.ShowFilterRowMenu = false;
+        settings.Settings.ShowFooter = true;
+        settings.KeyFieldName = "IdRekanan";
+        settings.CallbackRouteValues = new { Controller = "TrxNotificationHeader", Action = "_GridSubjectTo" };
+        settings.ControlStyle.CssClass = "grid";
+
+        settings.Columns.Add("IdRekanan").Visible = false;
+        settings.Columns.Add("IdTypeOfRekanan").Visible = false;
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Kode";
+            column.Caption = "Jenis";
+            column.HeaderStyle.Font.Bold = true;
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = (DevExpress.Web.ASPxEditors.ComboBoxProperties)column.PropertiesEdit;
+            comboBoxProperties.ClientSideEvents.Init = "function(s, e) {s.InsertItem(0, '(ALL)', '');}";
+            comboBoxProperties.DataSource = new List<string>() { "KJP", "KAP", "KJP", "KMG", "ASJ", "ASK", "BLG", "NOT" };
+            comboBoxProperties.Width = 50;
+            comboBoxProperties.ValueType = typeof(string);
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "RegistrationNumber";
+            column.Caption = "No. Reg";
+            column.Width = 100;
+            column.HeaderStyle.Font.Bold = true;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+            column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Name";
+            column.Caption = "Nama Rekanan";
+            column.Width = 300;
+            column.HeaderStyle.Font.Bold = true;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+            column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "EmailAddress";
+            column.Caption = "Alamat Email";
+            column.Width = 300;
+            column.HeaderStyle.Font.Bold = true;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+            column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Kota";
+            column.Caption = "Kota";
+            column.HeaderStyle.Font.Bold = true;
+            column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+            column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        });
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.CommandColumn.Width = 35;
+
+        settings.ClientSideEvents.SelectionChanged = "SelectionChanged";
+    }).Bind(Model.MstRekananExtMulti).GetHtml()

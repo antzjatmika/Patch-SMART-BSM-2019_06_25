@@ -1,0 +1,11 @@
+﻿@using System.Web.UI.WebControls
+
+@Html.DevExpress().RoundPanel(settings => {
+    settings.HeaderText = "Konsolidasi";
+    settings.ControlStyle.Font.Size = 11;
+    settings.ControlStyle.Font.Bold = true;
+    settings.SetContent(() => {
+        { Html.RenderAction("_GetKonsoPairByParam", "TrxKonsolidasi", new { IdRekanan = ViewBag.IdRekanan, TahunBulan = ViewBag.TahunBulan }); }
+    });
+    settings.Width = Unit.Percentage(100);
+}).GetHtml()

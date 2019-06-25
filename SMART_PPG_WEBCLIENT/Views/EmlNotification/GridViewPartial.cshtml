@@ -1,0 +1,29 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.emlNotification>
+    @{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div>
+        @Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Name = "myGridView";
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "GridViewPart" };
+        settings.Width = 450;
+
+        settings.Columns.Add("IdEmailNotification");
+        settings.Columns.Add("IdRekanan");
+        settings.Columns.Add("ParameterKeys");
+        settings.Columns.Add("ParameterValues");
+    }).Bind(Model).GetHtml()
+    </div>
+</body>
+</html>

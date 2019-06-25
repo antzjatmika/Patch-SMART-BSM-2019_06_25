@@ -1,0 +1,177 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<MVCSmartClient01.Models.vwRekManagemenBL>
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "gridRekManagemenBL";
+    settings.Settings.ShowGroupPanel = false;
+    settings.Settings.ShowGroupedColumns = false;
+
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.CallbackRouteValues = new { Controller = "TrxManagement", Action = "_RekManagemenBL" };
+    settings.Width = Unit.Percentage(100);
+
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+    settings.Columns.Add(column =>
+    {
+        column.SetDataItemTemplateContent(c =>
+        {
+            //ViewContext.Writer.Write(
+            //    "<table><tr><td>" +
+            //    Html.ActionLink("Blacklist", "_BlacklistManagemen", new { @class = "deleteLink", IdNotification = DataBinder.Eval(c.DataItem, "IdManagemen"), FlgTraySent = false })
+            //    + "</td></tr></table>"
+            //);
+            ViewContext.Writer.Write("<div style='padding: 2px 0px 2px 2px'>");
+            Html.DevExpress().Button(settingsBtn =>
+            {
+                settingsBtn.Name = "btn" + c.KeyValue;
+                settingsBtn.Text = "Sanksi!";
+                settingsBtn.ClientSideEvents.Click = string.Format("function(s, e) {{ ConfirmBlacklistNew('{0}'); }}", DataBinder.Eval(c.DataItem, "IdManagemen"));
+                //settingsBtn.ClientSideEvents.Click = string.Format("function(s, e) {{ if (confirm(\"Confirm Delete?\")) ConfirmBlacklist('{0}'); }}", DataBinder.Eval(c.DataItem, "IdManagemen"));
+                //settingsBtn.RouteValues = new { Controller = "TrxManagement", Action = "_BlacklistManagemen", IdNotification = DataBinder.Eval(c.DataItem, "IdManagemen") };
+            }).Render();
+            ViewContext.Writer.Write("</div>");
+        });
+        column.Width = 70;
+    });
+
+    settings.KeyFieldName = "IdManagemen";
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Kode";
+        column.Caption = "Kode";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 50;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RegistrationNumber";
+        column.Caption = "No. Reg";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 50;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Rekanan";
+        column.Caption = "Nama Rekanan";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 200;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Name";
+        column.Caption = "Nama Partner";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 200;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Alamat";
+        column.Caption = "Alamat";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NomorKTP";
+        column.Caption = "No. KTP";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 120;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NomorNPWP";
+        column.Caption = "No. NPWP";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 120;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TanggalLahir";
+        column.Caption = "Tgl. Lahir";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+        column.Width = 60;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "BlackListed";
+        column.Caption = "Status Sanksi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        column.Width = 35;
+    });
+
+}).Bind(Model).GetHtml()
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<!-- Your Script -->
+<script type='text/javascript'>
+    function ConfirmBlacklistNew(IdManagemen) {
+        if (confirm("Partner ini akan dikenai sanksi ?")) {
+            $.ajax({
+                url: '@Url.Action("BlacklistPartnerById", "TrxManagement", new { IdManagemen = "xyzParamxyz" })'.replace("xyzParamxyz", IdManagemen.toString()),
+                type: "POST",
+                success: function () {
+                    window.location.href = '@Url.Action("GetManagementPCP", "TrxManagement")';
+                }
+            });
+        }
+        else
+            return false;
+    }
+    function ConfirmBlacklist(IdManagemen) {
+        if (confirm("Partner ini akan dikenai sanksi ?"))
+            //window.location.href = "/TrxManagement/BlacklistPartnerById/{0}",IdManagemen);
+            window.location.href = '@Url.Action("_RekManagemenBL", "TrxManagement")';
+        else
+            return false;
+    }
+</script>

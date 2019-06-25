@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<script>
+    function OnActiveTabChanging(s, e) {
+        var action = e.tab.name;
+        var actionUrl = "http://localhost:3239/TrxNotificationHeader/" + action;
+        $.ajax({
+            type: "POST",
+            url: actionUrl,
+            success: function (response) {
+                PageControl.SetTabContentHTML(e.tab, response);
+            }
+        });
+    }
+</script>
+
+@Html.DevExpress().PageControl(settingsPageControl =>
+{
+    settingsPageControl.Name = "pageControl";
+    settingsPageControl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settingsPageControl.ActiveTabIndex = 0;
+    settingsPageControl.ClientSideEvents.ActiveTabChanging = "OnActiveTabChanging";
+
+    if (@ViewBag.IsRekanan)
+    {
+        settingsPageControl.TabPages.Add("Draft", "_TrayDraftDetail4Rek").SetContent(() =>
+        {
+            Html.RenderAction("_TrayDraftDetail4Rek");
+        });
+    }
+    else
+    {
+        settingsPageControl.TabPages.Add("Draft", "_TrayDraftCaption").SetContent(() =>
+        {
+            Html.RenderAction("_TrayDraftCaption");
+        });
+    }
+    settingsPageControl.TabPages.Add("Inbox", "_TrayInboxCaption").SetContent(() =>
+    {
+        Html.RenderAction("_TrayInboxCaption");
+    });
+    if (@ViewBag.IsRekanan)
+    {
+        settingsPageControl.TabPages.Add("Sent", "_TraySentDetail4Rek").SetContent(() =>
+        {
+            Html.RenderAction("_TraySentDetail4Rek");
+        });
+    }
+    else
+    {
+        settingsPageControl.TabPages.Add("Sent", "_TraySentCaption").SetContent(() =>
+        {
+            Html.RenderAction("_TraySentCaption");
+        });        
+    }
+    if (!@ViewBag.IsRekanan)
+    {
+        settingsPageControl.TabPages.Add("Alert By Email", "_AlertByEmailSentCaption").SetContent(() =>
+        {
+            Html.RenderAction("_AlertByEmailSentCaption");
+        });
+        settingsPageControl.TabPages.Add("Alert By Whatsapp", "_AlertByWhatsappSentCaption").SetContent(() =>
+        {
+            Html.RenderAction("_AlertByWhatsappSentCaption");
+        });
+        settingsPageControl.TabPages.Add("Sent Email", "_EmailSentCaption").SetContent(() =>
+        {
+            Html.RenderAction("_EmailSentCaption");
+        });
+        settingsPageControl.TabPages.Add("Sent WA", "_WhatsappSentCaption").SetContent(() =>
+        {
+            Html.RenderAction("_WhatsappSentCaption");
+        });
+    }
+
+}).GetHtml()

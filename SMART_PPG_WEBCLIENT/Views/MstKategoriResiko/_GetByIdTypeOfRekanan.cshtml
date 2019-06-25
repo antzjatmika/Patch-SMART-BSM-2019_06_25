@@ -1,0 +1,209 @@
+﻿@using DevExpress.Data.Filtering;
+@using System.Web.UI.WebControls
+@using MVCSmartClient01.Models;
+
+@model IEnumerable<MVCSmartClient01.Models.mstKategoriResiko>
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "GetKategoriResiko";
+    //settings.CallbackRouteValues = new { Controller = "MstKategoriResiko", Action = "_GetByIdTypeOfRekanan", IdTypeOfRekanan = @ViewBag.IdTypeOfRekanan };
+    settings.CallbackRouteValues = new { Controller = "MstKategoriResiko", Action = "_GetByIdTypeOfRekanan", IdTypeOfRekanan = 4 };
+    settings.Width = Unit.Percentage(70);
+    settings.SettingsPager.PageSize = 10;
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowEditButton = true;
+    settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "MstKategoriResiko", Action = "UpdateLineNilai" };
+    settings.SettingsEditing.Mode = GridViewEditingMode.Inline;
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+    settings.CellEditorInitialize = (s, e) =>
+    {
+        if (e.Column.FieldName == "NilaiBawahC1" || e.Column.FieldName == "NilaiBawahC2" || e.Column.FieldName == "NilaiBawahC3" || e.Column.FieldName == "NilaiBawahC4"
+            || e.Column.FieldName == "NilaiAtasC1" || e.Column.FieldName == "NilaiAtasC2" || e.Column.FieldName == "NilaiAtasC3" || e.Column.FieldName == "NilaiAtasC4"
+            || e.Column.FieldName == "ScoreC1" || e.Column.FieldName == "ScoreC2" || e.Column.FieldName == "ScoreC3" || e.Column.FieldName == "ScoreC4")
+            (e.Editor).Width = System.Web.UI.WebControls.Unit.Pixel(70);
+
+    };
+    settings.KeyFieldName = "IdMstKategoriResiko";
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        column.HeaderStyle.Font.Bold = true;
+        column.CellStyle.BackColor = System.Drawing.Color.WhiteSmoke;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IdTypeOfRekanan";
+        column.EditCellStyle.CssClass = "hiddencol";
+        column.CellStyle.CssClass = "hiddencol";
+        column.HeaderStyle.CssClass = "hiddencol";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IsKonsolidasi";
+        column.EditCellStyle.CssClass = "hiddencol";
+        column.CellStyle.CssClass = "hiddencol";
+        column.HeaderStyle.CssClass = "hiddencol";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RangeNilaiC1";
+        column.Caption = "Low Risk";
+        column.HeaderStyle.Font.Bold = true;
+        column.ReadOnly = true;
+        column.CellStyle.BackColor = System.Drawing.Color.WhiteSmoke;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NilaiBawahC1";
+        column.ToolTip = "Batas Bawah";
+        
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<i style=\"font-size:18px;color:tomato\" class=\"glyphicon glyphicon-chevron-down\"></i>");
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NilaiAtasC1";
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<i style=\"font-size:18px;color:limegreen\" class=\"glyphicon glyphicon-chevron-up\"></i>");
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ScoreC1";
+        column.Caption = "Score";
+        column.HeaderStyle.Font.Bold = true;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RangeNilaiC2";
+        column.Caption = "Medium To Low Risk";
+        column.HeaderStyle.Font.Bold = true;
+        column.ReadOnly = true;
+        column.CellStyle.BackColor = System.Drawing.Color.WhiteSmoke;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NilaiBawahC2";
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<i style=\"font-size:18px;color:tomato\" class=\"glyphicon glyphicon-chevron-down\"></i>");
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NilaiAtasC2";
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<i style=\"font-size:18px;color:limegreen\" class=\"glyphicon glyphicon-chevron-up\"></i>");
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ScoreC2";
+        column.Caption = "Score";
+        column.HeaderStyle.Font.Bold = true;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RangeNilaiC3";
+        column.Caption = "Madium To High Risk";
+        column.HeaderStyle.Font.Bold = true;
+        column.ReadOnly = true;
+        column.CellStyle.BackColor = System.Drawing.Color.WhiteSmoke;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NilaiBawahC3";
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<i style=\"font-size:18px;color:tomato\" class=\"glyphicon glyphicon-chevron-down\"></i>");
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NilaiAtasC3";
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<i style=\"font-size:18px;color:limegreen\" class=\"glyphicon glyphicon-chevron-up\"></i>");
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ScoreC3";
+        column.Caption = "Score";
+        column.HeaderStyle.Font.Bold = true;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RangeNilaiC4";
+        column.Caption = "High Risk";
+        column.HeaderStyle.Font.Bold = true;
+        column.ReadOnly = true;
+        column.CellStyle.BackColor = System.Drawing.Color.WhiteSmoke;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NilaiBawahC4";
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<i style=\"font-size:18px;color:tomato\" class=\"glyphicon glyphicon-chevron-down\"></i>");
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NilaiAtasC4";
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<i style=\"font-size:18px;color:limegreen\" class=\"glyphicon glyphicon-chevron-up\"></i>");
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ScoreC4";
+        column.Caption = "Score";
+        column.HeaderStyle.Font.Bold = true;
+    });
+}).Bind(Model).GetHtml()
+<style>
+    .hiddencol {
+        display: none;
+    }
+</style>

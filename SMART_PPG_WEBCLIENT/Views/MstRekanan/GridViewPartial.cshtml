@@ -1,0 +1,270 @@
+﻿@using DevExpress.Data.Filtering;
+@using System.Web.UI.WebControls
+
+@model MVCSmartClient01.Models.mstRekananMulti
+@{
+    var callbackRouteValues = new { Controller = "MstRekanan", Action = "GridViewPartial" };
+}
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "myGridView";
+    settings.Settings.ShowGroupPanel = true;
+    settings.Settings.ShowGroupedColumns = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.CallbackRouteValues = new { Controller = "MstRekanan", Action = "GridViewPartial" };
+    settings.Width = Unit.Percentage(100);
+    settings.SettingsPager.PageSize = 20;
+
+    settings.CustomJSProperties = (sender, e) =>
+    {
+        MVCxGridView gv = sender as MVCxGridView;
+        //e.Properties["cp_Filter"] = gv.FilterExpression;
+        
+        e.Properties["cp_FilterOri"] = gv.FilterExpression;
+        CriteriaOperator op = CriteriaOperator.Parse(gv.FilterExpression, 0);
+        e.Properties["cp_Filter"] = DevExpress.Data.Filtering.CriteriaToWhereClauseHelper.GetDataSetWhere(op);
+    };
+
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+
+    //settings.Columns.Add(column =>
+    //{
+    //    column.Caption = "#";
+    //    column.SetDataItemTemplateContent(c =>
+    //    {
+    //        ViewContext.Writer.Write(
+    //            "<table><tr><td>" +
+    //            Html.ActionLink("Approve", "_SendNotiDetail", new { @class = "updateLink", IdNotificationDetail = DataBinder.Eval(c.DataItem, "IdNotificationDetail") },
+    //                new { onclick = "return confirm('Notifikasi akan langsung dikirim ?')" }) + "&nbsp;" +
+    //            "</td><td>" +
+    //            Html.ActionLink("Reject", "_ReadInfoByIdNotification", new { @class = "deleteLink", IdNotificationDetail = DataBinder.Eval(c.DataItem, "IdNotificationDetail"), FlgTraySent = false }) + "&nbsp;"
+    //            + "</td></tr></table>"
+    //        );
+    //    });
+    //    column.Width = 70;
+    //});
+
+    settings.HtmlRowPrepared = (s, e) =>
+    {
+        if (e.RowType != GridViewRowType.Data) return;
+
+        int kelengkapan = (int)e.GetValue("VerifiedBySystem");
+        if (kelengkapan == 1)
+        {
+            e.Row.Font.Bold = true;
+            e.Row.BackColor = System.Drawing.Color.FromArgb(0xEDFFF3);
+        }
+    };
+
+
+    
+    settings.KeyFieldName = "IdRekanan";
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.HeaderStyle.Font.Bold = true; 
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+    });
+
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+        
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IdTypeOfRekanan";
+        column.Caption = "Jenis Rekanan";
+        column.HeaderStyle.Font.Bold = true;
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        var comboBoxProperties = (DevExpress.Web.ASPxEditors.ComboBoxProperties)column.PropertiesEdit;
+        comboBoxProperties.ClientSideEvents.Init = "function(s, e) {s.InsertItem(0, '(ALL)', '');}";
+        comboBoxProperties.DataSource = Model.TypeOfRekananColls;
+        comboBoxProperties.TextField = "Name";
+        comboBoxProperties.ValueField = "IdTypeOfRekanan";
+        comboBoxProperties.ValueType = typeof(int);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RegistrationNumber";
+        column.Caption = "No. Reg";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 70;
+    });
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "ClassOfRekanan";
+    //    column.Caption = "Klasifikasi";
+    //    column.HeaderStyle.Font.Bold = true;
+    //    column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+    //    column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    //});
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Name";
+        column.Caption = "Nama";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NoNPWP";
+        column.Caption = "NPWP";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "IdTypeOfBadanUsaha";
+    //    column.Caption = "Tipe Badan Usaha";
+    //    column.HeaderStyle.Font.Bold = true;
+    //    column.ColumnType = MVCxGridViewColumnType.ComboBox;
+    //    var comboBoxProperties = (DevExpress.Web.ASPxEditors.ComboBoxProperties)column.PropertiesEdit;
+    //    comboBoxProperties.ClientSideEvents.Init = "function(s, e) {s.InsertItem(0, '(ALL)', '');}";
+    //    comboBoxProperties.DataSource = Model.TypeOfBadanUsahaColls;
+    //    comboBoxProperties.TextField = "Name";
+    //    comboBoxProperties.ValueField = "IdTypeOfBadanUsaha";
+    //    comboBoxProperties.ValueType = typeof(int);
+    //});
+    //settings.Columns.Add("IdTypeOfBadanUsaha");
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "IdWilayah";
+    //    column.Caption = "Wilayah";
+    //    column.HeaderStyle.Font.Bold = true;
+    //    column.ColumnType = MVCxGridViewColumnType.ComboBox;
+    //    var comboBoxProperties = (DevExpress.Web.ASPxEditors.ComboBoxProperties)column.PropertiesEdit;
+    //    comboBoxProperties.ClientSideEvents.Init = "function(s, e) {s.InsertItem(0, '(ALL)', '');}";
+    //    comboBoxProperties.DataSource = Model.WilayahColls;
+    //    comboBoxProperties.TextField = "Name";
+    //    comboBoxProperties.ValueField = "IdWilayah";
+    //    comboBoxProperties.ValueType = typeof(int);
+    //});
+    //settings.Columns.Add("IdWilayah");
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "IdKecamatan";
+    //    column.Caption = "Kecamatan";
+    //    column.HeaderStyle.Font.Bold = true;
+    //    column.ColumnType = MVCxGridViewColumnType.ComboBox;
+    //    var comboBoxProperties = (DevExpress.Web.ASPxEditors.ComboBoxProperties)column.PropertiesEdit;
+    //    comboBoxProperties.ClientSideEvents.Init = "function(s, e) {s.InsertItem(0, '(ALL)', '');}";
+    //    comboBoxProperties.DataSource = Model.KecamatanColls;
+    //    comboBoxProperties.TextField = "Name";
+    //    comboBoxProperties.ValueField = "IdKecamatan";
+    //    comboBoxProperties.ValueType = typeof(int);
+    //});
+    //settings.Columns.Add("IdKecamatan");
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Address";
+        column.Caption = "Alamat";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Kota";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Phone1";
+        column.Caption = "Telepon";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 100;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ContactPerson";
+        column.Caption = "Contact Person";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Handphone";
+        column.Caption = "Handphone";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 100;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "EmailAddress";
+        column.Caption = "Email";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ClassOfRekanan";
+        column.Caption = "Klas";
+        column.HeaderStyle.Font.Bold = true;
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        var comboBoxProperties = (DevExpress.Web.ASPxEditors.ComboBoxProperties)column.PropertiesEdit;
+        comboBoxProperties.ClientSideEvents.Init = "function(s, e) {s.InsertItem(0, '(ALL)', '');}";
+        comboBoxProperties.DataSource = Model.ClassAll;
+        comboBoxProperties.TextField = "RefDescription";
+        comboBoxProperties.ValueField = "RefId";
+        comboBoxProperties.ValueType = typeof(int);
+        column.Width = 35;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IsActive";
+        column.Caption = "Active";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        column.Width = 35;
+    });
+
+    settings.SettingsDetail.ShowDetailRow = true;
+    settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+
+    settings.SetDetailRowTemplateContent(c =>
+    {
+        Html.RenderAction("_InfoLastModifiedByRek", new { IdRekanan = DataBinder.Eval(c.DataItem, "IdRekanan")
+            , IdTypeOfRekanan = DataBinder.Eval(c.DataItem, "IdTypeOfRekanan")
+        , RegistrationNumber = DataBinder.Eval(c.DataItem, "RegistrationNumber")
+        , VerifiedBySystem = DataBinder.Eval(c.DataItem, "VerifiedBySystem")
+        , VerifiedByAdmin = DataBinder.Eval(c.DataItem, "VerifiedByAdmin")
+        });
+    });
+
+}).Bind(Model.MstRekananExtMulti).GetHtml()
+

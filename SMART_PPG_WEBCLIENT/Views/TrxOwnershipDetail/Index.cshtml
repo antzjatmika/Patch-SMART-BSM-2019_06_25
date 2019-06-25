@@ -1,0 +1,86 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.trxNotificationDetail>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Notification Detail</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdNotificationDetail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdNotification)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubjectTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubjectFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdNotificationContent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.flgBacaTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.flgEmailSent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.flgEmailRead)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.flgWASent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.flgWARead)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdNotificationDetail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdNotification)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubjectTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubjectFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdNotificationContent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.flgBacaTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.flgEmailSent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.flgEmailRead)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.flgWASent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.flgWARead)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.IdNotificationDetail }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IdNotificationDetail })
+        </td>
+    </tr>
+}
+
+</table>

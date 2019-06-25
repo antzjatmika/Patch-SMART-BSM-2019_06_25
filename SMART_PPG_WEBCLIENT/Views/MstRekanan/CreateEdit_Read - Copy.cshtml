@@ -1,0 +1,370 @@
+﻿@model MVCSmartClient01.Models.mstRekananForm
+
+<div id="legend" style="margin-bottom:-10px">
+    <legend class="">Informasi Umum</legend>
+</div>
+
+@using (Html.BeginForm("CreateEdit", "MstRekanan", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" value="@ViewBag.IsEditable" id="hiddenFlagEdit" />
+    @Html.HiddenFor(model => model.IdRekanan)
+    @Html.HiddenFor(model => model.IdRegion)
+
+    <div class="row">
+        <form role="form">
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nomor Registrasi";
+                settings.AssociatedControlName = "RegistrationNumber";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Name = "RegistrationNumber";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.ReadOnly = true;
+            }
+   ).Bind(Model.RegistrationNumber).GetHtml()
+                @Html.ValidationMessageFor(model => model.RegistrationNumber, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Kecamatan";
+                settings.AssociatedControlName = "Kecamatan";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "Kecamatan";
+                settings.Width = 250;
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.ReadOnly = true;
+            }
+).Bind(Model.Kecamatan).GetHtml()
+                @Html.ValidationMessageFor(model => model.Kecamatan, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Kelas Rekanan";
+                settings.AssociatedControlName = "ClassOfRekanan";
+            }
+        ).GetHtml()
+                @switch (Model.IdTypeOfRekanan)
+                {
+                    case 1:
+                    case 7:
+                        @Html.DevExpress().ComboBoxFor(x => x.ClassOfRekanan,
+                settings =>
+                {
+                    settings.Name = "CmbClassRek";
+                    settings.ControlStyle.CssClass = "control-field";
+                    settings.Properties.ValueField = "RefId";
+                    settings.Properties.TextField = "RefDescription";
+                    settings.Width = 250;
+                    settings.ReadOnly = true;
+                    settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                }).BindList(Model.ClassABC).GetHtml()
+                        break;
+                    case 2:
+                    case 3:
+                    case 5:
+                    @Html.DevExpress().ComboBoxFor(x => x.ClassOfRekanan,
+                settings =>
+                {
+                    settings.Name = "CmbClassRek";
+                    settings.ControlStyle.CssClass = "control-field";
+                    settings.Properties.ValueField = "RefId";
+                    settings.Properties.TextField = "RefDescription";
+                    settings.Width = 250;
+                    settings.ReadOnly = true;
+                    settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                }).BindList(Model.ClassAB).GetHtml()
+                        break;
+                    default:
+                    @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "kosong";
+                settings.AssociatedControlName = "ClassOfRekanan";
+            }
+        ).GetHtml()
+                        break;
+                }
+                @Html.ValidationMessageFor(model => model.ClassOfRekanan, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Kode Pos";
+                settings.AssociatedControlName = "ZipCode";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "ZipCode";
+                settings.Width = 250;
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.ReadOnly = true;
+            }
+).Bind(Model.ZipCode).GetHtml()
+                @Html.ValidationMessageFor(model => model.ZipCode, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Tipe Rekanan";
+                settings.AssociatedControlName = "IdTypeOfRekanan";
+            }
+        ).GetHtml()
+                @Html.DevExpress().ComboBoxFor(x => x.IdTypeOfRekanan,
+                settings =>
+                {
+                    settings.Name = "IdTypeOfRekanan";
+                    settings.ControlStyle.CssClass = "control-field";
+                    settings.Properties.ValueField = "IdTypeOfRekanan";
+                    settings.Properties.TextField = "Name";
+                    settings.Width = 250;
+                    settings.ReadOnly = true;
+                    settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                }).BindList(Model.TypeOfRekananColls).GetHtml()
+                @Html.ValidationMessageFor(model => model.IdTypeOfRekanan, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Telepon 1";
+                settings.AssociatedControlName = "Phone1";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "Phone1";
+                settings.Width = 250;
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.ReadOnly = true;
+            }
+).Bind(Model.Phone1).GetHtml()
+                @Html.ValidationMessageFor(model => model.Phone1, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Tipe Badan Usaha";
+                settings.AssociatedControlName = "IdTypeOfBadanUsaha";
+            }
+        ).GetHtml()
+                @Html.DevExpress().ComboBoxFor(x => x.IdTypeOfBadanUsaha,
+                settings =>
+                {
+                    settings.Name = "IdTypeOfBadanUsaha";
+                    settings.ControlStyle.CssClass = "control-field";
+                    settings.Properties.ValueField = "IdTypeOfBadanUsaha";
+                    settings.Properties.TextField = "Name";
+                    settings.Width = 250;
+                    settings.ReadOnly = true;
+                    settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                }).BindList(Model.TypeOfBadanUsahaColls).GetHtml()
+                @Html.ValidationMessageFor(model => model.IdTypeOfBadanUsaha, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Telepon 2";
+                settings.AssociatedControlName = "Phone2";
+            }
+            ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "Phone2";
+                settings.Width = 250;
+                settings.ReadOnly = true;
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+            }
+            ).Bind(Model.Phone2).GetHtml()
+                @Html.ValidationMessageFor(model => model.Phone2, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nama Rekanan";
+                settings.AssociatedControlName = "Name";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "Name";
+                settings.Width = 250;
+                settings.ReadOnly = true;
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+            }
+).Bind(Model.Name).GetHtml()
+                @Html.ValidationMessageFor(model => model.Name, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Telepon 3";
+                settings.AssociatedControlName = "Phone3";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "Phone3";
+                settings.Width = 250;
+                settings.ReadOnly = true;
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+            }
+).Bind(Model.Phone3).GetHtml()
+                @Html.ValidationMessageFor(model => model.Phone3, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Alamat";
+                settings.AssociatedControlName = "Address";
+            }
+        ).GetHtml()
+                @Html.DevExpress().Memo(
+            settings =>
+            {
+                settings.Name = "Address";
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Height = 60;
+                settings.Width = 250;
+                settings.ReadOnly = true;
+            }
+).Bind(Model.Address).GetHtml()
+                @Html.ValidationMessageFor(model => model.Address, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Fax 1";
+                settings.AssociatedControlName = "Fax1";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "Fax1";
+                settings.Width = 250;
+                settings.ReadOnly = true;
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+            }
+).Bind(Model.Fax1).GetHtml()
+                @Html.ValidationMessageFor(model => model.Fax1, null, new { @class = "validator" })
+                <div class="clearfix"></div>
+                <br />
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Fax 2";
+                settings.AssociatedControlName = "Fax2";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "Fax2";
+                settings.Width = 250;
+                settings.ReadOnly = true;
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+            }
+).Bind(Model.Fax2).GetHtml()
+                @Html.ValidationMessageFor(model => model.Fax2, null, new { @class = "validator" })
+
+
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Alamat Email";
+                settings.AssociatedControlName = "EmailAddress";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "EmailAddress";
+                settings.Width = 250;
+                settings.ReadOnly = true;
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+            }
+).Bind(Model.EmailAddress).GetHtml()
+                @Html.ValidationMessageFor(model => model.EmailAddress, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6"></div>
+            <div class="clearfix"></div>
+        </form>
+        <div class="form-group">
+            <div class="col-sm-offset-1 col-sm-4">
+                <div class="pull-left">
+                    @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Simpan";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-success dropdown-toggle" onclick="location.href = '@Url.Action("CreateEdit_Edit", "MstRekanan" )'; return false;">
+            <span class=" glyphicon glyphicon-edit"></span>&nbsp;Edit
+        </button>
+    </div>
+}
+
+

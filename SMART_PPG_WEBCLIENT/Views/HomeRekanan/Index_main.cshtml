@@ -1,0 +1,282 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: "Lato", sans-serif;
+        }
+
+        .btn-circle.btn-xl {
+            width: 50px;
+            height: 50px;
+            padding: 10px 10px;
+            font-size: 24px;
+            line-height: 1.33;
+            border-radius: 25px;
+        }
+
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 20px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .sidenav a:hover, .offcanvas a:focus {
+            color: #f1f1f1;
+        }
+
+        .sidenav .closebtn {
+            position: absolute;
+            top: 40px;
+            right: 15px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        @@media screen and (max-height: 450px) {
+            .sidenav {
+                padding-top: 15px;
+            }
+
+            .sidenav a {
+                font-size: 18px;
+            }
+        }
+
+        div.demo {
+            display: table;
+            width: 100%;
+            table-layout: fixed; /* For cells of equal size */
+        }
+
+        div.demo span {
+            display: table-cell;
+            text-align: center;
+        }
+
+        spanX {
+            display: table;
+            margin: 0 auto;
+        }
+
+        .badge {
+            padding: 1px 9px 2px;
+            font-size: 10px;
+            font-weight: bold;
+            white-space: nowrap;
+            color: #ffffff;
+            background-color: #999999;
+            -webkit-border-radius: 9px;
+            -moz-border-radius: 9px;
+            border-radius: 9px;
+        }
+
+        .badge-error {
+            background-color: red;
+        }
+
+        .badge-warning {
+            background-color: #f89406;
+        }
+
+        .badge-success {
+            background-color: #468847;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="mySidenav1" class="sidenav">
+        <a href="#"></a>
+        <a href="#"></a>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav1()">&times;</a>
+        <a @Html.ActionLink("Notifikasi Kritikal", "Index", "TrxNotificationHeader", null, new { @style = "color:red" })</a>
+        <a @Html.ActionLink("Notifikasi Penting", "Index", "TrxNotificationHeader", null, new { @style = "color:yellow" })</a>
+        <a @Html.ActionLink("Notifikasi Normal", "Index", "TrxNotificationHeader", null, new { @style = "color:green" })</a>
+    </div>
+
+    <div id="mySidenav2" class="sidenav">
+        <a href="#"></a>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">&times;</a>
+        <a @Html.ActionLink("Identitas Rekanan", "Edit", "MstRekanan", new { id = "753ECE37-78D4-4164-B237-0F1B42192617" }, new { @style = "color:lightskyblue" })</a>
+        <a @Html.ActionLink("Daftar Notaris", "Index", "TrxNotaris", null, new { @style = "color:lightskyblue" })</a>
+        <a href="#" style="color:lightskyblue">Daftar Dokumen</a>
+        <a href="#" style="color:lightskyblue">Kepemilikan Perusahaan</a>
+        <a href="#" style="color:lightskyblue">Data Organisasi</a>
+        <a href="#" style="color:lightskyblue">Daftar Kantor Cabang</a>
+        <a href="#" style="color:lightskyblue">Daftar Tenaga Ahli</a>
+    </div>
+
+    <div id="mySidenav3" class="sidenav">
+        <a href="#"></a>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav3()">&times;</a>
+        <a href="#">Upload Daftar Pekerjaan</a>
+    </div>
+
+    @*REGISTER/LOGIN*@
+    <div class="demo">
+        <span onclick="openNav1()"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-registration-mark"></i></button></span>
+        <span onclick="openNav2()"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-log-in"></i></button></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="demo">
+        <span><h6>Registrasi</h6></span>
+        <span><h6>Login</h6></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="demo">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    </br>
+    @*REKANAN*@
+    <div class="demo">
+        <span onclick="openNav1()"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-alert"></i></button></span>
+        <span onclick="openNav2()"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-home"></i></button></span>
+        <span onclick="openNav3()"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-open-file"></i></button></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span onclick="openNav3()"><button type="button" class="btn btn-danger btn-circle btn-xl"><i class="glyphicon glyphicon-log-out"></i></button></span>
+    </div>
+    <div class="demo">
+        <span><h6>Notifikasi</h6></span>
+        <span><h6>Profile Rekanan</h6></span>
+        <span><h6>Upload Data Pekerjaan</h6></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span><h6>Logout</h6></span>
+    </div>
+    <div class="demo">
+        <spanx>
+            <span class="badge badge-error">2 new</span>
+            <span class="badge badge-warning">4 new</span>
+            <span class="badge badge-success">6 new</span>
+        </spanx>
+        <span class="badge badge-warning">last upd 2 Januari 2017</span>
+        <spanx>
+            <span></span>
+            <span class="badge badge-error">12 files</span>
+            <span></span>
+        </spanx>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    </br>
+    @*PCP /KAR*@
+    <div class="demo">
+        <span onclick="openNav1()"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-alert"></i></button></span>
+        <span onclick="openNav2()"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-cog"></i></button></span>
+        <span onclick="openNav3()"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-list-alt"></i></button></span>
+        <span onclick="openNav3()"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-stats"></i></button></span>
+        <span></span>
+        <span></span>
+        <span onclick="openNav3()"><button type="button" class="btn btn-danger btn-circle btn-xl"><i class="glyphicon glyphicon-log-out"></i></button></span>
+    </div>
+    <div class="demo">
+        <span><h6>Notifikasi</h6></span>
+        <span><h6>Konfigurasi</h6></span>
+        <span><h6>Laporan</h6></span>
+        <span><h6>Dashboard</h6></span>
+        <span></span>
+        <span></span>
+        <span><h6>Logout</h6></span>
+    </div>
+    <div class="demo">
+        <spanx>
+            <span class="badge badge-error">2 new</span>
+            <span class="badge badge-warning">4 new</span>
+            <span class="badge badge-success">6 new</span>
+        </spanx>
+        <span class="badge badge-warning">2017</span>
+        <span class="badge badge-warning">2017</span>
+        <span class="badge badge-warning">2017</span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    </br>
+    @*ADMIN SISTEM*@
+    <div class="demo">
+        <span onclick="openNav1()"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-user"></i></button></span>
+        <span onclick="openNav2()"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-cog"></i></button></span>
+        <span onclick="openNav3()"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-check"></i></button></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span onclick="openNav3()"><button type="button" class="btn btn-danger btn-circle btn-xl"><i class="glyphicon glyphicon-log-out"></i></button></span>
+    </div>
+    <div class="demo">
+        <span><h6>Management User</h6></span>
+        <span><h6>Konfigurasi</h6></span>
+        <span><h6>Audit Trail</h6></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span><h6>Logout</h6></span>
+    </div>
+    <div class="demo">
+        <spanx>
+            <span class="badge badge-error">2 new</span>
+            <span class="badge badge-warning">4 new</span>
+            <span class="badge badge-success">6 new</span>
+        </spanx>
+        <span class="badge badge-warning">last upd 2 Januari 2017</span>
+        <spanx>
+            <span></span>
+            <span class="badge badge-error">12 files</span>
+            <span></span>
+        </spanx>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    </br>
+
+    <script>
+        $(document).ready(function () {
+            $(".btn-pref .btn").click(function () {
+                $(".btn-pref .btn").removeClass("btn-primary").addClass("btn-default");
+                // $(".tab").addClass("active"); // instead of this do the below 
+                $(this).removeClass("btn-default").addClass("btn-primary");
+            });
+        });
+    </script>
+
+</body>
+</html>

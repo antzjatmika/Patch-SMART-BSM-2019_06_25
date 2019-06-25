@@ -1,0 +1,157 @@
+﻿@model MVCSmartClient01.Models.emlNotification
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>EmployeeInfo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdEmailNotification)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdEmailNotification)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdRekanan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TemplateId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TemplateId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ParameterKeys)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParameterKeys)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ParameterValues)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ParameterValues)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailSubject)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmailSubject)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailBody)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmailBody)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddressEmailIdTo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AddressEmailIdTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddressEmailIdCc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AddressEmailIdCc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddressEmailTo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AddressEmailTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AddressEmailCc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AddressEmailCc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusDelivery)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StatusDelivery)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MailCreationDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.MailCreationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SentDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SentDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FlagActivate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FlagActivate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SatuanPeriode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SatuanPeriode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CacahPeriode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CacahPeriode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TanggalJatuhTempo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TanggalJatuhTempo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TanggalNotifikasi)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TanggalNotifikasi)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

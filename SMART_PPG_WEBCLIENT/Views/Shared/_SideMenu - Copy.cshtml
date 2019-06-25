@@ -1,0 +1,353 @@
+﻿@model MVCSmartClient01.Models.HeaderViewModel
+@{
+    Layout = "";
+}
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: "Lato", sans-serif;
+        }
+
+        .btn-circle.btn-xl {
+            width: 50px;
+            height: 50px;
+            padding: 10px 10px;
+            font-size: 24px;
+            line-height: 1.33;
+            border-radius: 25px;
+        }
+
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+
+            .sidenav a {
+                padding: 8px 8px 8px 32px;
+                text-decoration: none;
+                font-size: 20px;
+                color: #818181;
+                display: block;
+                transition: 0.3s;
+            }
+
+                .sidenav a:hover, .offcanvas a:focus {
+                    color: #f1f1f1;
+                }
+
+            .sidenav .closebtn {
+                position: absolute;
+                top: 40px;
+                right: 15px;
+                font-size: 36px;
+                margin-left: 50px;
+            }
+
+        @@media screen and (max-height: 450px) {
+            .sidenav {
+                padding-top: 15px;
+            }
+
+                .sidenav a {
+                    font-size: 18px;
+                }
+        }
+
+        div.demo {
+            display: table;
+            width: 100%;
+            table-layout: fixed; /* For cells of equal size */
+        }
+
+            div.demo span {
+                display: table-cell;
+                text-align: center;
+            }
+
+        spanX {
+            display: table;
+            margin: 0 auto;
+        }
+
+        .badge {
+            padding: 1px 9px 2px;
+            font-size: 10px;
+            font-weight: bold;
+            white-space: nowrap;
+            color: #ffffff;
+            background-color: #999999;
+            -webkit-border-radius: 9px;
+            -moz-border-radius: 9px;
+            border-radius: 9px;
+        }
+
+        .badge-error {
+            background-color: red;
+        }
+
+        .badge-warning {
+            background-color: #f89406;
+        }
+
+        .badge-success {
+            background-color: #468847;
+        }
+
+        @@import "compass/css3";
+
+        @@import url(http://fonts.googleapis.com/css?family=Oswald);
+
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        html {
+            background: #f1f1f1;
+        }
+
+        ul {
+            position: absolute;
+        }
+
+            ul li {
+                height: 50px;
+                background: green;
+                display: block;
+                font-family: "Oswald", sans-serif;
+                position: relative;
+                z-index: 100;
+                margin: 5px 0;
+                -webkit-animation: menu 2s;
+                -webkit-animation-fill-mode: forwards;
+                -moz-animation: menu 2s;
+                -moz-animation-fill-mode: forwards;
+                -ms-animation: menu 2s;
+                -ms-animation-fill-mode: forwards;
+                animation: menu 2s; /* Safari and Chrome */
+                animation-fill-mode: forwards;
+                opacity: 0;
+            }
+
+                ul li:hover {
+                    cursor: pointer;
+                }
+
+
+                ul li:before {
+                    display: block;
+                    height: 50px;
+                    width: 50px;
+                    content: '>';
+                    font-size: 2em;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    border-right: rgba(255,255,255,0.2) 1px solid;
+                    text-align: center;
+                    color: #fff;
+                    text-shadow: rgba(0,0,0,0.2) 1px 1px 1px;
+                    z-index: 200;
+                    line-height: 1.3em;
+                }
+
+        li a {
+            color: #fff;
+            display: block;
+            height: 50px;
+            padding: 0 2em 0 70px;
+            z-index: 100;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 18px;
+            line-height: 2.8em;
+            position: absolute;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            -webkit-transition: all 0.1s ease-in-out;
+            -moz-transition: all 0.1s ease-in-out;
+            -ms-transition: all 0.1s ease-in-out;
+            transition: all 0.1s ease-in-out;
+            text-shadow: rgba(0,0,0,0.3) 1px 1px;
+        }
+
+        ul li:nth-child(1) a {
+            background: #888888;
+        }
+
+        ul li:nth-child(2) a {
+            background: #628179;
+        }
+
+        ul li:nth-child(3) a {
+            background: #21aabd;
+        }
+
+        ul li:nth-child(4) a {
+            background: #654b6b;
+        }
+
+        ul li:nth-child(5) a {
+            background: #bd2a4e;
+        }
+
+        li a:hover {
+            opacity: 1.0;
+            padding-right: 3.0em;
+            -webkit-transition: all 0.1s ease-in-out;
+            -moz-transition: all 0.1s ease-in-out;
+            -ms-transition: all 0.1s ease-in-out;
+            transition: all 0.1s ease-in-out;
+        }
+
+        ul li:nth-child(2) {
+            -webkit-animation-delay: 0.4s;
+            -moz-animation-delay: 0.4s;
+            -ms-animation-delay: 0.4s;
+            animation-delay: 0.4s;
+        }
+
+        ul li:nth-child(3) {
+            -webkit-animation-delay: 0.8s;
+            -moz-animation-delay: 0.8s;
+            -ms-animation-delay: 0.8s;
+            animation-delay: 0.8s;
+        }
+
+        ul li:nth-child(4) {
+            -webkit-animation-delay: 1.2s;
+            -moz-animation-delay: 1.2s;
+            -ms-animation-delay: 1.2s;
+            animation-delay: 1.2s;
+        }
+
+        ul li:nth-child(5) {
+            -webkit-animation-delay: 1.6s;
+            -moz-animation-delay: 1.6s;
+            -ms-animation-delay: 1.6s;
+            animation-delay: 1.6s;
+        }
+
+        @@-webkit-keyframes menu {
+            0% {
+                opacity: 0;
+            }
+
+            25% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @@-moz-keyframes menu {
+            0% {
+                opacity: 0;
+            }
+
+            25% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @@-ms-keyframes menu {
+            0% {
+                opacity: 0;
+            }
+
+            25% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @@keyframes menu {
+            0% {
+                opacity: 0;
+            }
+
+            25% {
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+@*REGISTER/LOGIN*@
+<div class="demo">
+    <div class="container" id="slideMenu">
+        <div class="row">
+            @*@if (Model != null && Model.SideMenuCode != null)
+            {
+                <button style="border-right: rgba(255,255,255,0.2) 1px solid;position:relative;left:0;height:50px;width:50px;color: #fff;display: block;" onclick="document.getElementById('slideMenu').style.display = 'none'">X</button>
+            }*@
+            @if (Model != null && Model.SideMenuCode != null)
+            {
+                switch (Model.SideMenuCode)
+                {
+                    case "Rek_Profile":
+                        <button style="border-right: rgba(255,255,255,0.2) 1px solid;position:relative;left:0;height:50px;width:50px;color: #fff;display: block;" onclick="document.getElementById('slideMenu').style.display = 'none'">X</button>
+                        <ul>
+                            <li><a href="@Url.Action("Create", "MstRekanan")">Identitas Rekanan</a></li>
+                            <li><a href="@Url.Action("Create", "TrxNotaris")">DataNotaris</a></li>
+                            <li><a href="@Url.Action("Index", "TrxDocumentMandatory")">Daftar Dokumen</a></li>
+                            <li><a href="@Url.Action("Create", "TrxDataOrganisasi")">Data Organisasi</a></li>
+                            <li><a href="@Url.Action("Index", "TrxOwnership")">Kepemilikan Perusahaan</a></li>
+                            <li><a href="@Url.Action("Index", "TrxBranchOffice")">Daftar Cabang</a></li>
+                            <li><a href="@Url.Action("Index", "TrxTenagaAhli")">Daftar Tenaga Ahli</a></li>
+                        </ul>
+                        break;
+                    case "":
+                    <ul>
+                        <li><a href="#">SkyLatest</a></li>
+                        <li><a href="#">News</a></li>
+                        <li><a href="#">Sports</a></li>
+                        <li><a href="#">Entertainment</a></li>
+                        <li><a href="#">Technology</a></li>
+                    </ul>
+                        break;
+                }
+            }
+        </div>
+    </div>
+</div>
+

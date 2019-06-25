@@ -1,0 +1,5 @@
+﻿
+@using System;
+<h4>@((ViewBag.TipeUraian == 2)?"Konsolidasi":"Ikhtisar Keuangan") @ViewBag.PeriodeAwal s/d @ViewBag.PeriodeAkhir</h4>
+@Html.Partial("_GetKonsoResumeByPeriode")
+

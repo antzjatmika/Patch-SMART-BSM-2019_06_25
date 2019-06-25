@@ -1,0 +1,230 @@
+﻿@using DevExpress.Data.Filtering;
+@using System.Web.UI.WebControls
+
+@model IEnumerable<MVCSmartClient01.Models.fManagementRekanan_Result>
+@{
+    var callbackRouteValues = new { Controller = "MstRekanan", Action = "_GetManagementRek" };
+}
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "myManagementRek";
+    settings.Settings.ShowGroupPanel = true;
+    settings.Settings.ShowGroupedColumns = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.CallbackRouteValues = new { Controller = "MstRekanan", Action = "_GetManagementRek" };
+    settings.Width = Unit.Percentage(100);
+    settings.SettingsPager.PageSize = 20;
+
+    settings.CustomJSProperties = (sender, e) =>
+    {
+        MVCxGridView gv = sender as MVCxGridView;
+        
+        e.Properties["cp_FilterOri"] = gv.FilterExpression;
+        CriteriaOperator op = CriteriaOperator.Parse(gv.FilterExpression, 0);
+        e.Properties["cp_Filter"] = DevExpress.Data.Filtering.CriteriaToWhereClauseHelper.GetDataSetWhere(op);
+    };
+
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+
+    settings.KeyFieldName = "IdManagemen";
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.HeaderStyle.Font.Bold = true; 
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+    });
+
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+        
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Name";
+        column.Caption = "Nama Management";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RoleTitle";
+        column.Caption = "Jabatan";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Alamat";
+        column.Caption = "Alamat";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NomorKTP";
+        column.Caption = "No. KTP";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TanggalLahir";
+        column.Caption = "Tgl. Lahir";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NomorNPWP";
+        column.Caption = "No. NPWP";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NomorIAPI";
+        column.Caption = "No. IAPI";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NomorIjinPenilai";
+        column.Caption = "No. Ijin Penilai";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "AkhirBerlakuIAPI";
+        column.Caption = "Akhir IAPI";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TanggalMulaiBlackList";
+        column.Caption = "Mulai Sanksi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TanggalAkhirBlacklist";
+        column.Caption = "Akhir Sanksi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "StatusBlackList";
+        column.Caption = "Sanksi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        column.Width = 35;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Email1";
+        column.Caption = "Email1";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Email2";
+        column.Caption = "Email2";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Handphone1";
+        column.Caption = "Handphone1";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Handphone2";
+        column.Caption = "Handphone2";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Telephone1";
+        column.Caption = "Telephone1";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Telephone2";
+        column.Caption = "Telephone2";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RegistrationNumber";
+        column.Caption = "Reg. Number";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NamaRekanan";
+        column.Caption = "Nama Rekanan";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+
+}).Bind(Model).GetHtml()
+

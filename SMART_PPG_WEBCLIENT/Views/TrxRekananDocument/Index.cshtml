@@ -1,0 +1,68 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.trxRekananDocument>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Dokumen Rekanan</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdTypeOfDocument)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IssuedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IssuedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Notaris)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BlobDocument)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdRekanan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdTypeOfDocument)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IssuedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IssuedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Notaris)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BlobDocument)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.IdDocument }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IdDocument })
+        </td>
+    </tr>
+}
+
+</table>

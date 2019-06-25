@@ -1,0 +1,141 @@
+﻿@model MVCSmartClient01.Models.trxRekananDocumentForm
+
+@{
+    Html.EnableClientValidation();
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.IdDocument)
+
+    <div class="line">
+        @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Tipe Dokumen";
+                settings.AssociatedControlName = "IdTypeOfDocument";
+            }
+        ).GetHtml()
+        @Html.DevExpress().ComboBoxFor(x => x.IdTypeOfDocument,
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "control-field";
+                    settings.Properties.ValueField = "IdTypeOfDoc";
+                    settings.Properties.TextField = "NameType";
+                    settings.Width = 200;
+                    settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                }).BindList(Model.TypeOfDocumentColls).GetHtml()
+    </div>
+    <div class="line">
+        @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Issued By";
+                settings.AssociatedControlName = "IssuedBy";
+            }
+        ).GetHtml()
+        @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "IssuedBy";
+                settings.ControlStyle.CssClass = "editor";
+            }
+         ).Bind(Model.IssuedBy).GetHtml()
+        @Html.ValidationMessageFor(model => model.IssuedBy, null, new { @class = "validator" })
+    </div>
+
+    <div class="line">
+        @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "IssuedDate";
+                settings.AssociatedControlName = "IssuedDate";
+            }
+        ).GetHtml()
+        @Html.DevExpress().DateEdit(
+            settings =>
+            {
+                settings.Name = "IssuedDate";
+                settings.ControlStyle.CssClass = "editor";
+            }
+          ).Bind(Model.IssuedDate).GetHtml()
+        @Html.ValidationMessageFor(model => model.IssuedDate, null, new { @class = "validator" })
+    </div>
+    <div class="line">
+        @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "EndDate";
+                settings.AssociatedControlName = "EndDate";
+            }
+        ).GetHtml()
+        @Html.DevExpress().DateEdit(
+            settings =>
+            {
+                settings.Name = "EndDate";
+                settings.ControlStyle.CssClass = "editor";
+            }
+          ).Bind(Model.IssuedDate).GetHtml()
+        @Html.ValidationMessageFor(model => model.EndDate, null, new { @class = "validator" })
+    </div>
+
+    <div class="line">
+        @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Notaris";
+                settings.AssociatedControlName = "Notaris";
+            }
+        ).GetHtml()
+        @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "Notaris";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Properties.DisplayFormatString = "C";
+            }
+         ).Bind(Model.Notaris).GetHtml()
+        @Html.ValidationMessageFor(model => model.Notaris, null, new { @class = "validator" })
+    </div>
+    <div class="line">
+        @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Update";
+                settings.UseSubmitBehavior = true;
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxRekananDocument", Action = "GetByRekananTab" }) + "'; }";
+            }
+        ).GetHtml()
+        @*<input name="button" value="Place bid" class="btn btn-size2" onclick="return some_js_function()" />*@
+    </div>
+}
+
+<script>
+    function some_js_function() {
+        alert('asadasdasd');
+        alert(" @Model.Notaris ");
+        alert(" @Model.IdTypeOfDocument ");
+        alert(" @Model.IssuedBy ");
+    }
+</script>

@@ -1,0 +1,87 @@
+﻿@model MVCSmartClient01.Models.trxDataOrganisasi_ARC
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TrxDataOrganisasi ARC Info</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdArc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdArc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdAction)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdAction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdOrganisasi)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdOrganisasi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdRekanan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OfficeStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OfficeStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfBranch)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfBranch)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfFixEmpl)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfFixEmpl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfNonFixEmpl)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfNonFixEmpl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfAgent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfAgent)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

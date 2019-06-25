@@ -1,0 +1,167 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.trxNotaris>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SKNotaris)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SumpahNotarisNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SumpahNotarisDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsKoperasiMember)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SKKoperasiNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SKKoperasiDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsBapepamReg)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BapepamSKNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BapepamSKDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpLimit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PPATSKNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PPATSKDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PPATSumpahNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PPATSumpahDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WilayahKerjaPPAT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsIPPATMember)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SKIPPATNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SKPPATDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsINIMember)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.INISKNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.INISKDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Remark)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.IdRekanan)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.SKNotaris)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SumpahNotarisNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SumpahNotarisDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsKoperasiMember)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SKKoperasiNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SKKoperasiDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsBapepamReg)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BapepamSKNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BapepamSKDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpLimit)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PPATSKNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PPATSKDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PPATSumpahNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PPATSumpahDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WilayahKerjaPPAT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsIPPATMember)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SKIPPATNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SKPPATDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsINIMember)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.INISKNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.INISKDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Remark)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.IdNotaris }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IdNotaris })
+        </td>
+    </tr>
+}
+
+</table>

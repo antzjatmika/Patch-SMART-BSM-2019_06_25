@@ -1,0 +1,43 @@
+﻿@model MVCSmartClient01.Models.fGetPengumumanByTypeOfRekanan_Result
+
+<html>
+<head>
+    <link href="@Url.Content("../../Content/Pengumuman.css")" rel="stylesheet" type="text/css" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Login Page</title>
+</head>
+
+<body>
+    <div class="container">
+        <img id="BGImage" src="~/Content/Images/foto.png" alt="Norway" style="height: 100%; width: 100%;">
+        <div class="cont_pengumuman">
+            <h2 id="JudulPengumuman">Pengumunan</h2>
+            <p id="IsiPengumuman" style="font-family:verdana;font-size:120%;text-align:left;">
+                Isi Pengumuman
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    function SetPengumuman() {
+        document.getElementById('JudulPengumuman').innerHTML = "@Model.JudulPengumuman";
+        var strIsiPengumuman = "@Model.IsiPengumuman".replace(new RegExp('XYZAAXYZ', 'g'), '<br>');
+        document.getElementById('IsiPengumuman').innerHTML = strIsiPengumuman;
+        if ("@Model.JudulPengumuman" == "") {
+            @*$('#BGImage').attr('src', '../../Content/Images/' + "@Model.FileGambar");*@
+            $('#BGImage').attr('src', '../../Content/DocumentImages/' + "@Model.FileGambar");
+        }
+        else {
+            $('#BGImage').attr('src', '../../Content/DocumentImages/' + "@Model.FileGambar");
+        }
+    }
+    window.onload = SetPengumuman();
+</script>
+
+<body>
+    <div class="demo">
+        <img style="height: 100%; width: 100%;" src="~/Content/Images/foto smart-051ASJ.jpg">
+    </div>
+</body>

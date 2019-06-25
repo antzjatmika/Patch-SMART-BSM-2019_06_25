@@ -1,0 +1,111 @@
+﻿@*<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
+@*<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>*@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    //google.load("visualization", "1", { packages: ["corechart"] });
+
+    //google.charts.load('current', { 'packages': ['corechart', 'bar'] });
+    //google.charts.setOnLoadCallback(drawStuff);
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(function () { PopulatePieJumlahPek(@ViewBag.IdTypeOfRekanan) });
+
+    function PopulatePieJumlahPek(IdTypeOfRekanan) {
+        var urlAddress = '';
+        var typeOfRekanan = '';
+        urlAddress = '@Url.Action("Data_PekerjaanByRekanan", "Dashboard", new { IdTypeOfRekanan = "myaabbcc" })'.replace("myaabbcc", IdTypeOfRekanan);
+        switch (IdTypeOfRekanan) {
+            case 1:
+                typeOfRekanan = "KJPP";
+                break;
+            case 2:
+                typeOfRekanan = "KAP";
+                break;
+            case 3:
+                typeOfRekanan = "Konsultan Management";
+                break;
+            case 4:
+                typeOfRekanan = "Asuransi Jiwa";
+                break;
+            case 5:
+                typeOfRekanan = "Asuransi Kerugian";
+                break;
+            case 6:
+                typeOfRekanan = "Balai Lelang";
+                break;
+            case 7:
+                typeOfRekanan = "Notaris";
+                break;
+            default:
+                typeOfRekanan = "Undefine";
+                break;
+        }
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: urlAddress,
+            data: '{}',
+            success: function (chartsdata) {
+
+                // Callback that creates and populates a data table,
+                // instantiates the pie chart, passes in the data and
+                // draws it.
+
+                var data = new google.visualization.DataTable();
+
+                data.addColumn('string', 'NamaRekanan');
+                data.addColumn('number', 'JumlahPekerjaan');
+
+                for (var i = 0; i < chartsdata.length; i++) {
+                    data.addRow([chartsdata[i].NamaRekanan, chartsdata[i].JumlahPekerjaan]);
+                }
+
+                // Instantiate and draw our chart, passing in some options
+                var chart; // = new google.visualization.PieChart(document.getElementById('pieKJP'));
+                switch (IdTypeOfRekanan) {
+                    case 1:
+                        chart = new google.visualization.PieChart(document.getElementById('piePekerjaanKJP'));
+                        break;
+                    case 2:
+                        chart = new google.visualization.PieChart(document.getElementById('piePekerjaanKAP'));
+                        break;
+                    case 3:
+                        chart = new google.visualization.PieChart(document.getElementById('piePekerjaanKMG'));
+                        break;
+                    case 4:
+                        chart = new google.visualization.PieChart(document.getElementById('piePekerjaanASJ'));
+                        break;
+                    case 5:
+                        chart = new google.visualization.PieChart(document.getElementById('piePekerjaanASK'));
+                        break;
+                    case 6:
+                        chart = new google.visualization.PieChart(document.getElementById('piePekerjaanBLG'));
+                        break;
+                    case 7:
+                        chart = new google.visualization.PieChart(document.getElementById('piePekerjaanNOT'));
+                        break;
+                }
+
+                chart.draw(data,
+                  {
+                      title: "Top 3 Total Pekerjaan, Tahun 2017 : " + typeOfRekanan,
+                      position: "top",
+                      fontsize: "14px",
+                      chartArea: { width: '100%' },
+                      is3D: true,
+                  });
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+    }
+</script>  
+<script type="text/javascript">
+    @*$(function () {
+        PopulatePieJumlahPek(parseInt('@ViewBag.IdTypeOfRekanan'));
+    })*@
+</script>
+
+<div id="@ViewBag.PiePekerjaan" style="width: 600px; height: 350px;">
+</div>  

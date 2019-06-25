@@ -1,0 +1,56 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.trxRekananDocumentTrack>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdDocument)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdTypeOfDocument)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdTypeOfStatusDoc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VerificationNote)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdDocument)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdRekanan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdTypeOfDocument)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdTypeOfStatusDoc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VerificationNote)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.IdDocumentTrack }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IdDocumentTrack })
+        </td>
+    </tr>
+}
+
+</table>

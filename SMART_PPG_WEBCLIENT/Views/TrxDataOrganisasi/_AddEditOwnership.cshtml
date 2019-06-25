@@ -1,0 +1,403 @@
+﻿@model MVCSmartClient01.Models.trxOwnershipForm
+
+@{
+    Html.EnableClientValidation();
+}
+
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">Kepemilikan</legend>
+</div>
+
+@using (Html.BeginForm("_AddEditOwnership", "TrxDataOrganisasi", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.IdOwnership)
+    @Html.HiddenFor(model => model.IdRekanan)
+    @Html.HiddenFor(model => model.CreatedDate)
+    @Html.HiddenFor(model => model.CreatedUser)
+
+    <div class="row">
+        <form role="form">
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nama Lengkap";
+                settings.AssociatedControlName = "Name";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "Name";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+            }
+          ).Bind(Model.Name).GetHtml()
+                @Html.ValidationMessageFor(model => model.Name, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-8 control-label";
+                settings.Text = "Penyertaan Lain (1), (2), (3) :";
+                settings.AssociatedControlName = "Telephone1";
+            }
+        ).GetHtml()
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Jabatan";
+                settings.AssociatedControlName = "Title";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "Title";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+            }
+   ).Bind(Model.Title).GetHtml()
+                @Html.ValidationMessageFor(model => model.Title, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nama Perusahaan (1)";
+                settings.AssociatedControlName = "NamaPerusahaan1";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "NamaPerusahaan1";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+            }
+          ).Bind(Model.NamaPerusahaan1).GetHtml()
+                @Html.ValidationMessageFor(model => model.NamaPerusahaan1, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Alamat";
+                settings.AssociatedControlName = "Alamat";
+            }
+        ).GetHtml()
+                @Html.DevExpress().Memo(
+            settings =>
+            {
+                settings.Name = "Alamat";
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Height = 60;
+                settings.Width = 250;
+                settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+            }
+    ).Bind(Model.Alamat).GetHtml()
+                @Html.ValidationMessageFor(model => model.Alamat, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Persentase (1)";
+                settings.AssociatedControlName = "Persen1";
+            }
+        ).GetHtml()
+                @Html.DevExpress().SpinEdit(
+            settings =>
+            {
+                settings.Name = "Persen1";
+                settings.ControlStyle.CssClass = "col-xs-3 nopadding"; 
+                settings.Width = 60;
+                settings.Properties.MaxValue = 100;
+                settings.Properties.SpinButtons.ShowIncrementButtons = false;
+            }
+).Bind(Model.Persen1).GetHtml()
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-4 control-label"; 
+                settings.Text = "%";
+                settings.Width = 25;
+                settings.AssociatedControlName = "Persen1P";
+            }
+            ).GetHtml()
+                @Html.ValidationMessageFor(model => model.Telephone3, null, new { @class = "validator" })
+                <div class="clearfix"></div>
+                <br/>
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nama Perusahaan (2)";
+                settings.AssociatedControlName = "NamaPerusahaan2";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "NamaPerusahaan2";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+            }
+          ).Bind(Model.NamaPerusahaan2).GetHtml()
+                @Html.ValidationMessageFor(model => model.NamaPerusahaan2, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nomor KTP";
+                settings.AssociatedControlName = "NomorKTP";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "NomorKTP";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+            }
+).Bind(Model.NomorKTP).GetHtml()
+                @Html.ValidationMessageFor(model => model.NomorKTP, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Persentase (2)";
+                settings.AssociatedControlName = "Persen2";
+            }
+        ).GetHtml()
+                @Html.DevExpress().SpinEdit(
+            settings =>
+            {
+                settings.Name = "Persen2";
+                settings.ControlStyle.CssClass = "col-xs-3 nopadding";
+                settings.Width = 60;
+                settings.Properties.MaxValue = 100;
+                settings.Properties.SpinButtons.ShowIncrementButtons = false;
+            }
+).Bind(Model.Persen2).GetHtml()
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-4 control-label";
+                settings.Text = "%";
+                settings.Width = 25;
+                settings.AssociatedControlName = "Persen2P";
+            }
+            ).GetHtml()
+                @Html.ValidationMessageFor(model => model.Telephone3, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nomor NPWP";
+                settings.AssociatedControlName = "NomorNPWP";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "NomorNPWP";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+            }
+).Bind(Model.NomorNPWP).GetHtml()
+                @Html.ValidationMessageFor(model => model.NomorNPWP, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nama Perusahaan (3)";
+                settings.AssociatedControlName = "NamaPerusahaan3";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "NamaPerusahaan3";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                //settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+            }
+          ).Bind(Model.NamaPerusahaan3).GetHtml()
+                @Html.ValidationMessageFor(model => model.NamaPerusahaan3, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Sertifikasi";
+                settings.AssociatedControlName = "Sertifikasi";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "Sertifikasi";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+            }
+).Bind(Model.Sertifikasi).GetHtml()
+                @Html.ValidationMessageFor(model => model.Sertifikasi, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Persentase (3)";
+                settings.AssociatedControlName = "Persen3";
+            }
+        ).GetHtml()
+                @Html.DevExpress().SpinEdit(
+            settings =>
+            {
+                settings.Name = "Persen3";
+                settings.ControlStyle.CssClass = "col-xs-3 nopadding";
+                settings.Width = 60;
+                settings.Properties.MaxValue = 100;
+                settings.Properties.SpinButtons.ShowIncrementButtons = false;
+            }
+).Bind(Model.Persen3).GetHtml()
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-4 control-label";
+                settings.Text = "%";
+                settings.Width = 25;
+                settings.AssociatedControlName = "Persen3P";
+            }
+            ).GetHtml()
+                @Html.ValidationMessageFor(model => model.Telephone3, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Persentase Saham";
+                settings.AssociatedControlName = "PercentSaham";
+            }
+        ).GetHtml()
+                @Html.DevExpress().SpinEdit(
+            settings =>
+            {
+                settings.Name = "PercentSaham";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.Properties.SpinButtons.ShowIncrementButtons = false;
+            }
+).Bind(Model.PercentSaham).GetHtml()
+                @Html.ValidationMessageFor(model => model.PercentSaham, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nominal Saham";
+                settings.AssociatedControlName = "NominalSaham";
+            }
+        ).GetHtml()
+                @Html.DevExpress().SpinEdit(
+            settings =>
+            {
+                settings.Name = "NominalSaham";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.Properties.SpinButtons.ShowIncrementButtons = false;
+                settings.Properties.DisplayFormatString = "N";
+            }
+).Bind(Model.NominalSaham).GetHtml()
+                @Html.ValidationMessageFor(model => model.NominalSaham, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "NPWP";
+                settings.AssociatedControlName = "NPWP";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "NPWP";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+            }
+).Bind(Model.NPWP).GetHtml()
+                @Html.ValidationMessageFor(model => model.NPWP, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+            </div>
+            <div class="clearfix"></div>
+        </form>
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Update";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxDataOrganisasi", Action = "GetByRekanan" }) + "'; }";
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdate').click();">
+            <span class="glyphicon glyphicon-ok"></span>&nbsp;Simpan
+        </button>
+        <button type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();">
+            <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+        </button>
+    </div>
+}
+

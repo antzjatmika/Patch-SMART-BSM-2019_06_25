@@ -1,0 +1,3 @@
+﻿@using System;
+<h4>@(ViewBag.IdTypeOfGroup == 1 ?"Wawancara": ViewBag.IdTypeOfGroup == 2 ? "Seleksi Administrasi" : "OTS") @(ViewBag.IdPenilai == 1 ? "PPG": "FOG")</h4>
+@Html.Partial("_GetNilaiByPenilai")

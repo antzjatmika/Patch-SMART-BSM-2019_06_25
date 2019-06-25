@@ -1,0 +1,15 @@
+﻿@using System.Web.UI.WebControls
+
+@model MVCSmartClient01.Models.trxNotarisFormNew
+
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">Data Notaris</legend>
+</div>
+
+@Html.Partial("CreateEditTabular", Model.LstNotaris, new ViewDataDictionary { { "enableTab", !ViewBag.IsReadOnly } })
+
+@Html.Partial("CreateEditDetail", Model.DetailNotaris
+                , new ViewDataDictionary { { "enableTab", !ViewBag.IsReadOnly }
+                , { "SimpanVisi", ViewBag.SimpanVisi }
+                , { "EditVisi", ViewBag.EditVisi } })
+

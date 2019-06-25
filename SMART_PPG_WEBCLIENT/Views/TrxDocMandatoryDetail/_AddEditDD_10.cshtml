@@ -1,0 +1,260 @@
+﻿@model MVCSmartClient01.Models.trxDocMandatoryDetail
+
+@{
+    Html.EnableClientValidation();
+}
+<link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="~/Scripts/SmartApps.js"></script>
+<script type="text/javascript">
+    function OnFilesUploadComplete(s, e) {
+        var imageBaseName = '@Model.ImageBaseName';
+    }
+    function DisplayAttachmentDoc() {
+        //alert('@Model.ImageBaseName');
+        var fileEkstensi = '@Model.FileExt';
+        window.open(('../Content/DocumentImages/XYZ123456789' + fileEkstensi).replace('XYZ123456789', '@Model.ImageBaseName'), 'KTP', 'toolbar=no, left=100,top=25,location=no, directories=no, status=no, menubar=no, width=700, height=700');
+        return false;
+    }
+</script>
+
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">Dokumen Detail</legend>
+</div>
+
+<style>
+    #fileInputAtt {
+        width: 0;
+        height: 0;
+    }
+</style>
+
+@using (Html.BeginForm("_AddEditDocDetail", "TrxDocMandatoryDetail", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.IdDocMandatoryDetail)
+    @Html.HiddenFor(model => model.IdRekanan)
+    @Html.HiddenFor(model => model.IdTypeOfDocument)
+    @Html.HiddenFor(model => model.ImageBaseName)
+    @Html.HiddenFor(model => model.ProcInfo)
+    @Html.HiddenFor(model => model.CreatedUser)
+    @Html.HiddenFor(model => model.CreatedDate)
+
+    @Html.HiddenFor(model => model.FileExt, new { id = "id4FileExtAtt" })
+
+    <div class="row">
+        <form role="form">
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nomor Dokumen";
+                settings.AssociatedControlName = "nomorDokumen";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "nomorDokumen";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+            }
+          ).Bind(Model.nomorDokumen).GetHtml()
+                @Html.ValidationMessageFor(model => model.nomorDokumen, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Instansi Penerbit";
+                settings.AssociatedControlName = "badanPembuatDokumen";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "badanPembuatDokumen";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+            }
+).Bind(Model.badanPembuatDokumen).GetHtml()
+                @Html.ValidationMessageFor(model => model.badanPembuatDokumen, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.Text = "Tanggal Awal";
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.AssociatedControlName = "tanggalAwal";
+            }
+        ).GetHtml()
+                @Html.DevExpress().DateEdit(
+            settings =>
+            {
+                settings.Name = "tanggalAwal";
+                settings.ControlStyle.CssClass = "editor";
+            }
+           ).Bind(Model.tanggalAwal).GetHtml()
+                @Html.ValidationMessageFor(model => model.tanggalAwal, null, new { @class = "validator" })
+                <div class="clearfix"></div>
+                <br />
+                                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.Text = "Tanggal Akhir";
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.AssociatedControlName = "tanggalAkhir";
+            }
+        ).GetHtml()
+                @Html.DevExpress().DateEdit(
+            settings =>
+            {
+                settings.Name = "tanggalAkhir";
+                settings.ControlStyle.CssClass = "editor";
+            }
+           ).Bind(Model.tanggalAkhir).GetHtml()
+                @Html.ValidationMessageFor(model => model.tanggalAkhir, null, new { @class = "validator" })
+
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.Text = "Catatan";
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.AssociatedControlName = "catatan";
+            }
+        ).GetHtml()
+                @Html.DevExpress().Memo(
+            settings =>
+            {
+                settings.Name = "catatan";
+                settings.Height = 60;
+                settings.Width = 250;
+                settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+            }
+          ).Bind(Model.catatan).GetHtml()
+                @Html.ValidationMessageFor(model => model.catatan, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+
+                <div class="col-xs-1 nopadding">
+                    <input type='file' id='fileInputAtt' name='file' style='display: none'/>
+                    <button id='btnUploadAtt' class="fa fa-upload" data-toggle="tooltip" title="Upload dokumen !"></button>
+                </div>
+                <div id="MyDivAtt" class="col-xs-5 nopadding">
+                    <a href="javascript:void(0);" id="MyDivAtt" onclick="DisplayMe1(this)">File yang diupload</a>
+                </div>
+                <div id="MyDelAtt" class="col-xs-1 nopadding">
+                    <a href="javascript:void(0);" id="MyDelAtt" onclick="RemoveMeLocal1(this)">X</a>
+                </div>
+                <div class="clearfix"></div>
+                <div id="DisplayAtt">
+                    <!-- The Modal -->
+                    <div id="MyModal1" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="CloseMe1()" style=padding:0px;>&times;</span>
+                            <object data=@Html.Raw("/Content/DocumentImages/" + @Model.ImageBaseName + @Model.FileExt + "?" + DateTime.Now.Ticks.ToString()) class="mdlcontain"></object>
+                        </div>
+                    </div>
+                </div>
+
+            @*@Html.DevExpress().UploadControl(
+            ucSettings =>
+            {
+                ucSettings.ControlStyle.CssClass = "col-xs-1 control-label";
+                ucSettings.Name = "uploadControl";
+                ucSettings.ShowUploadButton = true;
+                ucSettings.UploadButton.Text = "Upload Lampiran";
+                ucSettings.AddUploadButtonsSpacing = 5;
+                ucSettings.AddUploadButtonsHorizontalPosition = AddUploadButtonsHorizontalPosition.Left;
+                ucSettings.CallbackRouteValues = new { Controller = "TrxDocMandatoryDetail", Action = "ImageUpload", UploaderCtl = "uploadControl" };
+                ucSettings.ClientSideEvents.FileUploadComplete = "OnFilesUploadComplete";
+                ucSettings.Width = 250;
+                ucSettings.ToolTip = "Upload file .JPG, .JPEG, .JPE, .PNG, .PDF dengan kapasitas kurang dari 4 MB";
+            }).GetHtml()
+                &nbsp;&nbsp;
+                <button style="font-size:small" type="button" onclick="return DisplayAttachmentDoc()">Gambar</button>*@
+                @*@Html.DevExpress().UploadControl(
+            ucSettings =>
+            {
+                ucSettings.Name = "uploadControl";
+                ucSettings.ShowUploadButton = true;
+                ucSettings.AddUploadButtonsSpacing = 0;
+                ucSettings.AddUploadButtonsHorizontalPosition = AddUploadButtonsHorizontalPosition.InputRightSide;
+                ucSettings.CallbackRouteValues = new { Controller = "TrxDocMandatoryDetail", Action = "ImageUpload" };
+                ucSettings.ClientSideEvents.FileUploadComplete = "OnFilesUploadComplete";
+                ucSettings.Width = 300;
+
+            }).GetHtml()
+                <br />
+                <img id="ImageTumb" style="height:200px; width:300px; border-image-width:2px" src="@Model.ImageSource" alt="image" />
+
+                <li>@Html.ActionLink("Viw Temp PDF Method1", "DisplayPDF")</li>*@
+            </div>
+        </form>
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Update";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxDocMandatoryDetail", Action = "GetByRekananTab" }) + "'; }";
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdate').click();">
+            <span class="glyphicon glyphicon-ok"></span>&nbsp;Simpan
+        </button>
+        <button type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();">
+            <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+        </button>
+    </div>
+}
+
+<script>
+
+    $(function () {
+
+        if ($('#id4FileExtAtt').val() == '') {
+            document.getElementById("MyDivAtt").style.display = "none";
+            document.getElementById("MyDelAtt").style.display = "none";
+            var $el = $('#fileInput');
+            $el.val('');
+        }
+
+        $('#btnUploadAtt').click(function (e) {
+            e.preventDefault();
+            $('#fileInputAtt').click();
+        }
+        );
+    });
+    ///ini yang digunakan
+    $('#fileInputAtt').change(function (e) {
+        file = e.target.files[0];
+        var myFileExt = (file.name.match(/[^\\\/]\.([^.\\\/]+)$/) || [null]).pop();
+        $('#id4FileExtAtt').val('.' + myFileExt);
+        DoUpload('@Model.ImageBaseName', 'MyDivAtt', 'MyDelAtt', 1);
+    });
+
+    function RemoveMeLocal1(elm) {
+        $('#id4FileExtAtt').val('');
+        RemoveMe(elm, 'MyDivAtt');
+    }
+
+    var myModal1 = document.getElementById('MyModal1');
+
+</script>

@@ -1,0 +1,166 @@
+﻿@model MVCSmartClient01.Models.TrxTenagaAhliUpload
+
+<script type="text/javascript" src="~/Scripts/SmartApps.js"></script>
+@{
+    Html.EnableClientValidation();
+}
+
+<link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">Upload Tenaga Pendukung</legend>
+</div>
+
+<style>
+    #fileInputAtt1 {
+        width: 0;
+        height: 0;
+    }
+</style>
+
+
+@using (Html.BeginForm("_AddEditTAUpload", "TrxTenagaAhliHeader", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.IdTAUpload)
+    @Html.HiddenFor(model => model.IdRekanan)
+    @Html.HiddenFor(model => model.ImageBaseName)
+    @Html.HiddenFor(model => model.CreatedDate)
+    @Html.HiddenFor(model => model.CreatedUser)
+    @Html.HiddenFor(model => model.FileExt, new { id = "id4FileExtAtt1" })
+
+    <div class="row">
+        <form role="form">
+
+            <div class="form-group col-xs-11 col-sm-11 col-md-11 col-lg-11">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-2 control-label";
+                settings.Text = "Periode Berlaku";
+                settings.AssociatedControlName = "PeriodeBerlaku";
+            }
+        ).GetHtml()
+                <div class="form-group col-xs-2">
+                    @Html.DevExpress().DateEdit(
+            settings =>
+            {
+                settings.Name = "PeriodeBerlaku";
+                settings.Properties.DisplayFormatString = "dd/MM/yyyy";
+                settings.Properties.EditFormatString = "dd/MM/yyyy";
+            }
+).Bind(Model.PeriodeBerlaku).GetHtml()
+                </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-11 col-md-11 col-lg-11">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-2 control-label";
+                settings.Text = "Catatan";
+                settings.AssociatedControlName = "Catatan"; //yang disimpan kode subRegion
+            }
+            ).GetHtml()
+                @Html.DevExpress().Memo(
+            settings =>
+            {
+                settings.Name = "Catatan";
+                settings.ControlStyle.CssClass = "editor";
+               
+                settings.Height = 200;
+                settings.Width = 500;
+            }
+).Bind(Model.Catatan).GetHtml()
+                @Html.ValidationMessageFor(model => model.Catatan, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-11 col-md-11 col-lg-11">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-1 control-label";
+                settings.Text = "Daftar Tenaga Pendukung";
+                settings.AssociatedControlName = "GambarTPendukung";
+                settings.Width = 180;
+            }
+            ).GetHtml()
+
+                <div class="col-xs-1">
+                    <input type='file' id='fileInputAtt1' name='file' style='display: none'/>
+                    <button id='btnUploadAtt1' class="fa fa-upload" data-toggle="tooltip" title="Upload dokumen !"></button>
+                </div>
+                <div id="MyDivAtt1" class="col-xs-2">
+                    <a href="javascript:void(0);" id="MyDivAtt1" onclick="DisplayMe1(this)">Gambar yang diupload</a>
+                </div>
+                <div id="MyDelAtt1" class="col-xs-1 nopadding">
+                    <a href="javascript:void(0);" id="MyDelAtt1" onclick="RemoveMeLocal1(this)">X</a>
+                </div>
+                <div class="clearfix"></div>
+                <div id="DisplayAtt1">
+                    <!-- The Modal -->
+                    <div id="MyModal1" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="CloseMe1()" style=padding:0px;>&times;</span>
+                            <object data=@Html.Raw("/Content/DocumentImages/" + @Model.ImageBaseName + @Model.FileExt + "?" + DateTime.Now.Ticks.ToString()) class="mdlcontain"></object>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+        </form>
+
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Update";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = true;
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxDataOrganisasi", Action = "GetByRekanan" }) + "'; }";
+                settings.ClientVisible = true;
+            }
+        ).GetHtml()
+    </div>
+}
+
+<script>
+
+    $(function () {
+        if ($('#id4FileExtAtt1').val() == '') {
+            document.getElementById("MyDivAtt1").style.display = "none";
+            document.getElementById("MyDelAtt1").style.display = "none";
+            var $el = $('#fileInput1');
+            $el.val('');
+        }
+
+        $('#btnUploadAtt1').click(function (e) {
+            debugger;
+            e.preventDefault();
+            $('#fileInputAtt1').click();
+        }
+        );
+    });
+    ///ini yang digunakan
+    $('#fileInputAtt1').change(function (e) {
+        file = e.target.files[0];
+        var myFileExt = (file.name.match(/[^\\\/]\.([^.\\\/]+)$/) || [null]).pop();
+        $('#id4FileExtAtt1').val('.' + myFileExt);
+        DoUpload('@Model.ImageBaseName', 'MyDivAtt1', 'MyDelAtt1', 1);
+    });
+
+    function RemoveMeLocal1(elm) {
+        $('#id4FileExtAtt1').val('');
+        RemoveMe(elm, 'MyDivAtt1');
+    }
+
+    var myModal1 = document.getElementById('MyModal1');
+
+</script>

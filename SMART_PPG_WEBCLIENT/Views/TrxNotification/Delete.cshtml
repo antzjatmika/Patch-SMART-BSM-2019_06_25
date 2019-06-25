@@ -1,0 +1,72 @@
+﻿@model MVCSmartClient01.Models.trxNotification
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TrxNotification Info</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdNotification)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdNotification)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdRekanan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CaptionNoti)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CaptionNoti)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContentNoti)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ContentNoti)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdTypeOfStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdTypeOfStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdTypeOfNoti)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdTypeOfNoti)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.JatuhTempo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.JatuhTempo)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

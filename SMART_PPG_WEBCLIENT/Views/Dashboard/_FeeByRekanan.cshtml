@@ -1,0 +1,111 @@
+﻿@*<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script type="text/javascript">
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(function () { PopulatePieChart(@ViewBag.IdTypeOfRekanan) });
+
+    function PopulatePieChart(IdTypeOfRekanan) {
+        var urlAddress = '';
+        var typeOfRekanan = '';
+        urlAddress = '@Url.Action("Data_FeeByRekanan", "Dashboard", new { IdTypeOfRekanan = "myaabbcc"})'.replace("myaabbcc", IdTypeOfRekanan);
+        var urlAddress2 = '@Url.Action("Data_FeeByRekanan11", "Dashboard", new { IdTypeOfRekanan = "myaabbcc", IdTypeOfSummary = "myddeeff" })'.replace("myaabbcc", IdTypeOfRekanan).replace("myddeeff", IdTypeOfRekanan);
+        var urlAddress3 = '@Url.Action("Data_FeeByRekanan11", "Dashboard", new { IdTypeOfRekanan = "myaabbcc"})'.replace("myaabbcc", IdTypeOfRekanan);
+        switch (IdTypeOfRekanan) {
+            case 1:
+                typeOfRekanan = "KJPP";
+                break;
+            case 2:
+                typeOfRekanan = "KAP";
+                break;
+            case 3:
+                typeOfRekanan = "Konsultan Management";
+                break;
+            case 4:
+                typeOfRekanan = "Asuransi Jiwa";
+                break;
+            case 5:
+                typeOfRekanan = "Asuransi Kerugian";
+                break;
+            case 6:
+                typeOfRekanan = "Balai Lelang";
+                break;
+            case 7:
+                typeOfRekanan = "Notaris";
+                break;
+            default:
+                typeOfRekanan = "Undefine";
+                break;
+        }
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: urlAddress2,
+            data: '{}',
+            success: function (chartsdata) {
+
+                // Callback that creates and populates a data table,
+                // instantiates the pie chart, passes in the data and
+                // draws it.
+
+                var data = new google.visualization.DataTable();
+
+                data.addColumn('string', 'NamaRekanan');
+                data.addColumn('number', 'TotalFee');
+
+                for (var i = 0; i < chartsdata.length; i++) {
+                    //data.addRow([chartsdata[i].NamaRekanan, chartsdata[i].TotalFee]);
+                }
+
+                // Instantiate and draw our chart, passing in some options
+                var chart; // = new google.visualization.PieChart(document.getElementById('pieKJP'));
+                switch (IdTypeOfRekanan) {
+                    case 1:
+                        chart = new google.visualization.PieChart(document.getElementById('pieKJP'));
+                        break;
+                    case 2:
+                        chart = new google.visualization.PieChart(document.getElementById('pieKAP'));
+                        break;
+                    case 3:
+                        chart = new google.visualization.PieChart(document.getElementById('pieKMG'));
+                        break;
+                    case 4:
+                        chart = new google.visualization.PieChart(document.getElementById('pieASJ'));
+                        break;
+                    case 5:
+                        chart = new google.visualization.PieChart(document.getElementById('pieASK'));
+                        break;
+                    case 6:
+                        chart = new google.visualization.PieChart(document.getElementById('pieBLG'));
+                        break;
+                    case 7:
+                        chart = new google.visualization.PieChart(document.getElementById('pieNOT'));
+                        break;
+                }
+
+                chart.draw(data,
+                  {
+                      title: "Top 3 Total Fee, Tahun 2017 : " + typeOfRekanan,
+                      position: "top",
+                      fontsize: "14px",
+                      chartArea: { width: '100%' },
+                      is3D: true,
+                  });
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+    }
+</script>  
+<script type="text/javascript">
+    @*$(function () {
+        PopulatePieChart(parseInt('@ViewBag.IdTypeOfRekanan'));
+    })*@
+</script>
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<div id="@ViewBag.PieName" style="width: 600px; height: 350px;">
+</div>

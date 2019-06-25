@@ -1,0 +1,98 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<MVCSmartClient01.Models.mstReference>
+@{
+    var callbackRouteValues = new { Controller = "MstReference", Action = "_GetEmailConfig" };
+}
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "_GetEmailConfig";
+    settings.Settings.ShowGroupPanel = true;
+    settings.Settings.ShowGroupedColumns = true;
+
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.CallbackRouteValues = new { Controller = "MstReference", Action = "_GetEmailConfig" };
+    settings.Width = Unit.Percentage(100);
+
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "#";
+        column.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                "<table><tr><td>" +
+                Html.ActionLink("Edit", "_EditRekDocument", new { @class = "updateLink", IdDocument = DataBinder.Eval(c.DataItem, "IdRef") }) + "&nbsp;" +
+                "</td><td>" +
+                Html.ActionLink("Delete", "_DeleteRekDocument", new { @class = "deleteLink", IdDocument = DataBinder.Eval(c.DataItem, "IdRef") },
+                    new { onclick = "return confirm('Apakah Anda yakin akan menghapus data ini ?')" })
+                + "</td></tr></table>"
+            );
+        });
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                Html.ActionLink("New", "_EditRekDocument", new { IdDocument = -1 }).ToHtmlString()
+            );
+        });
+        column.Width = 70;
+    });
+
+    settings.KeyFieldName = "IdRef";
+
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Code";
+        column.FieldName = "RefCode";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Value Description";
+        column.FieldName = "RefDesc";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Status";
+        column.FieldName = "IsActive";
+        column.HeaderStyle.Font.Bold = true;
+        column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+}).Bind(Model).GetHtml()

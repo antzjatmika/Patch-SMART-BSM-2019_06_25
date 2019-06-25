@@ -1,0 +1,185 @@
+﻿@model MVCSmartClient01.Models.mstRekanan_ARC
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>EmployeeInfo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdArc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdArc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdAction)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdAction)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdRekanan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdRegion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdRegion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegistrationNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RegistrationNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ClassOfRekanan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ClassOfRekanan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdTypeOfRekanan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdTypeOfRekanan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdTypeOfBadanUsaha)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdTypeOfBadanUsaha)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdWilayah)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdWilayah)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdKecamatan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdKecamatan)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ZipCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ZipCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Phone1)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Phone2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Phone2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstablishedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EstablishedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstablishedPlace)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EstablishedPlace)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fax1)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Fax1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fax2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Fax2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmailAddress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NomorKTP)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NomorKTP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NomorNPWP)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NomorNPWP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsConsultantManagemen)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsConsultantManagemen)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,136 @@
+﻿@using System.Web.UI.WebControls
+@model MVCSmartClient01.Models.inboxCaptionForm
+@{
+    var callbackRouteValues = new { Controller = "TrxNotificationHeader", Action = "_TrayInboxCaption" };
+}
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "gridTrayInbox";
+    settings.Settings.ShowGroupPanel = true;
+    settings.Settings.ShowGroupedColumns = true;
+
+    settings.HtmlRowPrepared = (s, e) =>
+    {
+        if (e.RowType != GridViewRowType.Data) return;
+
+        string name = e.GetValue("StatusBaca").ToString();
+        if (name == "0")
+            e.Row.Font.Bold = true;
+    };
+
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.CallbackRouteValues = new { Controller = "TrxNotificationHeader", Action = "_TrayInboxCaption" };
+    settings.Width = Unit.Percentage(100);
+
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "#";
+        column.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                "<table><tr><td>" +
+                Html.ActionLink("Baca", "_ReadInfoByIdNotification", new { @class = "updateLink", IdNotificationDetail = DataBinder.Eval(c.DataItem, "IdNotificationDetail"), FlgTraySent = true }) + "&nbsp;"
+                + "</td></tr></table>"
+            );
+        });
+        column.Width = 70;
+    });
+
+    settings.KeyFieldName = "IdNotificationDetail";
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CaptionInfo";
+        column.Caption = "Judul Notifikasi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "Kode";
+    //    column.Caption = "Kode";
+    //    column.HeaderStyle.Font.Bold = true;
+    //    column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+    //    column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    //    column.Width = 50;
+    //});
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SentDate";
+        column.Caption = "Tgl Dikirim";
+        column.HeaderStyle.Font.Bold = true;
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 150;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RegistrationNumber";
+        column.Caption = "Reg. No";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 150;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Name";
+        column.Caption = "Nama Pengirim";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IdTipeNotification";
+        column.Caption = "Tipe Notifikasi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 200;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IdLevelUrgensi";
+        column.Caption = "Tingkat Urgensi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        var comboBoxProperties = (DevExpress.Web.ASPxEditors.ComboBoxProperties)column.PropertiesEdit;
+        comboBoxProperties.ClientSideEvents.Init = "function(s, e) {s.InsertItem(0, '(ALL)', '');}";
+        comboBoxProperties.DataSource = Model.LevelUrgensiColls;
+        comboBoxProperties.TextField = "RefDescription";
+        comboBoxProperties.ValueField = "RefId";
+        comboBoxProperties.ValueType = typeof(int);
+        column.Width = 150;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "StatusBaca";
+        column.Caption = "Status Baca";
+        column.HeaderStyle.Font.Bold = true;
+        column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.SortAscending();
+        column.Width = 100;
+    });
+
+}).Bind(Model.InboxCaptionColls).GetHtml()

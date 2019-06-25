@@ -1,0 +1,988 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script type='text/javascript' src="https://www.google.com/jsapi?.js"></script>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple Polygon</title>
+    <style>
+         /* Always set the map height explicitly to define the size of the div
+        * element that contains the map. */
+         #map-canvas {
+             height: 100%;
+         }
+         /* Optional: Makes the sample page fill the window. */
+         html, body {
+             height: 100%;
+             margin: 0px;
+             padding: 0px;
+         }
+    </style>
+</head>
+<body>
+    <div id="map-canvas"></div>
+    <script>
+    var color1 = 'red';
+    var color2 = 'orange';
+    var color345 = 'yellow';
+    var color6 = 'lime';
+    var color7 = 'green';
+    var color8 = 'cyan';
+    var color9 = 'blue';
+    var color10 = 'purple';
+    var color11 = 'magenta';
+    var color12 = 'grey';
+
+    var arrColor1 = ['#E5E5E5', '#E5CDCC', '#E5B4B2', '#E59C99', '#E5847F', '#E56C66', '#E5534C', '#E53B33', '#E52319', '#E50B00'];
+    var arrColor2 = ['#E5E5E5', '#CCCCE5', '#B2B2E5', '#9999E5', '#7F7FE5', '#6666E5', '#4C4CE5', '#3333E5', '#1919E5', '#0000E5'];
+    var arrColor3 = ['#E5E5E5', '#CCE5CC', '#B2E5B2', '#99E599', '#7FE57F', '#66E566', '#4CE54C', '#33E533', '#19E519', '#00E500'];
+    var arrColor4 = ['#E5E5E5', '#CCDCE5', '#B2D3E5', '#99C9E5', '#7FC0E5', '#66B7E5', '#4CAEE5', '#33A5E5', '#199CE5', '#0092E5'];
+    var arrColor5 = ['#E5E5E5', '#DACCE5', '#CFB2E5', '#C399E5', '#B87FE5', '#AD66E5', '#A24CE5', '#9633E5', '#8B19E5', '#8000E5'];
+    var arrColor6 = ['#E5E5E5', '#E5DACC', '#E5CFB2', '#E5C399', '#E5B87F', '#E5AD66', '#E5A24C', '#E59633', '#E58B19', '#E58000'];
+    var arrColor7 = ['#E5E5E5', '#E5E2CC', '#E5DFB2', '#E5DC99', '#E5D97F', '#E5D666', '#E5D34C', '#E5D033', '#E5CD19', '#E5C900'];
+    var arrColor8 = ['#E5E5E5', '#CCE1E5', '#B2DDE5', '#99D9E5', '#7FD5E5', '#66D1E5', '#4CCDE5', '#33C8E5', '#19C4E5', '#00C0E5'];
+    var arrColor11 = ['#E5E5E5', '#E5D6CC', '#E5C6B2', '#E5B799', '#E5A77F', '#E59866', '#E5894C', '#E57933', '#E56A19', '#E55A00'];
+    var arrColor10 = ['#E5E5E5', '#E5CCDE', '#E5B2D7', '#E599D0', '#E57FC8', '#E566C1', '#E54CBA', '#E533B3', '#E519AC', '#E500A5'];
+
+    var arrColor111 = ['#E50B00'
+    , '#0000E5'
+    , '#00E500'
+    , '#0092E5'
+    , '#8000E5'
+    , '#E58000'
+    , '#E5C900'
+    , '#00C0E5'
+    , '#E55A00'
+    , '#E500A5'];
+
+    var map;
+    var infoWindow;
+
+    function drawChartArr(event, myPieTitle, arr4Chart) {
+        //e = e || window.event;
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Nominal');
+        data.addColumn('number', 'Fee');
+        //data.addRows([
+        //  ['Rekanan1', v1],
+        //  ['Rekanan2', v2],
+        //  ['Rekanan3', 1],
+        //  ['Rekanan4', 1],
+        //  ['Rekanan5', 2]
+        //]);
+
+        data.addRows(arr4Chart);
+
+        // Set chart options
+        var options = {
+            'title': myPieTitle,
+            'width': 400,
+            'height': 140,
+            'overflow': 'auto'
+        };
+
+        var node = document.createElement('div'),
+
+        infoWindow = new google.maps.InfoWindow(),
+        chart = new google.visualization.PieChart(node);
+        node.id = "::img";
+        //node.style = "overflow:hidden;line-height:1.35;min-width:400px;";
+        node.style = "overflow:hidden;";
+
+        //node.style.cssText = 'position:absolute;line-height:normal;';
+        chart.draw(data, options);
+        infoWindow.setContent(node);
+
+        //var contentString = '<b>AASSDD</b><br>';
+        //infoWindow.setContent(contentString);
+        infoWindow.setPosition(event.latLng);
+        infoWindow.open(map);
+    }
+
+    @*function PopulatePieChart(IdTypeOfRekanan) {
+        var urlAddress = '';
+        var typeOfRekanan = '';
+        urlAddress = '@Url.Action("Data_FeeByRekanan11", "Dashboard", new { IdTypeOfRekanan = "myaabbcc"})'.replace("myaabbcc", IdTypeOfRekanan);
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: urlAddress,
+            data: '{}',
+            success: function (chartsdata) {
+
+                var data = new google.visualization.DataTable();
+
+                data.addColumn('string', 'NamaRekanan');
+                data.addColumn('number', 'TotalFee');
+
+                for (var i = 0; i < chartsdata.length; i++) {
+                    data.addRow([chartsdata[i].NamaRekanan, chartsdata[i].TotalFee]);
+                }
+
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+    }*@
+
+    function initMap() {
+        var data = new google.visualization.DataTable();
+        var urlAddress = '';
+        var typeOfRekanan = '';
+        var pieTitle = '';
+        var arrMain = [];
+        var arrReg001 = [];
+        var arrReg002 = [];
+        var arrReg345 = [];
+        var arrReg006 = [];
+        var arrReg007 = [];
+        var arrReg008 = [];
+        var arrReg009 = [];
+        var arrReg010 = [];
+        var arrReg011 = [];
+        var arrReg012 = [];
+        var arrTop = [];
+        if(@ViewBag.IdTypeOfSummary == 1)
+        {
+            pieTitle = 'Jumlah Pekerjaan';
+            urlAddress = '@Url.Action("Data_PekerjaanByRekananYear", "Dashboard", new { IdTypeOfRekanan = "myaabbcc", myYear = "myccbbaa" })'
+                .replace("myaabbcc", @ViewBag.IdTypeOfRekanan)
+                .replace("myccbbaa", @ViewBag.MyYear)
+                .replace("&amp;", "&");
+            @*urlAddress = '@Url.Action("Data_PekerjaanByRekanan", "Dashboard", new { IdTypeOfRekanan = "myaabbcc"})'
+                .replace("myaabbcc", @ViewBag.IdTypeOfRekanan)*@
+        }
+        else
+        {
+            pieTitle = 'Nominal Fee';
+            urlAddress = '@Url.Action("Data_FeeByRekananYear", "Dashboard", new { IdTypeOfRekanan = "myaabbcc", myYear = "myccbbaa" })'
+                .replace("myaabbcc", @ViewBag.IdTypeOfRekanan)
+                .replace("myccbbaa", @ViewBag.MyYear)
+                .replace("&amp;", "&");
+            @*urlAddress = '@Url.Action("Data_FeeByRekanan", "Dashboard", new { IdTypeOfRekanan = "myaabbcc"})'
+                .replace("myaabbcc", @ViewBag.IdTypeOfRekanan)*@
+        }
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: urlAddress,
+            data: '{}',
+            success: function (chartsdata) {
+
+                arrReg001 = [];
+                arrReg002 = [];
+                arrReg345 = [];
+                arrReg006 = [];
+                arrReg007 = [];
+                arrReg008 = [];
+                arrReg009 = [];
+                arrReg010 = [];
+                arrReg011 = [];
+                arrReg012 = [];
+
+                for (var i = 0; i < chartsdata.length; i++) {
+                    if(@ViewBag.IdTypeOfSummary == 1)
+                    {
+                        switch(chartsdata[i].IdSupervisor) {
+                            case 1:
+                                arrReg001.push([chartsdata[i].NamaRekanan,chartsdata[i].JumlahPekerjaan]);
+                                break;
+                            case 2:
+                                arrReg002.push([chartsdata[i].NamaRekanan,chartsdata[i].JumlahPekerjaan]);
+                                break;
+                            case 3:
+                                arrReg345.push([chartsdata[i].NamaRekanan,chartsdata[i].JumlahPekerjaan]);
+                                break;
+                            case 6:
+                                arrReg006.push([chartsdata[i].NamaRekanan,chartsdata[i].JumlahPekerjaan]);
+                                break;
+                            case 7:
+                                arrReg007.push([chartsdata[i].NamaRekanan,chartsdata[i].JumlahPekerjaan]);
+                                break;
+                            case 8:
+                                arrReg008.push([chartsdata[i].NamaRekanan,chartsdata[i].JumlahPekerjaan]);
+                                break;
+                            case 9:
+                                arrReg009.push([chartsdata[i].NamaRekanan,chartsdata[i].JumlahPekerjaan]);
+                                break;
+                            case 10:
+                                arrReg010.push([chartsdata[i].NamaRekanan,chartsdata[i].JumlahPekerjaan]);
+                                break;
+                            case 11:
+                                arrReg011.push([chartsdata[i].NamaRekanan,chartsdata[i].JumlahPekerjaan]);
+                                break;
+                            case 12:
+                                arrReg012.push([chartsdata[i].NamaRekanan,chartsdata[i].JumlahPekerjaan]);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch(chartsdata[i].IdSupervisor) {
+                            case 1:
+                                arrReg001.push([chartsdata[i].NamaRekanan,chartsdata[i].TotalFee]);
+                                break;
+                            case 2:
+                                arrReg002.push([chartsdata[i].NamaRekanan,chartsdata[i].TotalFee]);
+                                break;
+                            case 3:
+                                arrReg345.push([chartsdata[i].NamaRekanan,chartsdata[i].TotalFee]);
+                                break;
+                            case 6:
+                                arrReg006.push([chartsdata[i].NamaRekanan,chartsdata[i].TotalFee]);
+                                break;
+                            case 7:
+                                arrReg007.push([chartsdata[i].NamaRekanan,chartsdata[i].TotalFee]);
+                                break;
+                            case 8:
+                                arrReg008.push([chartsdata[i].NamaRekanan,chartsdata[i].TotalFee]);
+                                break;
+                            case 9:
+                                arrReg009.push([chartsdata[i].NamaRekanan,chartsdata[i].TotalFee]);
+                                break;
+                            case 10:
+                                arrReg010.push([chartsdata[i].NamaRekanan,chartsdata[i].TotalFee]);
+                                break;
+                            case 11:
+                                arrReg011.push([chartsdata[i].NamaRekanan,chartsdata[i].TotalFee]);
+                                break;
+                            case 12:
+                                arrReg012.push([chartsdata[i].NamaRekanan,chartsdata[i].TotalFee]);
+                                break;
+                        }
+                    }
+                }
+                arrMain.push(arrTop);
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+        var mapOptions = {
+            zoom: 5,
+            center: new google.maps.LatLng(-2.10042, 117.957031),
+            mapTypeId: google.maps.MapTypeId.TERRAIN
+        };
+
+        // These are declared outside of the init function, so I
+        // initialized them together at the top of the function..
+        map = new google.maps.Map(document.getElementById('map-canvas'),
+        mapOptions);
+
+        infoWindow = new google.maps.InfoWindow();
+
+        // Here's where your data begines. I moved the 1) API-supported paths object,
+        // 2) the API-supported map object, *AND* 3) the dynamic name value inside
+        // the Polygon object declarations.. this makes "name" a property of the object.
+        var poly_Region1 = new google.maps.Polygon({
+            paths: [
+            new google.maps.LatLng(6.107784, 95.042725),
+            new google.maps.LatLng(6.162401, 95.29541),
+            new google.maps.LatLng(6.020385, 95.646973),
+            new google.maps.LatLng(5.758105, 95.921631),
+            new google.maps.LatLng(5.561315, 96.624756),
+            new google.maps.LatLng(5.615986, 97.668457),
+            new google.maps.LatLng(4.66403, 98.64624),
+            new google.maps.LatLng(4.401183, 98.657227),
+            new google.maps.LatLng(4.291636, 99.041748),
+            new google.maps.LatLng(3.316018, 100.17334),
+            new google.maps.LatLng(2.712609, 100.821533),
+            new google.maps.LatLng(2.196727, 101.711426),
+            new google.maps.LatLng(1.779499, 102.370605),
+            new google.maps.LatLng(1.21939, 103.370361),
+            new google.maps.LatLng(0.76902, 104.051514),
+            new google.maps.LatLng(-0.131836, 104.084473),
+            new google.maps.LatLng(-0.472407, 103.798828),
+            new google.maps.LatLng(-0.406491, 102.930908),
+            new google.maps.LatLng(0.142822, 101.700439),
+            new google.maps.LatLng(1.120534, 100.557861),
+            new google.maps.LatLng(2.460181, 99.206543),
+            new google.maps.LatLng(3.337954, 98.063965),
+            new google.maps.LatLng(3.107606, 96.987305),
+            new google.maps.LatLng(3.480523, 96.61377),
+            new google.maps.LatLng(3.568248, 96.119385),
+            new google.maps.LatLng(4.434044, 95.240479),
+            new google.maps.LatLng(5.539446, 94.866943)
+            ],
+            //strokeColor: '#D65076',
+            strokeColor: arrColor1[0],
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            //fillColor: '#D65076',
+            fillColor: arrColor1[0],
+            fillOpacity: 0.35,
+            name: 'Region 1', // dynamic, not an official API property..
+            map: map
+        });
+
+        // Here's the behavior handler..
+        //google.maps.event.addListener(poly_Region1, 'click', showArrays);
+        var items = [
+            ['Amin, Nirwan, Alfiantori & Rekan', 8174073000],
+            ['Lainnya', 8476174725],
+            ['Muttaqin Bambang Purwanto Rozak Uswatun & Rekan', 2844551002],
+            ['Toto Suharto & Rekan', 3361653668]
+        ];
+
+        google.maps.event.addListener(poly_Region1, 'click'
+            , function (e) {
+                drawChartArr.call(this, //the scope of the handler...the marker
+                    e, //the original event
+                    pieTitle,
+                    //arrTop
+                    arrReg001
+                );
+            });
+
+        //var mapLoaded = false;
+        //google.maps.event.addListener(poly_Region1, 'click',
+        //function() {
+        //  if (!mapLoaded) {
+        //    drawChart(this);
+        //  }
+        //  mapLoaded = true;
+        //}
+        //);
+        //
+        // This is a new, different object therefore we should instantiate it relative
+        // to a new variable (i.e. a unique pointer). Once again I moved the paths, map,
+        // and name properties inside the object declaration.
+        var poly_Region2 = new google.maps.Polygon({
+            paths: [
+            new google.maps.LatLng(3.074695, 97.009277),
+            new google.maps.LatLng(2.460181, 97.009277),
+            new google.maps.LatLng(2.251617, 96.61377),
+            new google.maps.LatLng(1.669686, 96.361084),
+            new google.maps.LatLng(1.10955, 96.866455),
+            new google.maps.LatLng(0.406491, 97.130127),
+            new google.maps.LatLng(-0.021973, 97.56958),
+            new google.maps.LatLng(-0.977736, 98.085938),
+            new google.maps.LatLng(-1.757537, 98.338623),
+            new google.maps.LatLng(-2.152814, 99.041748),
+            new google.maps.LatLng(-2.833317, 99.569092),
+            new google.maps.LatLng(-3.491489, 100.074463),
+            new google.maps.LatLng(-3.93002, 100.777588),
+            new google.maps.LatLng(-3.984821, 101.689453),
+            new google.maps.LatLng(-4.66403, 102.546387),
+            new google.maps.LatLng(-5.189423, 103.260498),
+            new google.maps.LatLng(-5.484768, 103.699951),
+            new google.maps.LatLng(-6.217012, 104.403076),
+            new google.maps.LatLng(-6.271618, 105.183105),
+            new google.maps.LatLng(-6.031311, 105.633545),
+            new google.maps.LatLng(-5.779966, 106.083984),
+            new google.maps.LatLng(-5.003394, 106.204834),
+            new google.maps.LatLng(-3.688855, 106.402588),
+            new google.maps.LatLng(-3.480523, 107.380371),
+            new google.maps.LatLng(-3.261177, 108.764648),
+            new google.maps.LatLng(-2.471157, 108.786621),
+            new google.maps.LatLng(-1.812442, 107.874756),
+            new google.maps.LatLng(-1.889306, 106.831055),
+            new google.maps.LatLng(-1.065612, 106.160889),
+            new google.maps.LatLng(-1.065612, 105.26001),
+            new google.maps.LatLng(-0.714093, 104.205322),
+            new google.maps.LatLng(-0.483393, 103.754883),
+            new google.maps.LatLng(-0.417477, 102.941895),
+            new google.maps.LatLng(0.142822, 101.689453),
+            new google.maps.LatLng(1.21939, 100.426025),
+            new google.maps.LatLng(2.229662, 99.42627),
+            new google.maps.LatLng(2.460181, 99.173584),
+            new google.maps.LatLng(3.337954, 98.041992)
+            ],
+            strokeColor: arrColor1[1],
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            fillColor: arrColor1[1],
+            fillOpacity: 0.35,
+            name: 'Region 2', // dynamic, not an official API property..
+            map: map
+        });
+
+        // Aaaaand, the behavior..
+        //google.maps.event.addListener(poly_Region2, 'click', showArrays);
+        google.maps.event.addListener(poly_Region2, 'click'
+            , function (e) {
+                drawChartArr.call(this, //the scope of the handler...the marker
+                    e, //the original event
+                    pieTitle,
+                    arrReg002
+                );
+            });
+
+        var poly_Region345 = new google.maps.Polygon({
+            paths: [
+            new google.maps.LatLng(-6.277078, 105.183105),
+            new google.maps.LatLng(-6.49817, 104.908447),
+            new google.maps.LatLng(-6.730076, 104.966125),
+            new google.maps.LatLng(-7.051831, 105.158386),
+            new google.maps.LatLng(-7.291639, 105.47699),
+            new google.maps.LatLng(-7.253496, 105.7901),
+            new google.maps.LatLng(-7.264394, 106.243286),
+            new google.maps.LatLng(-7.253496, 106.391602),
+            new google.maps.LatLng(-6.762806, 107.199097),
+            new google.maps.LatLng(-6.520001, 107.218323),
+            new google.maps.LatLng(-6.151478, 107.501221),
+            new google.maps.LatLng(-5.916581, 107.709961),
+            new google.maps.LatLng(-5.730777, 107.449036),
+            new google.maps.LatLng(-5.741708, 107.232056),
+            new google.maps.LatLng(-5.637853, 106.984863),
+            new google.maps.LatLng(-5.796362, 106.795349),
+            new google.maps.LatLng(-5.703448, 106.523438),
+            new google.maps.LatLng(-5.651519, 106.257019),
+            new google.maps.LatLng(-5.779966, 106.078491),
+            new google.maps.LatLng(-6.023117, 105.658264)
+            ],
+            //strokeColor: '#F3774D',
+            strokeColor: arrColor1[2],
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            fillColor: arrColor1[2],
+            fillOpacity: 0.35,
+            name: 'Region 345', // dynamic, not an official API property..
+            map: map
+        });
+
+        // Aaaaand, the behavior..
+        //google.maps.event.addListener(poly_Region345, 'click', showArrays);
+        google.maps.event.addListener(poly_Region345, 'click'
+        , function (e) {
+            drawChartArr.call(this, //the scope of the handler...the marker
+                e, //the original event
+                pieTitle,
+                arrReg345
+            );
+        });
+
+        var poly_Region6 = new google.maps.Polygon({
+            paths: [
+            new google.maps.LatLng(-5.911117, 107.707214),
+            new google.maps.LatLng(-5.949363, 108.006592),
+            new google.maps.LatLng(-5.911117, 108.237305),
+            new google.maps.LatLng(-6.028579, 108.476257),
+            new google.maps.LatLng(-6.293459, 108.695984),
+            new google.maps.LatLng(-6.569118, 108.901978),
+            new google.maps.LatLng(-6.798262, 108.792114),
+            new google.maps.LatLng(-7.00549, 108.803101),
+            new google.maps.LatLng(-7.141774, 108.720703),
+            new google.maps.LatLng(-7.1554, 108.547668),
+            new google.maps.LatLng(-7.354295, 108.577881),
+            new google.maps.LatLng(-7.359743, 108.693237),
+            new google.maps.LatLng(-7.555824, 108.748169),
+            new google.maps.LatLng(-7.705548, 108.786621),
+            new google.maps.LatLng(-7.887868, 108.761902),
+            new google.maps.LatLng(-7.923234, 108.643799),
+            new google.maps.LatLng(-8.078265, 108.542175),
+            new google.maps.LatLng(-8.002117, 108.014832),
+            new google.maps.LatLng(-7.882427, 107.564392),
+            new google.maps.LatLng(-7.7246, 107.372131),
+            new google.maps.LatLng(-7.705548, 106.776123),
+            new google.maps.LatLng(-7.58305, 106.410828),
+            new google.maps.LatLng(-7.539487, 106.185608),
+            new google.maps.LatLng(-7.267119, 106.100464),
+            new google.maps.LatLng(-7.26167, 106.380615),
+            new google.maps.LatLng(-6.757352, 107.19635),
+            new google.maps.LatLng(-6.509086, 107.221069)
+            ],
+            //strokeColor: '#7EB181',
+            strokeColor: arrColor1[3],
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            fillColor: arrColor1[3],
+            fillOpacity: 0.35,
+            name: 'Region 6', // dynamic, not an official API property..
+            map: map
+        });
+
+        // Aaaaand, the behavior..
+        //google.maps.event.addListener(poly_Region6, 'click', showArrays);
+        google.maps.event.addListener(poly_Region6, 'click'
+            , function (e) {
+                drawChartArr.call(this, //the scope of the handler...the marker
+                    e, //the original event
+                    pieTitle,
+                    arrReg006
+                );
+            });
+
+        var poly_Region7 = new google.maps.Polygon({
+            paths: [
+            new google.maps.LatLng(-6.566389, 108.901978),
+            new google.maps.LatLng(-6.577303, 109.110718),
+            new google.maps.LatLng(-6.588217, 109.283752),
+            new google.maps.LatLng(-6.520001, 109.561157),
+            new google.maps.LatLng(-6.615501, 109.855042),
+            new google.maps.LatLng(-6.558203, 110.132446),
+            new google.maps.LatLng(-6.577303, 110.34668),
+            new google.maps.LatLng(-6.328948, 110.55542),
+            new google.maps.LatLng(-6.233395, 110.679016),
+            new google.maps.LatLng(-6.195168, 110.917969),
+            new google.maps.LatLng(-6.192438, 111.112976),
+            new google.maps.LatLng(-6.312569, 111.272278),
+            new google.maps.LatLng(-6.443589, 111.299744),
+            new google.maps.LatLng(-6.39446, 111.530457),
+            new google.maps.LatLng(-6.454505, 111.777649),
+            new google.maps.LatLng(-6.530916, 111.832581),
+            new google.maps.LatLng(-6.784626, 111.667786),
+            new google.maps.LatLng(-6.940059, 111.579895),
+            new google.maps.LatLng(-6.994585, 111.629333),
+            new google.maps.LatLng(-7.169026, 111.615601),
+            new google.maps.LatLng(-7.362467, 111.42334),
+            new google.maps.LatLng(-7.256221, 111.170654),
+            new google.maps.LatLng(-7.441454, 111.115723),
+            new google.maps.LatLng(-7.727322, 111.19812),
+            new google.maps.LatLng(-7.754537, 111.288757),
+            new google.maps.LatLng(-7.860661, 111.31897),
+            new google.maps.LatLng(-7.947717, 111.247559),
+            new google.maps.LatLng(-7.917793, 111.151428),
+            new google.maps.LatLng(-7.972198, 111.123962),
+            new google.maps.LatLng(-8.042913, 111.132202),
+            new google.maps.LatLng(-8.094581, 111.005859),
+            new google.maps.LatLng(-8.05651, 110.942688),
+            new google.maps.LatLng(-8.230519, 110.901489),
+            new google.maps.LatLng(-8.437055, 110.871277),
+            new google.maps.LatLng(-8.363693, 110.45929),
+            new google.maps.LatLng(-8.235955, 110.203857),
+            new google.maps.LatLng(-8.091862, 109.90448),
+            new google.maps.LatLng(-8.037473, 109.632568),
+            new google.maps.LatLng(-7.947717, 109.316711),
+            new google.maps.LatLng(-7.936836, 109.031067),
+            new google.maps.LatLng(-7.890588, 108.761902),
+            new google.maps.LatLng(-7.705548, 108.786621),
+            new google.maps.LatLng(-7.354295, 108.687744),
+            new google.maps.LatLng(-7.354295, 108.566895),
+            new google.maps.LatLng(-7.152675, 108.547668),
+            new google.maps.LatLng(-7.144499, 108.70697),
+            new google.maps.LatLng(-7.000038, 108.803101),
+            new google.maps.LatLng(-6.792808, 108.794861)
+            ],
+            //strokeColor: '#EBA851',
+            strokeColor: arrColor1[4],
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            fillColor: arrColor1[4],
+            fillOpacity: 0.35,
+            name: 'Region 7', // dynamic, not an official API property..
+            map: map
+        });
+
+        // Aaaaand, the behavior..
+        //google.maps.event.addListener(poly_Region7, 'click', showArrays);
+        google.maps.event.addListener(poly_Region7, 'click'
+            , function (e) {
+                drawChartArr.call(this, //the scope of the handler...the marker
+                    e, //the original event
+                    pieTitle,
+                    arrReg007
+                );
+            });
+
+        var poly_Region8 = new google.maps.Polygon({
+            paths: [
+            new google.maps.LatLng(-6.52273, 111.835327),
+            new google.maps.LatLng(-6.637327, 112.346191),
+            new google.maps.LatLng(-6.58276, 112.91748),
+            new google.maps.LatLng(-6.593674, 113.648071),
+            new google.maps.LatLng(-6.637327, 114.230347),
+            new google.maps.LatLng(-6.817353, 114.647827),
+            new google.maps.LatLng(-7.280741, 115.08728),
+            new google.maps.LatLng(-7.710992, 114.873047),
+            new google.maps.LatLng(-8.026595, 114.483032),
+            new google.maps.LatLng(-8.341953, 114.406128),
+            new google.maps.LatLng(-8.629903, 114.686279),
+            new google.maps.LatLng(-8.852507, 114.620361),
+            new google.maps.LatLng(-9.253936, 114.840088),
+            new google.maps.LatLng(-9.020728, 114.016113),
+            new google.maps.LatLng(-8.754795, 113.455811),
+            new google.maps.LatLng(-8.863362, 112.346191),
+            new google.maps.LatLng(-8.689639, 111.8573),
+            new google.maps.LatLng(-8.488672, 111.137695),
+            new google.maps.LatLng(-8.456072, 110.88501),
+            new google.maps.LatLng(-8.051071, 110.931702),
+            new google.maps.LatLng(-8.080985, 111.011353),
+            new google.maps.LatLng(-7.913516, 111.182617),
+            new google.maps.LatLng(-7.931002, 111.265991),
+            new google.maps.LatLng(-7.857154, 111.322875),
+            new google.maps.LatLng(-7.752964, 111.271849),
+            new google.maps.LatLng(-7.718732, 111.202755),
+            new google.maps.LatLng(-7.443326, 111.108513),
+            new google.maps.LatLng(-7.251793, 111.172714),
+            new google.maps.LatLng(-7.348166, 111.421967),
+            new google.maps.LatLng(-7.148587, 111.601868),
+            new google.maps.LatLng(-6.989133, 111.63208),
+            new google.maps.LatLng(-6.942786, 111.549683)
+            ],
+            //strokeColor: '#E7CFC7',
+            strokeColor: arrColor1[5],
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            fillColor: arrColor1[5],
+            fillOpacity: 0.35,
+            name: 'Region 8', // dynamic, not an official API property..
+            map: map
+        });
+
+        // Aaaaand, the behavior..
+        //google.maps.event.addListener(poly_Region8, 'click', showArrays);
+        google.maps.event.addListener(poly_Region8, 'click'
+            , function (e) {
+                drawChartArr.call(this, //the scope of the handler...the marker
+                    e, //the original event
+                    pieTitle,
+                    arrReg008
+                );
+            });
+
+        var poly_Region9 = new google.maps.Polygon({
+            paths: [
+            new google.maps.LatLng(1.21939, 109.962158),
+            new google.maps.LatLng(2.493109, 109.423828),
+            new google.maps.LatLng(2.185749, 108.885498),
+            new google.maps.LatLng(1.724593, 108.764648),
+            new google.maps.LatLng(1.351193, 108.479004),
+            new google.maps.LatLng(0.900842, 108.413086),
+            new google.maps.LatLng(0.450435, 108.566895),
+            new google.maps.LatLng(-0.098877, 108.566895),
+            new google.maps.LatLng(-0.340574, 108.775635),
+            new google.maps.LatLng(-0.889857, 108.808594),
+            new google.maps.LatLng(-1.098565, 109.039307),
+            new google.maps.LatLng(-1.548884, 109.215088),
+            new google.maps.LatLng(-1.922247, 109.599609),
+            new google.maps.LatLng(-2.460181, 109.720459),
+            new google.maps.LatLng(-2.986927, 109.764404),
+            new google.maps.LatLng(-3.370856, 110.028076),
+            new google.maps.LatLng(-3.348922, 110.456543),
+            new google.maps.LatLng(-3.535352, 110.917969),
+            new google.maps.LatLng(-3.326986, 111.544189),
+            new google.maps.LatLng(-3.886177, 111.687012),
+            new google.maps.LatLng(-4.039618, 112.357178),
+            new google.maps.LatLng(-3.623071, 113.093262),
+            new google.maps.LatLng(-3.612107, 113.686523),
+            new google.maps.LatLng(-4.017699, 114.0271),
+            new google.maps.LatLng(-4.66403, 114.312744),
+            new google.maps.LatLng(-4.609278, 114.818115),
+            new google.maps.LatLng(-4.269724, 115.488281),
+            new google.maps.LatLng(-4.477856, 115.982666),
+            new google.maps.LatLng(-4.2259, 116.553955),
+            new google.maps.LatLng(-3.513421, 116.795654),
+            new google.maps.LatLng(-2.986927, 116.806641),
+            new google.maps.LatLng(-2.086941, 117.070313),
+            new google.maps.LatLng(-1.779499, 116.850586),
+            new google.maps.LatLng(-1.296276, 117.487793),
+            new google.maps.LatLng(-0.922812, 118.015137),
+            new google.maps.LatLng(-0.450435, 118.092041),
+            new google.maps.LatLng(-0.054932, 117.938232),
+            new google.maps.LatLng(0.417477, 118.015137),
+            new google.maps.LatLng(0.560294, 118.344727),
+            new google.maps.LatLng(0.417477, 118.883057),
+            new google.maps.LatLng(0.725078, 119.311523),
+            new google.maps.LatLng(1.263325, 119.388428),
+            new google.maps.LatLng(1.472006, 119.102783),
+            new google.maps.LatLng(1.801461, 118.597412),
+            new google.maps.LatLng(2.075962, 118.388672),
+            new google.maps.LatLng(2.427252, 118.575439),
+            new google.maps.LatLng(2.932069, 118.256836),
+            new google.maps.LatLng(3.217302, 118.048096),
+            new google.maps.LatLng(3.579213, 118.289795),
+            new google.maps.LatLng(4.083453, 118.33374),
+            new google.maps.LatLng(4.138243, 117.773438),
+            new google.maps.LatLng(4.247812, 117.421875),
+            new google.maps.LatLng(4.390229, 117.169189),
+            new google.maps.LatLng(4.313546, 115.927734),
+            new google.maps.LatLng(3.381824, 115.565186),
+            new google.maps.LatLng(2.962927, 115.502014),
+            new google.maps.LatLng(3.04864, 115.263062),
+            new google.maps.LatLng(2.728384, 115.046082),
+            new google.maps.LatLng(2.495853, 115.224609),
+            new google.maps.LatLng(2.224173, 114.796143),
+            new google.maps.LatLng(1.480243, 114.587402),
+            new google.maps.LatLng(1.197423, 113.69751),
+            new google.maps.LatLng(1.504954, 113.060303),
+            new google.maps.LatLng(1.461023, 112.313232),
+            new google.maps.LatLng(1.153487, 112.126465),
+            new google.maps.LatLng(0.944781, 111.681519),
+            new google.maps.LatLng(1.082089, 111.08551),
+            new google.maps.LatLng(0.8212, 110.589752)
+            ],
+            //strokeColor: '#8F5F50',
+            strokeColor: arrColor1[6],
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            fillColor: arrColor1[6],
+            fillOpacity: 0.35,
+            name: 'Region 9', // dynamic, not an official API property..
+            map: map
+        });
+
+        // Aaaaand, the behavior..
+        //google.maps.event.addListener(poly_Region9, 'click', showArrays);
+        google.maps.event.addListener(poly_Region9, 'click'
+            , function (e) {
+                drawChartArr.call(this, //the scope of the handler...the marker
+                    e, //the original event
+                    pieTitle,
+                    arrReg009
+                );
+            });
+
+        var poly_Region10 = new google.maps.Polygon({
+            paths: [
+            new google.maps.LatLng(-1.812442, 130.957031),
+            new google.maps.LatLng(-1.526919, 130.704346),
+            new google.maps.LatLng(-1.274309, 130.319824),
+            new google.maps.LatLng(-0.747049, 130.001221),
+            new google.maps.LatLng(-0.12085, 129.957275),
+            new google.maps.LatLng(0.76902, 129.726563),
+            new google.maps.LatLng(1.757537, 129.100342),
+            new google.maps.LatLng(2.394322, 129.320068),
+            new google.maps.LatLng(2.910125, 129.16626),
+            new google.maps.LatLng(3.019841, 128.660889),
+            new google.maps.LatLng(3.096636, 127.606201),
+            new google.maps.LatLng(2.284551, 127.496338),
+            new google.maps.LatLng(2.043024, 126.958008),
+            new google.maps.LatLng(1.263325, 126.221924),
+            new google.maps.LatLng(1.428075, 125.617676),
+            new google.maps.LatLng(2.032045, 125.244141),
+            new google.maps.LatLng(2.141835, 124.595947),
+            new google.maps.LatLng(1.570848, 124.068604),
+            new google.maps.LatLng(1.30726, 123.54126),
+            new google.maps.LatLng(1.504954, 123.112793),
+            new google.maps.LatLng(1.482989, 122.849121),
+            new google.maps.LatLng(1.37316, 121.92627),
+            new google.maps.LatLng(1.647722, 121.365967),
+            new google.maps.LatLng(1.680667, 120.541992),
+            new google.maps.LatLng(1.208406, 119.729004),
+            new google.maps.LatLng(0.373533, 119.278564),
+            new google.maps.LatLng(-0.373533, 119.366455),
+            new google.maps.LatLng(-0.944781, 119.069824),
+            new google.maps.LatLng(-1.63674, 118.894043),
+            new google.maps.LatLng(-2.185749, 118.707275),
+            new google.maps.LatLng(-2.712609, 118.015137),
+            new google.maps.LatLng(-3.261177, 118.256836),
+            new google.maps.LatLng(-3.908099, 118.553467),
+            new google.maps.LatLng(-3.940981, 118.981934),
+            new google.maps.LatLng(-4.455951, 118.981934),
+            new google.maps.LatLng(-5.069058, 118.531494),
+            new google.maps.LatLng(-5.670651, 118.652344),
+            new google.maps.LatLng(-5.911117, 119.025879),
+            new google.maps.LatLng(-6.09686, 119.355469),
+            new google.maps.LatLng(-6.52273, 121.113281),
+            new google.maps.LatLng(-5.911117, 121.574707),
+            new google.maps.LatLng(-5.932972, 122.288818),
+            new google.maps.LatLng(-6.282539, 122.893066),
+            new google.maps.LatLng(-6.064086, 123.486328),
+            new google.maps.LatLng(-6.085936, 124.980469),
+            new google.maps.LatLng(-5.408211, 124.870605),
+            new google.maps.LatLng(-4.412137, 124.628906),
+            new google.maps.LatLng(-4.017699, 125.090332),
+            new google.maps.LatLng(-4.149201, 126.188965),
+            new google.maps.LatLng(-4.488809, 126.815186),
+            new google.maps.LatLng(-4.510714, 127.902832),
+            new google.maps.LatLng(-4.061536, 128.38623),
+            new google.maps.LatLng(-4.160158, 129.320068),
+            new google.maps.LatLng(-4.061536, 129.869385),
+            new google.maps.LatLng(-4.214943, 130.36377),
+            new google.maps.LatLng(-4.488809, 131.517334),
+            new google.maps.LatLng(-3.951941, 131.868896),
+            new google.maps.LatLng(-3.30505, 131.901855),
+            new google.maps.LatLng(-2.866235, 131.605225),
+            new google.maps.LatLng(-2.591889, 131.901855),
+            new google.maps.LatLng(-2.163792, 131.781006),
+            new google.maps.LatLng(-1.779499, 131.341553)
+            ],
+            //strokeColor: '#487AB7',
+            strokeColor: arrColor1[7],
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            fillColor: arrColor1[7],
+            fillOpacity: 0.35,
+            name: 'Region 10', // dynamic, not an official API property..
+            map: map
+        });
+
+        // Aaaaand, the behavior..
+        //google.maps.event.addListener(poly_Region10, 'click', showArrays);
+        google.maps.event.addListener(poly_Region10, 'click'
+            , function (e) {
+                drawChartArr.call(this, //the scope of the handler...the marker
+                    e, //the original event
+                    pieTitle,
+                    arrReg010
+                );
+            });
+
+        var poly_Region11 = new google.maps.Polygon({
+            paths: [
+            new google.maps.LatLng(-8.037473, 114.466553),
+            new google.maps.LatLng(-7.710992, 114.851074),
+            new google.maps.LatLng(-7.819847, 115.10376),
+            new google.maps.LatLng(-7.656553, 115.708008),
+            new google.maps.LatLng(-8.080985, 115.982666),
+            new google.maps.LatLng(-7.732765, 116.652832),
+            new google.maps.LatLng(-8.05923, 117.202148),
+            new google.maps.LatLng(-7.830731, 117.806396),
+            new google.maps.LatLng(-7.808963, 118.839111),
+            new google.maps.LatLng(-7.874265, 119.53125),
+            new google.maps.LatLng(-8.102739, 119.970703),
+            new google.maps.LatLng(-7.841615, 120.772705),
+            new google.maps.LatLng(-8.080985, 121.311035),
+            new google.maps.LatLng(-8.05923, 122.080078),
+            new google.maps.LatLng(-7.787194, 123.046875),
+            new google.maps.LatLng(-7.700105, 123.848877),
+            new google.maps.LatLng(-7.874265, 124.442139),
+            new google.maps.LatLng(-7.689217, 125.046387),
+            new google.maps.LatLng(-7.406048, 125.859375),
+            new google.maps.LatLng(-7.318882, 126.661377),
+            new google.maps.LatLng(-7.689217, 127.232666),
+            new google.maps.LatLng(-8.080985, 126.97998),
+            new google.maps.LatLng(-8.515836, 125.079346),
+            new google.maps.LatLng(-8.895926, 124.200439),
+            new google.maps.LatLng(-9.004452, 123.310547),
+            new google.maps.LatLng(-8.885072, 122.706299),
+            new google.maps.LatLng(-9.178025, 122.047119),
+            new google.maps.LatLng(-9.470736, 121.530762),
+            new google.maps.LatLng(-10.044585, 121.322021),
+            new google.maps.LatLng(-10.53102, 120.948486),
+            new google.maps.LatLng(-10.649811, 120.113525),
+            new google.maps.LatLng(-10.174374, 119.212646),
+            new google.maps.LatLng(-9.947209, 118.608398),
+            new google.maps.LatLng(-9.373193, 118.24585),
+            new google.maps.LatLng(-9.40571, 117.37793),
+            new google.maps.LatLng(-9.60075, 116.455078),
+            new google.maps.LatLng(-9.329831, 115.653076),
+            new google.maps.LatLng(-9.253936, 114.829102),
+            new google.maps.LatLng(-8.852507, 114.620361),
+            new google.maps.LatLng(-8.635334, 114.675293),
+            new google.maps.LatLng(-8.352823, 114.400635)
+            ],
+            //strokeColor: '#32BECC',
+            strokeColor: arrColor1[8],
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            fillColor: arrColor1[8],
+            fillOpacity: 0.35,
+            name: 'Region 11', // dynamic, not an official API property..
+            map: map
+        });
+
+        // Aaaaand, the behavior..
+        //google.maps.event.addListener(poly_Region11, 'click', showArrays);
+        google.maps.event.addListener(poly_Region11, 'click'
+            , function (e) {
+                drawChartArr.call(this, //the scope of the handler...the marker
+                    e, //the original event
+                    pieTitle,
+                   arrReg011
+                );
+            });
+
+        var poly_Region12 = new google.maps.Polygon({
+            paths: [
+            new google.maps.LatLng(-9.167179, 140.998535),
+            new google.maps.LatLng(-6.915521, 141.020508),
+            new google.maps.LatLng(-6.697343, 140.844727),
+            new google.maps.LatLng(-6.282539, 141.020508),
+            new google.maps.LatLng(-2.635789, 140.976563),
+            new google.maps.LatLng(-2.251617, 140.987549),
+            new google.maps.LatLng(-2.130856, 140.383301),
+            new google.maps.LatLng(-1.955187, 139.658203),
+            new google.maps.LatLng(-1.504954, 138.944092),
+            new google.maps.LatLng(-1.318243, 138.394775),
+            new google.maps.LatLng(-1.076597, 137.867432),
+            new google.maps.LatLng(-1.362176, 137.06543),
+            new google.maps.LatLng(-1.032659, 136.658936),
+            new google.maps.LatLng(-0.472407, 136.384277),
+            new google.maps.LatLng(-0.087891, 135.626221),
+            new google.maps.LatLng(-0.384519, 134.846191),
+            new google.maps.LatLng(-0.29663, 134.022217),
+            new google.maps.LatLng(-0.307616, 133.395996),
+            new google.maps.LatLng(0.032959, 132.879639),
+            new google.maps.LatLng(0.054932, 132.044678),
+            new google.maps.LatLng(0.395505, 131.187744),
+            new google.maps.LatLng(0.252685, 130.209961),
+            new google.maps.LatLng(-0.164795, 129.990234),
+            new google.maps.LatLng(-0.714093, 130.03418),
+            new google.maps.LatLng(-1.30726, 130.418701),
+            new google.maps.LatLng(-1.58183, 130.770264),
+            new google.maps.LatLng(-1.801461, 130.979004),
+            new google.maps.LatLng(-1.801461, 131.363525),
+            new google.maps.LatLng(-2.185749, 131.791992),
+            new google.maps.LatLng(-2.602864, 131.879883),
+            new google.maps.LatLng(-2.877208, 131.583252),
+            new google.maps.LatLng(-3.283114, 131.868896),
+            new google.maps.LatLng(-3.414725, 132.297363),
+            new google.maps.LatLng(-3.91906, 132.473145),
+            new google.maps.LatLng(-4.324501, 132.714844),
+            new google.maps.LatLng(-4.36832, 132.967529),
+            new google.maps.LatLng(-4.499762, 133.59375),
+            new google.maps.LatLng(-4.182073, 134.033203),
+            new google.maps.LatLng(-4.346411, 134.296875),
+            new google.maps.LatLng(-4.66403, 134.87915),
+            new google.maps.LatLng(-4.893941, 135.648193),
+            new google.maps.LatLng(-4.959615, 136.164551),
+            new google.maps.LatLng(-5.298827, 136.845703),
+            new google.maps.LatLng(-5.57225, 137.471924),
+            new google.maps.LatLng(-6.162401, 137.878418),
+            new google.maps.LatLng(-6.730076, 138.273926),
+            new google.maps.LatLng(-7.133598, 138.262939),
+            new google.maps.LatLng(-7.547656, 137.669678),
+            new google.maps.LatLng(-8.080985, 137.406006),
+            new google.maps.LatLng(-8.657057, 137.340088),
+            new google.maps.LatLng(-8.895926, 137.889404),
+            new google.maps.LatLng(-8.689639, 138.537598),
+            new google.maps.LatLng(-8.722218, 139.526367),
+            new google.maps.LatLng(-8.93934, 140.20752),
+            new google.maps.LatLng(-9.514079, 140.690918)
+            ],
+            //strokeColor: '#BEB7B0',
+            strokeColor: arrColor1[9],
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            fillColor: arrColor1[9],
+            fillOpacity: 0.35,
+            name: 'Region 12', // dynamic, not an official API property..
+            regionIndex: 12,
+            map: map
+        });
+
+        // Aaaaand, the behavior..
+        //google.maps.event.addListener(poly_Region12, 'click', showArrays);
+        google.maps.event.addListener(poly_Region12, 'click'
+            , function (e) {
+                drawChartArr.call(this, //the scope of the handler...the marker
+                    e, //the original event
+                    pieTitle,
+                    arrReg012
+                );
+            });
+
+    }
+
+    // The only differnece here is that I changed "name" to this.name,
+    // becuase "this" (the object that fired the event), now carries around
+    // that "name" property we gave it..
+    function showArrays(event) {
+        var vertices = this.getPath();
+
+        var contentString = '<b>' + this.name + '</b><br><u>' + this.regionIndex + '</u>';
+
+        //for (var i = 0; i < vertices.getLength(); i++) {
+        //	var xy = vertices.getAt(i);
+        //	contentString += '<br>' + 'Coordinate ' + i + ':<br>' + xy.lat() + ',' + xy.lng();
+        //}
+
+        infoWindow.setContent(contentString);
+        infoWindow.setPosition(event.latLng);
+
+        infoWindow.open(map);
+    }
+    //initialize();
+    google.load('visualization', '1.0', { 'packages': ['corechart'] });
+</script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATBrkORUyvPS_C16PWT9Drkjp_Ed1h8iQ&callback=initMap">
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.trxSanksiInternal_ARC>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdAction)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdSanksiInternal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SanksiType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pelanggaran)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LetterNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LetterDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Period)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SanksiStatus)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdAction)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdSanksiInternal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdRekanan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SanksiType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pelanggaran)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LetterNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LetterDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Period)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SanksiStatus)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.IdSanksiInternal }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IdSanksiInternal })
+        </td>
+    </tr>
+}
+
+</table>

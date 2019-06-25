@@ -1,0 +1,466 @@
+﻿@model MVCSmartClient01.Models.HeaderViewModel
+@{
+    Layout = "";
+}
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <style>
+        div.demo {
+            display: table;
+            width: 100%;
+            table-layout: fixed; /* For cells of equal size */
+        }
+
+        div.demo span {
+            display: table-cell;
+            text-align: center;
+        }
+
+        .btn-circle.btn-xl {
+            width: 50px;
+            height: 50px;
+            padding: 10px 10px;
+            font-size: 24px;
+            line-height: 1.33;
+            border-radius: 25px;
+        }
+
+        .dropbtn {
+            /*background-color: #4CAF50;*/
+            color: white;
+            /*padding: 16px;*/
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown {
+            position: relative;
+            /*display: inline-block;*/
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            /*padding: 12px 16px;*/
+            padding: 5px 5px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+
+
+
+
+        .dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  -webkit-border-radius: 0 6px 6px 6px;
+  -moz-border-radius: 0 6px 6px 6px;
+  border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+    </style>
+</head>
+<header style="background-image:url('../../Content/Images/gplaypattern.png')">
+    @switch (Model.RoleName)
+    {
+        case "LoginDefault":
+            @*REGISTER/LOGIN*@
+            <div class="demo">
+                <span onclick="location.href = '@Url.Action("RegisterByKiosk", "Account")'; return false;"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-registration-mark"></i></button></span>
+                <span onclick="location.href = '@Url.Action("login", "Account" )'; return false;"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-log-in"></i></button></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="demo">
+                <span><h6>Registrasi</h6></span>
+                <span>Login</span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="demo">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            break;
+        case "Rekanan1X":
+        case "Rekanan2X":
+        case "Rekanan3X":
+        //case "Rekanan4":
+        //case "Rekanan5":
+        case "Rekanan6X":
+        @*REKANAN*@
+        <div class="demo">
+            <span onclick="location.href = '@Url.Action("GetNotiInboxSentDraft", "TrxNotificationHeader")'; return false;"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-alert"></i></button></span>
+            @*<span onclick="GetMyMenu('Rek_Profile')"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-cog"></i></button></span>*@
+            <span>
+                <div class="dropdown">
+                    <button type="button" class="hoves dropbtn btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-cog"></i></button>
+                    <div style="width:100px" class="dropdown-content">
+                        <a href="@Url.Action("CreateEdit_Read", "MstRekanan")">Informasi Umum</a>
+                        @*<a href="@Url.Action("CreateEdit", "TrxNotaris")">DataNotaris</a>*@
+                        <a href="@Url.Action("GetByRekananTab", "TrxDocMandatoryDetail")">Daftar Dokumen</a>
+                        <a href="@Url.Action("GetByRekanan", "TrxDataOrganisasi")">Daftar Personel</a>
+
+                        @*<a href="@Url.Action("GetByRekanan_ASR", "TrxDetailPekerjaan")">Upload Pekerjaan</a>*@
+
+                        @*<a href="@Url.Action("GetByGuidHeader", "TrxTenagaAhliHeader")">Test Ajah</a>*@
+                    </div>
+                </div>
+            </span>
+            @*<span onclick="location.href = '@Url.Action("Index", "TrxFileDataPekerjaan" )'; return false;"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-open-file"></i></button></span>*@
+
+            @*sembunyi*@
+            <span>
+                <div class="dropdown">
+                    <button type="button" class="hoves dropbtn btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-open-file"></i></button>
+                    <div style="width:100px" class="dropdown-content">
+                        <a href="@Url.Action("GetByRekanan", "TrxDetailPekerjaan")">Data Pekerjaan</a>
+                        @*<a href="@Url.Action("GetByRekanan", "TrxDetailPekerjaanHeader")">Data Pekerjaan</a>*@
+                        @*<a href="@Url.Action("GetByRekanan_Rek", "RptAsuransi")">Laporan Asuransi</a>*@
+                    </div>
+                </div>
+            </span>
+            <span></span>
+
+            <span></span>
+            <span></span>
+            <span></span>
+            <span onclick="location.href = '@Url.Action("Logout", "Account" )'; return false;"><button type="button" class="btn btn-danger btn-circle btn-xl"><i class="glyphicon glyphicon-log-out"></i></button></span>
+        </div>
+        <div class="demo">
+            <span>Notifikasi</span>
+            <span>Profile</span>
+
+            @*sembunyi*@
+            <span>Laporan Produksi</span>
+            <span></span>
+
+            <span></span>
+            <span></span>
+            <span></span>
+            <span>Logout</span>
+        </div>
+        <div class="demo">
+            <spanx>
+                    <span class="badge badge-error">2 new</span>
+                    <span class="badge badge-warning">4 new</span>
+                    <span class="badge badge-success">6 new</span>
+            </spanx>
+            <span class="badge badge-warning">@ViewBag.LastUpdatedProfile</span>
+            <span class="badge badge-warning">@ViewBag.LastUpdatedPekerjaan</span>
+            @*<span class="badge badge-warning">xyz</span>*@
+            <spanx>
+                    <span></span>
+                    @*<span class="badge badge-error">12 files</span>*@
+                    <span></span>
+                    <span></span>
+            </spanx>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+            break;
+
+        case "Rekanan1":
+        case "Rekanan2":
+        case "Rekanan4":
+        case "Rekanan5":
+        case "Rekanan7":
+        case "Rekanan11":
+        case "Rekanan12":
+        case "Rekanan13":
+        @*REKANAN*@
+        <div class="demo">
+            <span>
+                <div class="dropdown">
+                    <button type="button" class="hoves dropbtn btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-cog"></i></button>
+                    <div style="width:100px" class="dropdown-content">
+                        <a href="@Url.Action("CreateEdit_Read", "MstRekanan")">Informasi Umum</a>
+                        <a href="@Url.Action("GetByRekananTab", "TrxDocMandatoryDetail")">Daftar Dokumen</a>
+                        <a href="@Url.Action("GetByRekanan", "TrxDataOrganisasi")">Data Organisasi</a>
+                        <a href="@Url.Action("Index", "MstProdukAsuransi")">Produk Asuransi</a>
+                    </div>
+                </div>
+            </span>
+            <span onclick="location.href = '@Url.Action("PeriodeScoringByCurRek", "TrxPeriodeScoring")'; return false;"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-pencil"></i></button></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span onclick="location.href = '@Url.Action("Logout", "Account" )'; return false;"><button type="button" class="btn btn-danger btn-circle btn-xl"><i class="glyphicon glyphicon-log-out"></i></button></span>
+        </div>
+        <div class="demo">
+            <span>Profile</span>
+            <span>Scoring</span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span>Logout</span>
+        </div>
+        <div class="demo">
+            <span class="badge badge-warning">last upd 2 Januari 2017</span>
+            <span class="badge badge-warning">last upd 2 Januari 2017</span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+            break;
+
+
+        case "Rekanan7X":
+        @*REKANAN*@
+        <div class="demo">
+            <span onclick="location.href = '@Url.Action("GetNotiInboxSentDraft", "TrxNotificationHeader")'; return false;"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-alert"></i></button></span>
+            @*<span onclick="GetMyMenu('Rek_Profile')"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-cog"></i></button></span>*@
+            <span>
+                <div class="dropdown">
+                    <button type="button" class="hoves dropbtn btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-cog"></i></button>
+                    <div style="width:100px" class="dropdown-content">
+                        <a href="@Url.Action("CreateEdit_Read", "MstRekanan")">Informasi Umum</a>
+                        <a href="@Url.Action("CreateEdit_Read", "TrxNotaris")">Data Notaris</a>
+                        <a href="@Url.Action("GetByRekananTab", "TrxDocMandatoryDetail")">Daftar Dokumen</a>
+                        <a href="@Url.Action("GetByRekanan", "TrxDataOrganisasi")">Data Organisasi</a>
+                    </div>
+                </div>
+            </span>
+            @*<span onclick="location.href = '@Url.Action("Index", "TrxFileDataPekerjaan" )'; return false;"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-open-file"></i></button></span>*@
+
+            @*sembunyi*@
+            <span>
+                <div class="dropdown">
+                    <button type="button" class="hoves dropbtn btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-open-file"></i></button>
+                    <div style="width:100px" class="dropdown-content">
+                        <a href="@Url.Action("GetByRekanan", "TrxDetailPekerjaan")">Data Pekerjaan</a>
+                        @*<a href="@Url.Action("GetByRekanan_ASR", "TrxDetailPekerjaan")">Upload Pekerjaan</a>*@
+                        @*<a href="@Url.Action("GetByRekanan", "TrxDetailPekerjaanHeader")">Upload Pekerjaan</a>*@
+                        @*<a href="@Url.Action("GetByRekanan_Rek", "RptAsuransi")">Laporan Asuransi</a>*@
+                    </div>
+                </div>
+            </span>
+            <span></span>
+
+            <span></span>
+            <span></span>
+            <span></span>
+            <span onclick="location.href = '@Url.Action("Logout", "Account" )'; return false;"><button type="button" class="btn btn-danger btn-circle btn-xl"><i class="glyphicon glyphicon-log-out"></i></button></span>
+        </div>
+        <div class="demo">
+            <span>Notifikasi</span>
+            <span>Profile</span>
+
+            @*sembunyi*@
+            <span>Laporan Produksi</span>
+            <span></span>
+
+            <span></span>
+            <span></span>
+            <span></span>
+            <span>Logout</span>
+        </div>
+        <div class="demo">
+            <spanx>
+                    <span class="badge badge-error">2 new</span>
+                    <span class="badge badge-warning">4 new</span>
+                    <span class="badge badge-success">6 new</span>
+            </spanx>
+            <span class="badge badge-warning">last upd 2 Januari 2017</span>
+            <span class="badge badge-warning">last upd 2 Januari 2017</span>
+            <spanx>
+                <span></span>
+                @*sembunyi*@
+                @*<span class="badge badge-error">12 files</span>*@
+                <span></span>
+                <span></span>
+            </spanx>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+            break;
+
+
+
+        case "PCPKAR":
+        @*PCP /KAR*@
+            <div class="demo">
+                <span>
+                    <div class="dropdown">
+                        <button type="button" class="hoves dropbtn btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-cog"></i></button>
+                        <div style="width:100px" class="dropdown-content">
+                            <a href="@Url.Action("GetBySupervisorId", "MstRekanan")">Daftar Rekanan</a>
+                        </div>
+                    </div>
+                </span>
+                <span>
+                    <div class="dropdown">
+                        <button type="button" class="hoves dropbtn btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-th-large"></i></button>
+                        <div style="width:100px" class="dropdown-content">
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position: static;margin-top: 10px; margin-bottom: 1px; *width: 180px;">
+                                <li><a href="@Url.Action("Index", "MstTypeOfDocument")">Daftar Dokumen</a></li>
+                                <li><a href="@Url.Action("GetKelengkapanDokumenByRek", "TrxDocumentMandatory", new { IsAdminDoc = false })">Kelengkapan Dokumen Per Jenis Rekanan</a></li>
+                                <li><a href="@Url.Action("GetKelengkapanDokumenByRek", "TrxDocumentMandatory", new { IsAdminDoc = true })">Kelengkapan Dokumen Internal Per Jenis Rekanan</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </span>
+                <span onclick="location.href = '@Url.Action("Index", "TrxRegistrationRequest")'; return false;"><button type="button" class="btn btn-success btn-circle btn-xl"><i class="glyphicon glyphicon-registration-mark"></i></button></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span onclick="location.href = '@Url.Action("Logout", "Account" )'; return false;"><button type="button" class="btn btn-danger btn-circle btn-xl"><i class="glyphicon glyphicon-log-out"></i></button></span>
+            </div>
+            <div class="demo">
+                <span>Profile</span>
+                <span><h6>Data Master</h6></span>
+                <span><h6>Registrasi Rekanan</h6></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span>Logout</span>
+            </div>
+            <div class="demo">
+                <span class="badge badge-warning">last upd 2 Januari 2017</span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            break;
+        case "AdminSistem":
+        @*ADMIN SISTEM*@
+        <div class="demo">
+            <span onclick="openNav1()"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-user"></i></button></span>
+            @*<span onclick="GetMyMenu('Adm_Konfigurasi')"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-cog"></i></button></span>*@
+            <span>
+                <div class="dropdown">
+                    <button type="button" class="hoves dropbtn btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-cog"></i></button>
+                    <div style="width:100px" class="dropdown-content">
+                        <a href="#">Konfigurasi Satu</a>
+                        <a href="#">Konfigurasi Dua</a>
+                        <a href="#">Konfigurasi Tiga</a>
+                    </div>
+                </div>
+            </span>
+            <span onclick="location.href = '@Url.Action("index", "TrxAuditLog" )'; return false;"><button type="button" class="btn btn-warning btn-circle btn-xl"><i class="glyphicon glyphicon-check"></i></button></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span onclick="location.href = '@Url.Action("logout", "Account" )'; return false;"><button type="button" class="btn btn-danger btn-circle btn-xl"><i class="glyphicon glyphicon-log-out"></i></button></span>
+        </div>
+        <div class="demo">
+            <span>Management User</span>
+            <span>Konfigurasi</span>
+            <span>Audit Trail</span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span>Logout</span>
+        </div>
+        <div class="demo">
+            <spanx>
+                <span class="badge badge-error">2 new</span>
+                <span class="badge badge-warning">4 new</span>
+                <span class="badge badge-success">6 new</span>
+            </spanx>
+            <span class="badge badge-warning">last upd 2 Januari 2017</span>
+            <spanx>
+                <span></span>
+                @*sembunyi*@
+                @*<span class="badge badge-error">12 files</span>*@
+                <span></span>
+                <span></span>
+            </spanx>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+            break;
+        case "Portfolio":
+            break;
+    }
+</header>
+
+<script>
+    $('#dropdown').hover(function () {
+        $(this).AddClass('open');
+    })
+</script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+                $(this).parent().siblings().removeClass('open');
+                $(this).parent().toggleClass('open');
+            });
+        });
+    })(jQuery);
+</script>

@@ -1,0 +1,125 @@
+﻿@model MVCSmartClient01.Models.mstRekananForm
+
+<script>
+    var selected = [];
+    var command;
+    function onSelectionChanged(s, e) {
+        var currentRowKey = _DetailPekerjaan_1M.GetRowKey(e.visibleIndex);
+        if (e.isSelected)
+            selected.push(currentRowKey);
+        else
+            selected.splice(selected.indexOf(currentRowKey), 1);
+    }
+    function onBeginCallback(s, e) {
+        command = e.command;
+    }
+    function onClick(s, e) {
+        alert("1111");
+        var result = "";
+        for (var i = 0; i < selected.length; i++)
+            result += selected[i] + '|';
+        _DetailPekerjaan_1M.PerformCallback({ selectedKeys: result });
+    }
+    function onEndCallback(s, e) {
+        if (command == "CUSTOMCALLBACK")
+            selected = [];
+    }
+
+    function Lampiran(ImageBaseName, FileExt) {
+            window.open(('../Content/DocumentImages/XYZ123456789' + FileExt).replace('XYZ123456789', ImageBaseName), 'KTP', 'toolbar=no, left=100,top=25,location=no, directories=no, status=no, menubar=no, width=700, height=700');
+            return false;
+    }
+</script>
+@*<h4>Informasi Detail Rekanan</h4>*@
+<h4>@ViewBag.InfoRekanan</h4>
+
+@Html.DevExpress().PageControl(settingsPageControl =>
+{
+    settingsPageControl.Name = "PageControl";
+    settingsPageControl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settingsPageControl.ActiveTabIndex = 0;
+    //settingsPageControl.ClientSideEvents.ActiveTabChanging = "OnActiveTabChanging";
+
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Informasi Umum";
+        tab.Name = "_InformasiUmum";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("CreateEdit_ReadTab", "MstRekanan");
+        });
+    });
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Data Perusahaan";
+        tab.Name = "_DataPerusahaan";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            //Html.RenderAction("GetByRekananTab", "TrxRekananDocument");
+            Html.RenderAction("_GetByRekananTab_Admin", "TrxDocMandatoryDetail");
+        });
+    });
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Data Personil";
+        tab.Name = "_DataPersonil";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("GetByRekananTab", "TrxDataOrganisasi");
+        });
+    });
+    if (ViewBag.IdTypeOfRekanan == 4 || ViewBag.IdTypeOfRekanan == 5)
+    {
+        settingsPageControl.TabPages.Add(tab =>
+        {
+            tab.Text = "Lap Produksi Bulanan";
+            tab.Name = "_LaporanBulanan";
+            tab.TabStyle.Width = 150;
+            tab.SetContent(() =>
+            {
+                Html.RenderAction("_GetAS_1MByRekanan", "TrxDetailPekerjaan");
+            });
+        });
+    }
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        if (ViewBag.IdTypeOfRekanan == 4 || ViewBag.IdTypeOfRekanan == 5)
+        {
+            tab.Text = "Lap Keu Triwulanan";
+        }
+        else
+        {
+            tab.Text = "Laporan";
+        }
+        tab.Name = "_Laporan";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("GetByRekananTab", "TrxDetailPekerjaan");
+        });
+    });
+    if (ViewBag.IdTypeOfRekanan == 4 || ViewBag.IdTypeOfRekanan == 5)
+    {
+        settingsPageControl.TabPages.Add(tab =>
+        {
+            tab.Text = "+/- Produksi Bulanan";
+            tab.Name = "_DelLaporanBulanan";
+            tab.TabStyle.Width = 150;
+            tab.SetContent(() =>
+            {
+                Html.RenderAction("_GetByRekananTab", "TrxDetailPekerjaanHeader");
+            });
+        });
+    }
+
+
+    //settingsPageControl.TabPages.Add(tab =>
+    //{
+    //    tab.Text = "Notifikasi";
+    //    tab.Name = "_Notifikasi";
+    //    tab.TabStyle.Width = 150;
+    //});
+}).GetHtml()

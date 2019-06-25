@@ -1,0 +1,164 @@
+﻿@using DevExpress.Data.Filtering;
+@using System.Web.UI.WebControls
+@using MVCSmartClient01.Models;
+
+@model MVCSmartClient01.Models.PertanyaanNilaiMulti
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "GetNilaiByPenilai" + @ViewBag.IdTypeOfGroup + @ViewBag.IdPenilai;
+    settings.Caption = ViewBag.JudulGroup;
+    settings.Settings.ShowGroupPanel = false;
+    settings.Settings.ShowGroupedColumns = false;
+    settings.Styles.CssFilePath = "";
+    settings.Styles.Row.Font.Size = 11;
+    settings.Styles.Header.Font.Size = 11;
+
+    settings.Settings.ShowFilterRow = false;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.Width = Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "TrxPeriodeScoring", Action = "_DetailScoringByPeriode"
+        , IdRekanan = @ViewBag.IdRekanan, TahunBulan = @ViewBag.TahunBulan, IdTypeOfGroup = @ViewBag.IdTypeOfGroup, IdPenilai = @ViewBag.IdPenilai };
+    settings.SettingsPager.PageSize = 20;
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowEditButton = true;
+    settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "TrxPeriodeScoring", Action = "UpdateLineNilai" };
+    settings.SettingsEditing.Mode = GridViewEditingMode.Inline;
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+
+    settings.KeyFieldName = "IdTNPertanyaan";
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IdRekanan";
+        column.EditCellStyle.CssClass = "hiddencol";
+        column.CellStyle.CssClass = "hiddencol";
+        column.HeaderStyle.CssClass = "hiddencol";
+        column.FooterCellStyle.CssClass = "hiddencol";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TahunBulan";
+        column.EditCellStyle.CssClass = "hiddencol";
+        column.CellStyle.CssClass = "hiddencol";
+        column.HeaderStyle.CssClass = "hiddencol";
+        column.FooterCellStyle.CssClass = "hiddencol";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        column.HeaderStyle.Font.Bold = true;
+        column.CellStyle.BackColor = System.Drawing.Color.WhiteSmoke;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+
+    settings.CustomJSProperties = (sender, e) =>
+    {
+        MVCxGridView gridView = (MVCxGridView)sender;
+        if (gridView.EditingRowVisibleIndex > -1)
+        {
+            e.Properties["cpIdTypeOfGroup"] = gridView.GetRowValues(gridView.EditingRowVisibleIndex, "IdTypeOfGroup");
+            e.Properties["cpIdPenilai"] = gridView.GetRowValues(gridView.EditingRowVisibleIndex, "IdPenilai");
+        }
+    };
+
+    settings.ClientSideEvents.BeginCallback = "function(s, e) { if(s.cpIdPenilai) { e.customArgs['IdPenilai'] =  s.cpIdPenilai; e.customArgs['IdTypeOfGroup'] =  s.cpIdTypeOfGroup; } }";
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Deskripsi";
+        column.Caption = "Pertanyaan";
+        column.ReadOnly = true;
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.CellStyle.BackColor = System.Drawing.Color.WhiteSmoke;
+        column.Width = 500;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Bobot";
+        column.Caption = "Bobot (%)";
+        column.ReadOnly = true;
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.CellStyle.BackColor = System.Drawing.Color.WhiteSmoke;
+    });
+    settings.Columns.Add(myCol =>
+    {
+        myCol.FieldName = "Nilai";
+        myCol.Caption = "Nilai";
+        myCol.Width = 200;
+        myCol.HeaderStyle.Font.Bold = true;
+        myCol.SetDataItemTemplateContent(c =>
+        {
+            Html.DevExpress().RadioButtonList(mysettings =>
+            {
+                mysettings.Name = "rdo" + (int)DataBinder.Eval(c.DataItem, "IdTNPertanyaan");
+                mysettings.Properties.ValueField = "RefId";
+                mysettings.Properties.TextField = "RefDescription";
+                mysettings.Properties.RepeatColumns = 5;
+                mysettings.ControlStyle.Border.BorderStyle = System.Web.UI.WebControls.BorderStyle.None;
+                mysettings.ControlStyle.Font.Size = 11;
+                mysettings.ReadOnly = true;
+                mysettings.Properties.ClientSideEvents.Init = "function(s,e){ s.SetSelectedIndex(xyzabc);}".Replace("xyzabc", ((int)DataBinder.Eval(c.DataItem, "Nilai") - 1).ToString());
+            }).BindList(Model.PilihanScore).Bind(DataBinder.Eval(c.DataItem, "Nilai")).Render();
+        });
+        myCol.SetEditItemTemplateContent(c =>
+        {
+            Html.DevExpress().RadioButtonList(mysettings =>
+            {
+                mysettings.Name = "rdo" + (int)DataBinder.Eval(c.DataItem, "IdTNPertanyaan");
+                mysettings.Properties.ValueField = "RefId";
+                mysettings.Properties.TextField = "RefDescription";
+                mysettings.Properties.ValueType = typeof(int);
+                mysettings.ControlStyle.Border.BorderStyle = System.Web.UI.WebControls.BorderStyle.None;
+                mysettings.Properties.RepeatColumns = 5;
+                mysettings.Properties.ClientSideEvents.Init = "function(s,e){ s.SetSelectedIndex(xyzabc);}".Replace("xyzabc", ((int)DataBinder.Eval(c.DataItem, "Nilai") - 1).ToString());
+            }).BindList(Model.PilihanScore).Bind(DataBinder.Eval(c.DataItem, "Nilai")).Render();
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Score";
+        column.Caption = "Score";
+        column.ReadOnly = true;
+        column.HeaderStyle.Font.Bold = true;
+        column.PropertiesEdit.DisplayFormatString = "N";
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.CellStyle.BackColor = System.Drawing.Color.WhiteSmoke;
+    });
+
+    settings.Styles.Footer.Font.Size = 11;
+    settings.Styles.Footer.Font.Bold = true;
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Bobot").DisplayFormat = "{0:n}";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Nilai").DisplayFormat = "{0:n}";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Score").DisplayFormat = "{0:n}";
+    settings.Settings.ShowFooter = true;
+}).Bind(Model.PertanyaanColls).GetHtml()
+<style>
+    .hiddencol {
+        display: none;
+    }
+</style>

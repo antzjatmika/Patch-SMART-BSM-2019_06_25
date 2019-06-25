@@ -1,0 +1,30 @@
+﻿
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<div class="container">
+    <div class="row" style="margin-top:20px;">
+        <div class=" well well-sm  bg-white borderZero" uib-dropdown>
+            <div class="btn-group date-block btn-group-justified font-small dropdown" data-toggle="buttons">
+                <label href="#home" data-toggle="tab" class="btn btn-danger semiBold" title="Notifikasi Kritikal" style="font-size:14px;">
+                    Kritikal
+                </label>
+                <label href="#profile" data-toggle="tab" class="btn btn-warning semiBold" title="Notifikasi Penting" style="font-size:14px;">
+                    Penting
+                </label>
+                <label href="#contact" data-toggle="tab" class="btn btn-success semiBold" title="Notifikasi Normal" style="font-size:14px;">
+                    Normal
+                </label>
+            </div>
+        </div>
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active in" id="home">
+                <p class="text-center">Grid Notifikasi Pertama</p>
+            </div>
+            <div class="tab-pane fade" id="profile">
+                <p class="text-center">Grid Notifikasi Kedua</p>
+            </div>
+            <div class="tab-pane fade" id="contact">
+                <p class="text-center">Grid Notifikasi Ketiga</p>
+            </div>
+        </div>
+    </div>
+</div>

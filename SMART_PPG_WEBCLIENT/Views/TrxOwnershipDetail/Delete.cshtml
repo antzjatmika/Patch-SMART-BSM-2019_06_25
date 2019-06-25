@@ -1,0 +1,94 @@
+﻿@model MVCSmartClient01.Models.trxNotificationDetail
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Notification Detail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdNotificationDetail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdNotificationDetail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdNotification)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdNotification)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubjectTo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SubjectTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubjectFrom)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SubjectFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdNotificationContent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdNotificationContent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.flgBacaTo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.flgBacaTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.flgEmailSent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.flgEmailSent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.flgEmailRead)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.flgEmailRead)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.flgWASent)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.flgWASent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.flgWARead)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.flgWARead)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,119 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <style>
+        .divContainer {
+            vertical-align: middle;
+            text-align: center;
+            <!-- If you want horizontal center alignment; -->
+        }
+
+        .divContainer > * {
+            vertical-align: middle;
+        }
+        .jumbotron {
+            color: inherit;
+            background-color: #eee;
+        }
+
+
+                body {
+            padding-top: 20px;
+        }
+
+        #myCarousel .nav a small {
+            display: block;
+        }
+
+        #myCarousel .nav {
+            background: #eee;
+        }
+
+            #myCarousel .nav a {
+                border-radius: 0px;
+            }
+
+        header {
+            position: absolute;
+            top: 0;
+            height: 60px;
+            width: 100%;
+            background-color: skyblue;
+        }
+
+        #header {
+            margin-left: 0;
+            margin-right: 0;
+            padding-left: 0;
+        }
+
+        header nav ul {
+            text-align: center;
+        }
+
+            header nav ul li {
+                text-align: center;
+                display: inline-block;
+                margin-right: 50px;
+                margin-top: 20px;
+            }
+
+                header nav ul li:last-of-type {
+                    margin-right: 0;
+                }
+
+                header nav ul li a {
+                    color: #fff;
+                }
+
+        .navbar-brand {
+            position: absolute;
+            padding: 10px;
+        }
+    </style>
+</head>
+<div>
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+            <div class="item active">
+                <div>
+                    <img style="width: 100%;" src="~/Content/images/front01.png" />
+                </div>
+                @*<div class="carousel-caption">
+                    <h3>Headline</h3>
+                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. <a href="http://sevenx.de/demo/bootstrap-carousel/" target="_blank" class="label label-danger">Bootstrap 3 - Carousel Collection</a></p>
+                </div>*@
+            </div><!-- End Item -->
+
+            <div class="item">
+                <div>
+                    <img style="width: 100%;" src="~/Content/images/front02.png" />
+                </div>
+                @*<div class="carousel-caption">
+                    <h3>Headline</h3>
+                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. <a href="http://sevenx.de/demo/bootstrap-carousel/" target="_blank" class="label label-danger">Bootstrap 3 - Carousel Collection</a></p>
+                </div>*@
+            </div><!-- End Item -->
+
+            <div class="item">
+                <div>
+                    <img style="width: 100%;" src="~/Content/images/front03.png" />
+                </div>
+                @*<div class="carousel-caption">
+                    <h3>Headline</h3>
+                    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. <a href="http://sevenx.de/demo/bootstrap-carousel/" target="_blank" class="label label-danger">Bootstrap 3 - Carousel Collection</a></p>
+                </div>*@
+            </div><!-- End Item -->
+
+        </div><!-- End Carousel Inner -->
+    </div><!-- End Carousel -->
+</div>
+@*<img style="width: 100%;" src="~/Content/Images/haldepan01.jpg" />*@
+@*<div class="jumbotron">
+    <div class="divContainer">
+        <img style="width: 100%;" src="~/Content/Images/haldepan01.jpg" />
+    </div>
+</div>*@

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.emlNotification>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Tipe Rekanan", "Index", "MstTypeOfRekanan")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdEmailNotification)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TemplateId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ParameterKeys)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ParameterValues)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdEmailNotification)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdRekanan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TemplateId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ParameterKeys)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ParameterValues)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.IdEmailNotification }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IdEmailNotification })
+        </td>
+    </tr>
+}
+
+</table>
+@Html.Partial("GridViewPartial")

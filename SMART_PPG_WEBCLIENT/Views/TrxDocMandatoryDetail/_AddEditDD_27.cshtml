@@ -1,0 +1,121 @@
+﻿@model MVCSmartClient01.Models.trxDMDTenagaAhliTetap
+
+@{
+    Html.EnableClientValidation();
+}
+<script type="text/javascript">
+    function OnFilesUploadComplete(s, e) {
+        var imageBaseName = '@Model.ImageBaseName';
+        //alert(imageBaseName);
+        if (imageBaseName.length > 0) {
+            document.getElementById('ImageTumb').src = "../Content/DocumentImages/" + imageBaseName + ".jpg";
+        }
+    }
+</script>
+
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">@ViewBag.JudulDetail</legend>
+</div>
+
+@using (Html.BeginForm("_AddEditDocDetail", "TrxDocMandatoryDetail", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.IdDocMandatoryDetail)
+    @Html.HiddenFor(model => model.IdRekanan)
+    @Html.HiddenFor(model => model.IdTypeOfDocument)
+    @Html.HiddenFor(model => model.ImageBaseName)
+    //@Html.HiddenFor(model => model.ProcInfo)
+    @Html.HiddenFor(model => model.CreatedUser)
+    @Html.HiddenFor(model => model.CreatedDate)
+
+    <div class="row">
+        <form role="form">
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.Text = "Catatan";
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.AssociatedControlName = "catatan";
+            }
+        ).GetHtml()
+                @Html.DevExpress().Memo(
+            settings =>
+            {
+                settings.Name = "catatan";
+                settings.Height = 60;
+                settings.Width = 250;
+                settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+            }
+   ).Bind(Model.catatan).GetHtml()
+                @Html.ValidationMessageFor(model => model.catatan, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            @*<div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdate').click();">
+                    <span class="glyphicon glyphicon-ok"></span>&nbsp;Simpan
+                </button>
+                <button type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();">
+                    <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+                </button>
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                <div>
+                    &nbsp;
+                </div>
+            </div>*@
+
+            @Html.Action("_TenagaAhliTetapImpByRek", "TrxTenagaAhliTetapImp", new { ImagePointer = Model.ImageBaseName })
+
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdate').click();">
+                    <span class="glyphicon glyphicon-ok"></span>&nbsp;Simpan
+                </button>
+                <button type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();">
+                    <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+                </button>
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                <div>
+                    &nbsp;
+                </div>
+            </div>
+        </form>
+
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Update";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxDocMandatoryDetail", Action = "GetByRekananTab" }) + "'; }";
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+    </div>
+}
+<div>
+    @*@Html.Action("_TenagaAhliTetapImpByRek", "TrxTenagaAhliTetapImp")*@
+    @*<div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+        <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdate').click();">
+            <span class="glyphicon glyphicon-ok"></span>&nbsp;Simpan
+        </button>
+        <button type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();">
+            <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+        </button>
+    </div>
+    <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+        <div>
+            &nbsp;
+        </div>
+    </div>*@
+</div>

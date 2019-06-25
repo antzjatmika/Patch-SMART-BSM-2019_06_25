@@ -1,0 +1,92 @@
+﻿
+@using System.Web.UI.WebControls
+@model IEnumerable<MVCSmartClient01.Models.fGetNotiByIdNotification_Result>
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "gridTrayDraftDetail" + ViewData["IdNotification"].ToString();
+    settings.Settings.ShowGroupPanel = false;
+    settings.Settings.ShowGroupedColumns = false;
+
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.CallbackRouteValues = new { Controller = "TrxNotificationHeader", Action = "_TrayDraftDetail", IdNotification = ViewData["IdNotification"] };
+    settings.Width = Unit.Percentage(100);
+
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "#";
+        column.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                "<table><tr><td>" +
+                Html.ActionLink("Kirim", "_SendNotiDetail", new { @class = "updateLink", IdNotificationDetail = DataBinder.Eval(c.DataItem, "IdNotificationDetail")},
+                    new { onclick = "return confirm('Notifikasi akan langsung dikirim ?')" }) + "&nbsp;" +
+                "</td><td>" +
+                Html.ActionLink("Detail", "_ReadInfoByIdNotification", new { @class = "deleteLink", IdNotificationDetail = DataBinder.Eval(c.DataItem, "IdNotificationDetail"), FlgTraySent = false}) + "&nbsp;" +
+                "</td><td>" +
+                Html.ActionLink("Hapus", "_DeleteNotiDetail", new { @class = "deleteLink", IdNotificationDetail = DataBinder.Eval(c.DataItem, "IdNotificationDetail")},
+                    new { onclick = "return confirm('Apakah Anda yakin akan menghapus data ini ?')" })
+                + "</td></tr></table>"
+            );
+        });
+        column.Width = 70;
+    });
+
+    settings.KeyFieldName = "IdNotificationDetail";
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RegistrationNumber";
+        column.Caption = "Reg. No";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Name";
+        column.Caption = "Nama Rekanan";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Address";
+        column.Caption = "Alamat";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+
+}).Bind(Model).GetHtml()

@@ -1,0 +1,137 @@
+﻿@model MVCSmartClient01.Models.trxMonitoringFeeBased_ARC
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TrxMonitoringFeeBased ARC</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdArc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdArc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdFeeBased)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdFeeBased)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdRekanan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdRegion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdRegion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdArea)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdArea)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdCabang)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdCabang)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NomorPolis)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NomorPolis)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Produk)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Produk)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NilaiPertanggungan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NilaiPertanggungan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Periode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Periode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NilaiPremi)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NilaiPremi)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NilaiFeeBased)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NilaiFeeBased)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NilaiPPNBasedNet)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NilaiPPNBasedNet)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NilaiPPNBased)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NilaiPPNBased)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PercentFeeBased)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PercentFeeBased)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdChannel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdChannel)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SudahBayar)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SudahBayar)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

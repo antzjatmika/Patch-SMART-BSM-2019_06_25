@@ -1,0 +1,87 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<MVCSmartClient01.Models.mstRegionAdmin>
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "gridRegionAdmin";
+    settings.CallbackRouteValues = new { Controller = "MstRegion", Action = "_Index" };
+    settings.Width = Unit.Percentage(100);
+
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "#";
+        column.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                "<table><tr><td>" +
+                Html.ActionLink("Edit", "CreateEdit", new { @class = "updateLink", IdData = DataBinder.Eval(c.DataItem, "IdRegionAdmin") }) + "&nbsp;" +
+                "</td><td>" +
+                Html.ActionLink("Delete", "Delete", new { @class = "deleteLink", IdData = DataBinder.Eval(c.DataItem, "IdRegionAdmin") },
+                    new { onclick = "return confirm('Apakah Anda yakin akan menghapus data ini ?')" })
+                + "</td></tr></table>"
+            );
+        });
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                Html.ActionLink("New", "CreateEdit", new { IdData = Guid.Empty }).ToHtmlString()
+            );
+        });
+        column.Width = 70;
+    });
+
+    settings.KeyFieldName = "IdRegionAdmin";
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        column.HeaderStyle.Font.Bold = true;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IdSupervisor";
+        column.Caption = "Id Supervisor";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RegionAdminCode";
+        column.Caption = "Kode Region";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RegionAdminDescription";
+        column.Caption = "Deskripsi Region";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+}).Bind(Model).GetHtml()

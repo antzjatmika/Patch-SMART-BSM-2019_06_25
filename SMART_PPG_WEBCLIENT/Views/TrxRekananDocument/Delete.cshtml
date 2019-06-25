@@ -1,0 +1,72 @@
+﻿@model MVCSmartClient01.Models.trxRekananDocument
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Dokumen Rekanan</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdRekanan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdTypeOfDocument)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdTypeOfDocument)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IssuedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IssuedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IssuedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IssuedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Notaris)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Notaris)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BlobDocument)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BlobDocument)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,90 @@
+﻿@model MVCSmartClient01.Models.trxDocumentMandatoryMulti
+@{
+    ViewBag.Title = "_GetKelengkapanDokumenByRek";
+}
+
+<table>
+    <tr>
+        <td>
+            @Html.DevExpress().ListBox(settings =>
+            {
+                settings.Name = "lbAvailable" + ViewBag.idTypeOfRekanan;
+                //settings.Properties.Caption = "Jenis Dokumen Yang Tersedia";
+                settings.Properties.SelectionMode = ListEditSelectionMode.Single;
+                settings.Properties.ValueField = "IdTypeOfDoc";
+                settings.Properties.TextField = "NameType";
+                settings.Properties.Columns.Add("docSeq", "No.", 15);
+                settings.Properties.Columns.Add("NameType", "Nama Dokumen Tersedia", 200);
+                settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { UpdateButtonState(); }";
+                settings.Properties.EnableClientSideAPI = true;
+                settings.Width = System.Web.UI.WebControls.Unit.Pixel(600);
+                settings.Height = System.Web.UI.WebControls.Unit.Pixel(500);
+            }).BindList(Model.DocMandatory0).GetHtml()
+        </td>
+        <td>
+            @Html.DevExpress().ListBox(settings =>
+        {
+            settings.Name = "lbChoosen" + ViewBag.idTypeOfRekanan;
+            //settings.Properties.Caption = "Daftar Kelengkapan Dokumen Terbaru";
+            settings.Properties.SelectionMode = ListEditSelectionMode.Single;
+            settings.Properties.ValueField = "IdTypeOfDoc";
+            settings.Properties.TextField = "NameType";
+            settings.Properties.Columns.Add("docSeq","No.", 15);
+            settings.Properties.Columns.Add("NameType", "Nama Dokumen Rekanan", 240);
+            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s,e) { UpdateButtonState(); }";
+            settings.Properties.EnableClientSideAPI = true;
+            settings.Width = System.Web.UI.WebControls.Unit.Pixel(600);
+            settings.Height = System.Web.UI.WebControls.Unit.Pixel(500);
+        }).BindList(Model.DocMandatory1).GetHtml()
+        </td>
+        <td>
+            @Html.DevExpress().ListBox(settings =>
+        {
+            settings.Name = "lbTemp" + ViewBag.idTypeOfRekanan;
+            settings.Properties.SelectionMode = ListEditSelectionMode.Single;
+            settings.Properties.ValueField = "IdTypeOfDoc";
+            settings.Properties.TextField = "NameType";
+            settings.Properties.Columns.Add("docSeq", "No.", 15);
+            settings.Properties.Columns.Add("NameType", "Nama Dokumen Rekanan", 200);
+            settings.Properties.ClientSideEvents.SelectedIndexChanged = "function(s,e) { UpdateButtonState(); }";
+            settings.Properties.EnableClientSideAPI = true;
+            settings.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            settings.Height = System.Web.UI.WebControls.Unit.Pixel(500);
+            settings.ClientVisible = false;
+        }).GetHtml()
+        </td>
+    </tr>
+</table>
+@Html.DevExpress().Button(settings =>
+{
+    settings.Name = "btnMoveSelectedItemsToRight" + ViewBag.idTypeOfRekanan;
+    settings.Text = "Add";
+    settings.ClientSideEvents.Click = ("function(s, e) { AddSelectedItems(zzzxxx, xxxccc); }").Replace("zzzxxx", "lbAvailable" + ViewBag.idTypeOfRekanan).Replace("xxxccc", "lbChoosen" + ViewBag.idTypeOfRekanan) ;
+}).GetHtml()
+@Html.DevExpress().Button(settings =>
+{
+    settings.Name = "btnMoveSelectedItemsToLeft" + ViewBag.idTypeOfRekanan;
+    settings.Text = "Remove ";
+    settings.ClientSideEvents.Click = ("function(s, e) { RemoveSelectedItems(zzzxxx, xxxccc); }").Replace("zzzxxx", "lbChoosen" + ViewBag.idTypeOfRekanan).Replace("xxxccc", "lbAvailable" + ViewBag.idTypeOfRekanan);
+}).GetHtml()
+@Html.DevExpress().Button(settings =>
+{
+    settings.Name = "btnMoveUp" + ViewBag.idTypeOfRekanan;
+    settings.Text = "Move Up";
+    settings.ClientSideEvents.Click = ("function(s, e) { GoMoveUpItems(zzzxxx, xxxccc); }").Replace("zzzxxx", "lbChoosen" + ViewBag.idTypeOfRekanan).Replace("xxxccc", "lbTemp" + ViewBag.idTypeOfRekanan);
+}).GetHtml()
+@Html.DevExpress().Button(settings =>
+{
+    settings.Name = "btnMoveDown" + ViewBag.idTypeOfRekanan;
+    settings.Text = "Move Down";
+    settings.ClientSideEvents.Click = ("function(s, e) { GoMoveDownItems(zzzxxx, xxxccc); }").Replace("zzzxxx", "lbChoosen" + ViewBag.idTypeOfRekanan).Replace("xxxccc", "lbTemp" + ViewBag.idTypeOfRekanan);
+}).GetHtml()
+
+@Html.DevExpress().Button(settings =>
+{
+    settings.Name = "btnSave" + ViewBag.idTypeOfRekanan;
+    settings.Text = "Simpan";
+    //settings.UseSubmitBehavior = true;
+    settings.ClientSideEvents.Click = ("function(s, e) { SaveItems(zzzxxx, cccvvv, gggkkk); }").Replace("zzzxxx", "lbChoosen" + ViewBag.idTypeOfRekanan).Replace("cccvvv", ViewBag.idTypeOfRekanan).Replace("gggkkk", ViewBag.IsAdminDocInt);
+    //settings.ClientSideEvents.Click = ("function(s, e) { SaveItems(zzzxxx, cccvvv, gggkkk); }").Replace("zzzxxx", "lbChoosen" + ViewBag.idTypeOfRekanan).Replace("cccvvv", ViewBag.idTypeOfRekanan);
+}).GetHtml()

@@ -1,0 +1,189 @@
+﻿@using System.Web.UI.WebControls
+
+@model MVCSmartClient01.Models.trxNotarisFormNew
+
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">Data Notaris</legend>
+</div>
+
+@Html.Partial("CreateEditTabular", Model.LstNotaris, new ViewDataDictionary { { "enableTab", !ViewBag.IsReadOnly } })
+
+
+@using (Html.BeginForm("CreateEdit", "TrxNotaris", new { model = Model }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.DetailNotaris.IdNotarisDetail)
+
+    <div class="row" style="margin-top:10px;">
+        <form role="form">
+            <div class="form-group col-xs-5 col-sm-3 col-md-3 col-lg-3">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Notaris Koperasi";
+                settings.AssociatedControlName = "IsNotarisKoperasi";
+                settings.Width = 140;
+            }
+        ).GetHtml()
+                @Html.DevExpress().CheckBox(
+            settings =>
+            {
+                settings.Name = "IsNotarisKoperasi";
+                settings.ControlStyle.CssClass = "editor";
+                settings.ReadOnly = ViewBag.IsReadOnly;
+            }
+).Bind(Model.DetailNotaris.IsNotarisKoperasi).GetHtml()
+                @Html.ValidationMessageFor(model => model.DetailNotaris.IsNotarisKoperasi, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Upload SK Menteri Koperasi (PDF)";
+                settings.AssociatedControlName = "LaporanPDF";
+                settings.Width = 210;
+            }
+                ).GetHtml()
+                @Html.DevExpress().UploadControl(
+            ucSettings =>
+            {
+                ucSettings.ControlStyle.CssClass = "col-xs-1 control-label";
+                ucSettings.Name = "UCKeputusanMenKop";
+                ucSettings.ShowUploadButton = true;
+                ucSettings.UploadButton.Text = "Upload PDF";
+                ucSettings.AddUploadButtonsSpacing = 5;
+                ucSettings.AddUploadButtonsHorizontalPosition = AddUploadButtonsHorizontalPosition.Left;
+                ucSettings.CallbackRouteValues = new { Controller = "TrxNotaris", Action = "ImageUpload", UploaderCtl = "UCKeputusanMenKop" };
+                //ucSettings.ClientSideEvents.FileUploadComplete = "OnFilesUploadComplete";
+                ucSettings.Width = 250;
+                ucSettings.Enabled = !ViewBag.IsReadOnly;
+                ucSettings.ToolTip = "Upload file .JPG, .JPEG, .JPE, .PNG, .PDF dengan kapasitas kurang dari 4 MB";
+            }).GetHtml()
+                &nbsp;&nbsp;
+                <button style="font-size:small" type="button" onclick="return DisplayAttachment()">Gambar</button>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-5 col-sm-3 col-md-3 col-lg-3">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Notaris Pasar Modal";
+                settings.AssociatedControlName = "IsNotarisPasarModal";
+                settings.Width = 140;
+            }
+        ).GetHtml()
+                @Html.DevExpress().CheckBox(
+            settings =>
+            {
+                settings.Name = "IsNotarisPasarModal";
+                settings.ControlStyle.CssClass = "editor";
+                settings.ReadOnly = ViewBag.IsReadOnly;
+            }
+).Bind(Model.DetailNotaris.IsNotarisPasarModal).GetHtml()
+                @Html.ValidationMessageFor(model => model.DetailNotaris.IsNotarisPasarModal, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Upload STTN Pasar Modal (PDF)";
+                settings.AssociatedControlName = "LaporanPDF";
+                settings.Width = 210;
+            }
+                ).GetHtml()
+                @Html.DevExpress().UploadControl(
+            ucSettings =>
+            {
+                ucSettings.ControlStyle.CssClass = "col-xs-1 control-label";
+                ucSettings.Name = "UCSTTNPasarModal";
+                ucSettings.ShowUploadButton = true;
+                ucSettings.UploadButton.Text = "Upload PDF";
+                ucSettings.AddUploadButtonsSpacing = 5;
+                ucSettings.AddUploadButtonsHorizontalPosition = AddUploadButtonsHorizontalPosition.Left;
+                ucSettings.CallbackRouteValues = new { Controller = "TrxNotaris", Action = "ImageUpload", UploaderCtl = "UCSTTNPasarModal" };
+                //ucSettings.ClientSideEvents.FileUploadComplete = "OnFilesUploadComplete";
+                ucSettings.Width = 250;
+                ucSettings.Enabled = !ViewBag.IsReadOnly;
+                ucSettings.ToolTip = "Upload file .JPG, .JPEG, .JPE, .PNG, .PDF dengan kapasitas kurang dari 4 MB";
+            }).GetHtml()
+                &nbsp;&nbsp;
+                <button style="font-size:small" type="button" onclick="return DisplayAttachment()">Gambar</button>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-10 col-md-10 col-lg-10">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Catatan";
+                settings.AssociatedControlName = "Remark";
+                settings.Width = 140;
+            }
+        ).GetHtml()
+                @Html.DevExpress().Memo(
+            settings =>
+            {
+                settings.Name = "Remark";
+                settings.ControlStyle.CssClass = "editor";
+                settings.ReadOnly = ViewBag.IsReadOnly;
+                settings.Width = 360;
+                settings.Height = 60;
+            }
+).Bind(Model.DetailNotaris.Remark).GetHtml()
+                @Html.ValidationMessageFor(model => model.DetailNotaris.Remark, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+        </form>
+        <div class="form-group">
+            <div class="col-sm-offset-1 col-sm-4">
+                <div class="pull-left">
+                    @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Simpan";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+                    @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxNotaris", Action = "CreateEdit_Read" }) + "'; }";
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+                    @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnEdit";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Edit";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxNotaris", Action = "CreateEdit_Edit" }) + "'; }";
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdate').click();" style="visibility:@ViewBag.SimpanVisi">
+            <span class="glyphicon glyphicon-ok"></span>&nbsp;Simpan
+        </button>
+        <button type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();" style="visibility:@ViewBag.SimpanVisi">
+            <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+        </button>
+        <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnEdit').click();" style="visibility:@ViewBag.EditVisi">
+            <span class="glyphicon glyphicon-remove"></span>&nbsp;Edit
+        </button>
+    </div>
+}

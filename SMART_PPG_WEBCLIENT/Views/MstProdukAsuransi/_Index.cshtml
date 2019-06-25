@@ -1,0 +1,114 @@
+﻿@using DevExpress.Data.Filtering;
+@using System.Web.UI.WebControls
+@using MVCSmartClient01.Models;
+
+@model IEnumerable<MVCSmartClient01.Models.mstProdukAsuransi>
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "gvProdukAsuransi";
+    settings.CallbackRouteValues = new { Controller = "MstProdukAsuransi", Action = "_Index" };
+    settings.Width = Unit.Percentage(70);
+    settings.SettingsPager.PageSize = 20;
+    settings.Styles.Row.Font.Size = 10;
+    settings.Styles.Header.Font.Size = 10;
+    settings.Styles.InlineEditRow.Font.Size = 10;
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowNewButtonInHeader = true;
+    settings.CommandColumn.ShowEditButton = true;
+    settings.CommandColumn.ShowDeleteButton = true;
+    settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "MstProdukAsuransi", Action = "Create" };    
+    settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "MstProdukAsuransi", Action = "UpdateLineProduk" };
+    settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "MstProdukAsuransi", Action = "Delete" };
+    settings.SettingsBehavior.ConfirmDelete = true;
+    settings.SettingsEditing.Mode = GridViewEditingMode.Inline;
+
+    settings.CellEditorInitialize = (sender, e) =>
+    {
+        MVCxGridView gridView = sender as MVCxGridView;
+        if (sender == null || !gridView.IsNewRowEditing)
+            return;
+
+        //e.Editor.Value = string.Format("Default{0}", e.Column.FieldName);
+    };
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+
+    settings.KeyFieldName = "IdMstProdukAsuransi";
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        column.HeaderStyle.Font.Bold = true;
+        column.ReadOnly = true;
+        column.CellStyle.BackColor = System.Drawing.Color.WhiteSmoke;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NamaProduk";
+        column.Caption = "Nama Produk";
+        column.HeaderStyle.Font.Bold = true;
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NoIzinProduk";
+        column.Caption = "Nomor Izin";
+        column.HeaderStyle.Font.Bold = true;
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TanggalIzin";
+        column.Caption = "Tanggal Izin";
+        column.HeaderStyle.Font.Bold = true;
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IsActive";
+        column.Caption = "Active";
+        column.HeaderStyle.Font.Bold = true;
+        column.ColumnType = MVCxGridViewColumnType.CheckBox;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CreatedDate";
+        column.EditCellStyle.CssClass = "hiddencol";
+        column.CellStyle.CssClass = "hiddencol";
+        column.HeaderStyle.CssClass = "hiddencol";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CreatedUser";
+        column.EditCellStyle.CssClass = "hiddencol";
+        column.CellStyle.CssClass = "hiddencol";
+        column.HeaderStyle.CssClass = "hiddencol";
+    });
+
+}).Bind(Model).GetHtml()
+<style>
+    .hiddencol {
+        display: none;
+    }
+</style>

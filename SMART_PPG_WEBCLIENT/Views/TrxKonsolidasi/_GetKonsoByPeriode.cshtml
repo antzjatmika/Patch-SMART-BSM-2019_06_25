@@ -1,0 +1,85 @@
+﻿@using DevExpress.Data.Filtering;
+@using System.Web.UI.WebControls
+@using MVCSmartClient01.Models;
+
+@model IEnumerable<MVCSmartClient01.Models.fKonsoByPeriode_Result>
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "GetKonsoByPeriode";
+    settings.CallbackRouteValues = new { Controller = "TrxKonsolidasi", Action = "_GetKonsoByPeriode", intPeriode = ViewBag.IntPeriode };
+    settings.Width = Unit.Percentage(70);
+    settings.SettingsPager.PageSize = 20;
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowEditButton = true;
+    settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "TrxKonsolidasi", Action = "UpdateLineNilaiKonso" };
+    settings.SettingsEditing.Mode = GridViewEditingMode.Inline;
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+
+    settings.KeyFieldName = "IdTrxKonsolidasi";
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        column.HeaderStyle.Font.Bold = true;
+        column.CellStyle.BackColor = System.Drawing.Color.WhiteSmoke;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+    
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IdRekanan";
+        column.Caption = "IdRekanan";
+        column.HeaderStyle.Font.Bold = true;
+        column.ReadOnly = true;
+        column.EditCellStyle.CssClass = "hiddencol";
+        column.CellStyle.CssClass = "hiddencol";
+        column.HeaderStyle.CssClass = "hiddencol";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TahunBulan";
+        column.Caption = "TahunBulan";
+        column.HeaderStyle.Font.Bold = true;
+        column.ReadOnly = true;
+        column.EditCellStyle.CssClass = "hiddencol";
+        column.CellStyle.CssClass = "hiddencol";
+        column.HeaderStyle.CssClass = "hiddencol";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Ikhtisar";
+        column.Caption = "Ikhtisar";
+        column.HeaderStyle.Font.Bold = true;
+        column.ReadOnly = true;
+        column.CellStyle.BackColor = System.Drawing.Color.WhiteSmoke;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Nilai";
+        column.Caption = "Nilai";
+        column.HeaderStyle.Font.Bold = true;
+    });
+}).Bind(Model).GetHtml()
+<style>
+    .hiddencol { display: none; }
+</style>

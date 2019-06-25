@@ -1,0 +1,154 @@
+﻿@model MVCSmartClient01.Models.trxRekananDocument
+@{
+    Html.EnableClientValidation();
+}
+
+<script type="text/javascript">
+    function OnFilesUploadComplete(s, e) {
+        var imageBaseName = '@Model.ImageBaseName';
+        //alert(imageBaseName);
+        if (imageBaseName.length > 0) {
+            document.getElementById('ImageTumb').src = "../Content/DocumentImages/" + imageBaseName + ".jpg";
+        }
+    }
+</script>
+
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">Dokumen Rekanan</legend>
+</div>
+
+@using (Html.BeginForm("Create", "TrxRekananDocument", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.IdDocument)
+    @Html.HiddenFor(model => model.ImageBaseName)
+    @Html.HiddenFor(model => model.CreatedDate)
+    @Html.HiddenFor(model => model.CreatedUser)
+
+    <div class="row">
+        <form role="form">
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nama Penerbit";
+                settings.AssociatedControlName = "IssuedBy";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "IssuedBy";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+            }
+          ).Bind(Model.IssuedBy).GetHtml()
+                @Html.ValidationMessageFor(model => model.IssuedBy, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Tangggal Terbit";
+                settings.AssociatedControlName = "IssuedDate";
+            }
+        ).GetHtml()
+                @Html.DevExpress().DateEdit(
+            settings =>
+            {
+                settings.Name = "IssuedDate";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Properties.DisplayFormatString = "dd/MM/yyyy";
+                settings.Properties.EditFormatString = "dd/MM/yyyy";
+            }
+   ).Bind(Model.IssuedDate).GetHtml()
+                @Html.ValidationMessageFor(model => model.IssuedDate, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Notaris";
+                settings.AssociatedControlName = "Notaris";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "Notaris";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+            }
+   ).Bind(Model.Notaris).GetHtml()
+                @Html.ValidationMessageFor(model => model.Notaris, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Tanggal Berakhir";
+                settings.AssociatedControlName = "EndDate";
+            }
+        ).GetHtml()
+                @Html.DevExpress().DateEdit(
+            settings =>
+            {
+                settings.Name = "EndDate";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Properties.DisplayFormatString = "dd/MM/yyyy";
+                settings.Properties.EditFormatString = "dd/MM/yyyy";
+            }
+).Bind(Model.EndDate).GetHtml()
+                @Html.ValidationMessageFor(model => model.EndDate, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().UploadControl(
+            ucSettings =>
+            {
+                ucSettings.Name = "uploadControl";
+                ucSettings.ShowUploadButton = true;
+                ucSettings.AddUploadButtonsSpacing = 0;
+                ucSettings.AddUploadButtonsHorizontalPosition = AddUploadButtonsHorizontalPosition.InputRightSide;
+                ucSettings.CallbackRouteValues = new { Controller = "TrxRekananDocument", Action = "ImageUpload" };
+                ucSettings.ClientSideEvents.FileUploadComplete = "OnFilesUploadComplete";
+                ucSettings.Width = 300;
+                ucSettings.ToolTip = "Upload file .JPG, .JPEG, .JPE, .PNG, .PDF dengan kapasitas kurang dari 4 MB";
+            }).GetHtml()
+                <br />
+                <img id="ImageTumb" style="height:200px; width:300px; border-image-width:2px" alt="image" />
+            </div>
+        </form>
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Update";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxDataOrganisasi", Action = "GetByRekanan" }) + "'; }";
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdate').click();">
+            <span class="glyphicon glyphicon-ok"></span>&nbsp;Simpan
+        </button>
+        <button type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();">
+            <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+        </button>
+    </div>
+}
+

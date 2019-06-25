@@ -1,0 +1,209 @@
+﻿@model MVCSmartClient01.Models.trxNotaris_ARC
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TrxNotaris ARC Info</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdArc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdArc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdAction)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdAction)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdNotaris)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdNotaris)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdRekanan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SKNotaris)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SKNotaris)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SumpahNotarisNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SumpahNotarisNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SumpahNotarisDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SumpahNotarisDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsKoperasiMember)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsKoperasiMember)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SKKoperasiNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SKKoperasiNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SKKoperasiDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SKKoperasiDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsBapepamReg)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsBapepamReg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BapepamSKNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BapepamSKNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BapepamSKDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BapepamSKDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UpLimit)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UpLimit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PPATSKNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PPATSKNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PPATSKDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PPATSKDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PPATSumpahNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PPATSumpahNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PPATSumpahDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PPATSumpahDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WilayahKerjaPPAT)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.WilayahKerjaPPAT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsIPPATMember)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsIPPATMember)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SKIPPATNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SKIPPATNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SKPPATDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SKPPATDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsINIMember)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsINIMember)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.INISKNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.INISKNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.INISKDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.INISKDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Remark)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Remark)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

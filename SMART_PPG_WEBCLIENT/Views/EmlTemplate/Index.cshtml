@@ -1,0 +1,56 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.emlTemplate>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdTemplate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TemplateName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TemplateSubject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TemplateBody)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ParameterKeys)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdTemplate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TemplateName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TemplateSubject)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TemplateBody)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ParameterKeys)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.IdTemplate }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IdTemplate })
+        </td>
+    </tr>
+}
+
+</table>

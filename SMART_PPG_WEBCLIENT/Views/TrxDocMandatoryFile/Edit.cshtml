@@ -1,0 +1,56 @@
+﻿@model MVCSmartClient01.Models.trxDocMandatoryFile
+
+@{
+    Html.EnableClientValidation();
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.IdDocMandatoryFile)
+    @Html.HiddenFor(model => model.IdDocMandatoryDetail)
+
+    <div class="line">
+        @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.Text = "Nama File";
+                settings.AssociatedControlName = "namaFile";
+            }
+        ).GetHtml()
+        @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "namaFile";
+                settings.ControlStyle.CssClass = "editor";
+            }
+           ).Bind(Model.namaFile).GetHtml()
+        @Html.ValidationMessageFor(model => model.namaFile, null, new { @class = "validator" })
+    </div>
+
+    <div class="line">
+        @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Update";
+                settings.UseSubmitBehavior = true;
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxRekananDocument", Action = "GetByRekananTab" }) + "'; }";
+            }
+        ).GetHtml()
+    </div>
+}

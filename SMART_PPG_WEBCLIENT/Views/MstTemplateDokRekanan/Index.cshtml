@@ -1,0 +1,158 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.mstRekanan>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdRegion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RegistrationNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ClassOfRekanan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdTypeOfRekanan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdTypeOfBadanUsaha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdWilayah)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdKecamatan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ZipCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstablishedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EstablishedPlace)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fax1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Fax2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NomorKTP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NomorNPWP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsConsultantManagemen)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdRekanan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdRegion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RegistrationNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ClassOfRekanan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdTypeOfRekanan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdTypeOfBadanUsaha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdWilayah)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdKecamatan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ZipCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstablishedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EstablishedPlace)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fax1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fax2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NomorKTP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NomorNPWP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsConsultantManagemen)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.IdRekanan }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IdRekanan })
+        </td>
+    </tr>
+}
+
+</table>

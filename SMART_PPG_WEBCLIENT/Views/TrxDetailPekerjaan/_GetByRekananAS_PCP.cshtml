@@ -1,0 +1,323 @@
+﻿@using System.Web.UI.WebControls
+@model MVCSmartClient01.Models.trxDetailPekerjaanHeader
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "_DetailPekerjaan";
+    settings.Settings.ShowGroupPanel = true;
+    settings.Settings.ShowGroupedColumns = true;
+
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.CallbackRouteValues = new { Controller = "TrxDetailPekerjaan", Action = @ViewBag.ActionPartial };
+    settings.Width = Unit.Percentage(100);
+    settings.SettingsPager.PageSize = 20;
+    
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+    if (@ViewBag.IsPcp != null && !@ViewBag.IsPcp)
+    {
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "#";
+            column.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write(
+                    "<table><tr><td>" +
+                    Html.ActionLink("Edit", "_AddEditDetail", new { @class = "updateLink", IdData = DataBinder.Eval(c.DataItem, "IdDetailPekerjaan"), IdTypeOfRekanan = DataBinder.Eval(c.DataItem, "IdTypeOfRekanan") }) + "&nbsp;" +
+                    "</td><td>" +
+                    Html.ActionLink("Delete", "_DeleteAS_3M", new { @class = "deleteLink", IdData = DataBinder.Eval(c.DataItem, "IdDetailPekerjaan") },
+                        new { onclick = "return confirm('Apakah Anda yakin akan menghapus data ini ?')" })
+                    + "</td></tr></table>"
+                );
+            });
+            column.SetHeaderTemplateContent(c =>
+            {
+                ViewContext.Writer.Write(
+                    Html.ActionLink("New", "_AddEditDetail", new { IdData = -1, IdTypeOfRekanan = 4 }).ToHtmlString()
+                );
+            });
+            column.Width = 70;
+        });
+    }
+    else
+    {
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "#";
+            column.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write(
+                    "<table><tr><td>" +
+                    Html.ActionLink("Detail", "_AddEditDetail", new { @class = "updateLink", IdData = DataBinder.Eval(c.DataItem, "IdDetailPekerjaan"), IdTypeOfRekanan = DataBinder.Eval(c.DataItem, "IdTypeOfRekanan") })
+                    + "</td></tr></table>"
+                );
+            });
+            column.Width = 70;
+        });
+    }
+
+    settings.KeyFieldName = "IdDetailPekerjaan";
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.HeaderStyle.Font.Bold = true;
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RegistrationNumber";
+        column.Caption = "No.Reg";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Name";
+        column.Caption = "Nama Rekanan";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TahunLaporan";
+        column.Caption = "Tahun";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TriwulanLaporan";
+        column.Caption = "Triwulan";
+        column.HeaderStyle.Font.Bold = true;
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        var comboBoxProperties = (DevExpress.Web.ASPxEditors.ComboBoxProperties)column.PropertiesEdit;
+        comboBoxProperties.ClientSideEvents.Init = "function(s, e) {s.InsertItem(0, '(ALL)', '');}";
+        comboBoxProperties.DataSource = Model.TriwulanColls;
+        comboBoxProperties.TextField = "RefCode";
+        comboBoxProperties.ValueField = "RefDesc";
+        comboBoxProperties.ValueType = typeof(int);
+    });
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "TriwulanLaporan";
+    //    column.Caption = "Triwulan";
+    //    column.HeaderStyle.Font.Bold = true;
+    //    column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+    //    column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    //});
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NamaAsuransi";
+        column.Caption = "Nama Asuransi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "JenisAsuransi";
+        column.Caption = "Jenis Asuransi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "LabaRugiKomprehensif";
+        column.Caption = "Laba Rugi Komprehensif";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "N";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CadanganTeknis";
+        column.Caption = "Cadangan Teknis";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "N";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "HasilInvestasi";
+        column.Caption = "Hasil Investasi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "N";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "LabaBeforeTax";
+        column.Caption = "Laba Before Tax";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "N";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "PremiNetto";
+        column.Caption = "Premi Netto";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "N";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RBCPercent";
+        column.Caption = "RBC %";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ResikoRBC";
+        column.Caption = "Resiko RBC";
+        column.HeaderStyle.Font.Bold = true;
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        var comboBoxProperties = (DevExpress.Web.ASPxEditors.ComboBoxProperties)column.PropertiesEdit;
+        comboBoxProperties.ClientSideEvents.Init = "function(s, e) {s.InsertItem(0, '(ALL)', '');}";
+        comboBoxProperties.DataSource = Model.TingkatResikoColls;
+        comboBoxProperties.TextField = "RefCode";
+        comboBoxProperties.ValueField = "RefDesc";
+        comboBoxProperties.ValueType = typeof(int);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TotalEkuitasSebelumnya";
+        column.Caption = "Total Ekuitas Sebelumnya";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "N";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TotalEkuitasBerjalan";
+        column.Caption = "Total Ekuitas Berjalan";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "N";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RataRataEkuitas";
+        column.Caption = "Rata Rata Ekuitas";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "N";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ROE";
+        column.Caption = "ROE %";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "N";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ResikoROE";
+        column.Caption = "ResikoRBC";
+        column.HeaderStyle.Font.Bold = true;
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        var comboBoxProperties = (DevExpress.Web.ASPxEditors.ComboBoxProperties)column.PropertiesEdit;
+        comboBoxProperties.ClientSideEvents.Init = "function(s, e) {s.InsertItem(0, '(ALL)', '');}";
+        comboBoxProperties.DataSource = Model.TingkatResikoColls;
+        comboBoxProperties.TextField = "RefCode";
+        comboBoxProperties.ValueField = "RefDesc";
+        comboBoxProperties.ValueType = typeof(int);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "UnderWriteProf";
+        column.Caption = "Under Write Prof %";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "N";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ResikoUnderWriteProf";
+        column.Caption = "Resiko Under Write Profit";
+        column.HeaderStyle.Font.Bold = true;
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        var comboBoxProperties = (DevExpress.Web.ASPxEditors.ComboBoxProperties)column.PropertiesEdit;
+        comboBoxProperties.ClientSideEvents.Init = "function(s, e) {s.InsertItem(0, '(ALL)', '');}";
+        comboBoxProperties.DataSource = Model.TingkatResikoColls;
+        comboBoxProperties.TextField = "RefCode";
+        comboBoxProperties.ValueField = "RefDesc";
+        comboBoxProperties.ValueType = typeof(int);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ReserveP";
+        column.Caption = "Reserve %";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "N";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ResikoReserveP";
+        column.Caption = "Resiko Reserve";
+        column.HeaderStyle.Font.Bold = true;
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        var comboBoxProperties = (DevExpress.Web.ASPxEditors.ComboBoxProperties)column.PropertiesEdit;
+        comboBoxProperties.ClientSideEvents.Init = "function(s, e) {s.InsertItem(0, '(ALL)', '');}";
+        comboBoxProperties.DataSource = Model.TingkatResikoColls;
+        comboBoxProperties.TextField = "RefCode";
+        comboBoxProperties.ValueField = "RefDesc";
+        comboBoxProperties.ValueType = typeof(int);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Keterangan";
+        column.Caption = "Catatan";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Visible = false;
+    });
+    
+}).Bind(Model.DetailPekerjaanAS_3MPCPColls).GetHtml()

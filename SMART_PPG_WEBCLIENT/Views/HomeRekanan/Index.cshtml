@@ -1,0 +1,49 @@
+﻿<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <style>
+    </style>
+</head>
+@switch (ViewContext.RouteData.Values["id"].ToString())
+{
+       
+    @*case "Rekanan1":
+        @Html.Partial("_Home_Rekanan_KJP")
+        break;
+    case "Rekanan2":
+        @Html.Partial("_Home_Rekanan_KAP")
+        break;
+    case "Rekanan3":
+        @Html.Partial("_Home_Rekanan_KMG")
+        break;
+    case "Rekanan4":
+        @Html.Partial("_Home_Rekanan_ASJ")
+        break;
+    case "Rekanan5":
+        @Html.Partial("_Home_Rekanan_ASK")
+        break;
+    case "Rekanan6":
+        @Html.Partial("_Home_Rekanan_BLG")
+        break;
+    case "Rekanan7":
+        @Html.Partial("_Home_Rekanan_NOT")
+        break;*@
+
+    case "Rekanan1":
+    case "Rekanan2":
+    case "Rekanan3":
+    case "Rekanan4":
+    case "Rekanan5":
+    case "Rekanan6":
+    case "Rekanan7":
+        @Html.Partial("_Home_Rekanan")
+        break;
+    case "PCPKAR":
+        @Html.Partial("_Home_PCPKAR")
+        break;
+    case "AdminSistem":
+        @Html.Partial("_Home_AdminSistem")
+        break;
+    case "Portfolio":
+        @Html.Partial("_Home_Portfolio")
+        break;
+}

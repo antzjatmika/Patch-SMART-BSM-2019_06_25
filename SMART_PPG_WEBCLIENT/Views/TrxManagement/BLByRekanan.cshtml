@@ -1,0 +1,201 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@*<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>*@
+@Html.Partial("_BLByRekanan")
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap/bootstrap.min.css" rel="stylesheet">
+<style>
+    .modal-dialog {
+        position: absolute;
+        top: 10px;
+        right: 100px;
+        bottom: 0;
+        left: 0;
+        z-index: 10040;
+        overflow: auto;
+        overflow-y: auto;
+    }
+
+    .myStyle {
+        align-content: center;
+        font: normal;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+</style>
+<script type='text/javascript'>
+    function ConfirmBlacklist() {
+        var myUrl = "BlacklistPartnerById";
+        var myIdManagemen = IdManagemen.GetValue();
+        var myTipeAksi = TipeAksi.GetValue();
+        if (myTipeAksi == "release")
+        {
+            myUrl = "ReleaseBLPartnerById";
+        }
+        var myCatatan = Catatan.GetValue();
+        var myAkhirBlacklist = AkhirBL.GetText();
+        $.ajax({
+            @*url: '@Url.Action("BlacklistPartnerById", "TrxManagement", new { IdManagemen = "xyzParamxyz", AkhirBlacklist = "\'yxzParamyxz\'", Catatan = "\'zyxParamzyx\'" })'
+                .replace("xyzParamxyz", IdManagemen.toString()).replace("zyxParamzyx", myCatatan).replace("yxzParamyxz", myAkhirBlacklist).replace("&amp;", "&"),*@
+            url: myUrl,
+            data: { IdManagemen: myIdManagemen, Catatan: myCatatan, AkhirBlacklist: myAkhirBlacklist },
+            type: "POST",
+            success: function () {
+                window.location.href = '@Url.Action("BLByRekanan", "TrxManagement")';
+            }
+        });
+    }
+
+    function ConfirmBlacklist_OLD(IdManagemen) {
+        @*var urlTest = '@Url.Action("BlacklistPartnerById", "TrxManagement", new { IdManagemen = "1", Catatan = "\'zyxParamzyx\'" })'.replace("&amp;", "&");*@
+        var alasan = prompt("Partner ini akan dikenai sanksi ?\nAlasan sanksi (* wajib diisi !):", "");
+        //alert(urlTest);
+        if (alasan == null || alasan == "") {
+            return false;
+        } else {
+            $.ajax({
+                url: '@Url.Action("BlacklistPartnerById", "TrxManagement", new { IdManagemen = "xyzParamxyz", Catatan = "\'zyxParamzyx\'" })'
+                    .replace("xyzParamxyz", IdManagemen.toString()).replace("zyxParamzyx", alasan).replace("&amp;", "&"),
+                //url: urlTest,
+                type: "POST",
+                success: function () {
+                    window.location.href = '@Url.Action("BLByRekanan", "TrxManagement")';
+                }
+            });
+        }
+    }
+    //function LoadMyModal(IdManagemen)
+    //{
+    //    alert(IdManagemen);
+    //    var bookId = IdManagemen;
+    //    alert(bookId);
+    //    //$('#bookId').val(bookId);
+    //    $(this).find('input[name="bookId"]').val(bookId);
+    //}
+
+    //$(document).on("click", ".buttonB", function () {
+    //    var myBookId = $(this).data('id');
+    //    alert(myBookId);
+    //    //$(".modal-body #bookId").val(myBookId);
+    //    $(this).find('input[name="bookId"]').val(myBookId);
+    //});
+    function ConfirmReleaseBL(IdManagemen) {
+        var alasan = prompt("Partner ini akan dihapus sanksi-nya ?\nAlasan penghapusan sanksi (* wajib diisi !):", "");
+        if (alasan == null || alasan == "") {
+            return false;
+        } else {
+            $.ajax({
+                url: '@Url.Action("ReleaseBLPartnerById", "TrxManagement", new { IdManagemen = "xyzParamxyz", Catatan = "zyxParamzyx" })'
+                    .replace("xyzParamxyz", IdManagemen.toString()).replace("zyxParamzyx", alasan).replace("&amp;", "&"),
+                type: "POST",
+                success: function () {
+                    window.location.href = '@Url.Action("BLByRekanan", "TrxManagement")';
+                }
+            });
+        }
+    }
+
+    //$('#myModal').on('show.bs.modal', function (e) {
+    //    alert(234);
+    //    var bookId = $(e.relatedTarget).data('IdManagemen');
+    //    $(e.currentTarget).find('input[name="bookId"]').val(bookId);
+    //});
+</script>
+
+@*<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h6 class="myStyle">Informasi</h6>
+            </div>
+            <div class="modal-body">
+                <input type="text" name="bookId" value="" />
+                <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                    @Html.DevExpress().Label(
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-xs-6 control-label";
+                        settings.Text = "Catatan";
+                        settings.AssociatedControlName = "Catatan";
+                        settings.ControlStyle.CssClass = "myStyle";
+                    }
+                    ).GetHtml()
+                    @Html.DevExpress().TextBox(
+                    settings =>
+                    {
+                        settings.Name = "Catatan";
+                        settings.ControlStyle.CssClass = "editor";
+                        settings.Width = 500;
+                        settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                    }
+                    ).GetHtml()
+                    <br />
+                    @Html.DevExpress().Label(
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-xs-6 control-label";
+                        settings.Text = "Akhir Sanksi";
+                        settings.AssociatedControlName = "AkhirBL";
+                        settings.ControlStyle.CssClass = "myStyle";
+                    }
+                    ).GetHtml()
+
+                    @Html.DevExpress().DateEdit(
+                    settings =>
+                    {
+                        settings.Name = "AkhirBL";
+                        settings.ControlStyle.CssClass = "editor";
+                        //settings.Properties.DisplayFormatString = "dd/MM/yyyy";
+                        settings.Properties.DisplayFormatString = "yyyy-MM-dd";
+                        //settings.Properties.EditFormatString = "dd/MM/yyyy";
+                        settings.Properties.EditFormatString = "yyyy-MM-dd";
+                        settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                    }
+                    ).GetHtml()
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ConfirmBlacklist(2);">OK</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+<style>
+    .buttonB {opacity: 0.5;}
+    .buttonB:hover {opacity: 1;}
+
+
+    /*.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}*/
+
+/*.tooltiptext {
+    overflow:visible;
+    visibility: visible;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 11;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+    
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.buttonB:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}*/
+
+</style>

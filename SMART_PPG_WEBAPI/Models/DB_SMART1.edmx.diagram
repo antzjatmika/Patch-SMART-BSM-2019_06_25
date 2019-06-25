@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="aab1a5c2dfce44eaa10484f567c440af" Name="Diagram1" ZoomLevel="73">
+        <EntityTypeShape EntityType="DB_SMARTModel.AspNetRole" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.AspNetUser" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.emlNotification" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.emlNotificationLog" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.emlTemplate" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstContact" Width="1.5" PointX="4.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstContact_ARC" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstEmailPool" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstKecamatan" Width="1.5" PointX="8.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstPengumuman" Width="1.5" PointX="8.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstReference" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstRegionAdmin" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstRekanan_ARC" Width="1.5" PointX="6.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstScoreValue" Width="1.5" PointX="11.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstSegmentasi" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstSubRegion" Width="1.5" PointX="2.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstTemplateDokRekanan" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstTypeOfBadanUsaha" Width="1.5" PointX="12.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstTypeOfRegion" Width="1.5" PointX="12.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstTypeOfRekanan" Width="1.5" PointX="13.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstWilayah" Width="1.5" PointX="10.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.rptKAP" Width="1.5" PointX="12.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.rptKJPP" Width="1.5" PointX="14.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.rptKonsultanManageman" Width="1.5" PointX="14.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.rptNotari" Width="1.5" PointX="14.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxAsisten" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxAuditLog" Width="1.5" PointX="0.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxBranchOffice" Width="1.5" PointX="2.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxBranchOffice_ARC" Width="1.5" PointX="16.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxBranchOfficeHeader" Width="1.5" PointX="8.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxBranchOfficeTMP" Width="1.5" PointX="16.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxDataOrganisasi" Width="1.5" PointX="16.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxDataOrganisasi_ARC" Width="1.5" PointX="18.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxDetailPekerjaan" Width="1.5" PointX="18.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxDetailPekerjaan_ARC" Width="1.5" PointX="4.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxDetailPekerjaanAS_3M" Width="1.5" PointX="10.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxDetailPekerjaanBLG" Width="1.5" PointX="20.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxDetailPekerjaanHeader" Width="1.5" PointX="20.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxDetailPekerjaanTMP" Width="1.5" PointX="6.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxDocMandatoryDetail" Width="1.5" PointX="20.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxDocMandatoryFile" Width="1.5" PointX="20.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxDocumentMandatory" Width="1.5" PointX="20.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxFileDataPekerjaan" Width="1.5" PointX="12.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxManagementBlackListHistory" Width="1.5" PointX="22.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxMonitoringFeeBased" Width="1.5" PointX="22.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxMonitoringFeeBased_ARC" Width="1.5" PointX="22.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxNotari" Width="1.5" PointX="22.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxNotaris_ARC" Width="1.5" PointX="0.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxNotarisDetail" Width="1.5" PointX="24.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxNotarisTabular" Width="1.5" PointX="24.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxNotificationAttachment" Width="1.5" PointX="24.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxNotificationContent" Width="1.5" PointX="24.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxNotificationHeader" Width="1.5" PointX="24.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxNotificationRecipient" Width="1.5" PointX="18.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxOwnership" Width="1.5" PointX="20.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxOwnership_ARC" Width="1.5" PointX="24.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxRekananDocument" Width="1.5" PointX="8.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxRekananDocumentTrack" Width="1.5" PointX="10.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxSanksiEksternal" Width="1.5" PointX="26.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxSanksiEksternal_ARC" Width="1.5" PointX="26.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxSanksiInternal" Width="1.5" PointX="26.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxSanksiInternal_ARC" Width="1.5" PointX="26.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxTenagaAhli" Width="1.5" PointX="26.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxTenagaAhli_ARC" Width="1.5" PointX="22.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxTenagaAhliHeader" Width="1.5" PointX="26.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxTenagaAhliTetapImp" Width="1.5" PointX="4.75" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxTenagaAhliTidakTetap" Width="1.5" PointX="28.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxTenagaAhliTidakTetapImp" Width="1.5" PointX="28.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxTenagaAhliTMP" Width="1.5" PointX="28.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxTenagaAhliUpload" Width="1.5" PointX="28.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxTenagaPendukung" Width="1.5" PointX="28.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxTenagaPendukungImp" Width="1.5" PointX="28.75" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxTenagaPendukungTMP" Width="1.5" PointX="24.75" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.rptAsuransi" Width="1.5" PointX="26.75" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.rptBalaiLelang" Width="1.5" PointX="28.75" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxDetailPekerjaanAS_Tahunan" Width="1.5" PointX="6.75" PointY="29.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxFileScanned" Width="1.5" PointX="8.75" PointY="29.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.vwKelengkapanDokumenRekanan" Width="1.5" PointX="10.75" PointY="29.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.vwNotarisTabular" Width="1.5" PointX="30.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_SMARTModel.vwUserRole" Width="1.5" PointX="30.75" PointY="10.75" IsExpanded="true" />
+        <AssociationConnector Association="DB_SMARTModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DB_SMARTModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="41.375" />
+        <EntityTypeShape EntityType="DB_SMARTModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="38.75" />
+        <AssociationConnector Association="DB_SMARTModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="DB_SMARTModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxDetailPekerjaanAS_1M" Width="1.5" PointX="13.375" PointY="30.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxDetailPekerjaanAS_1MTMP" Width="1.5" PointX="15.375" PointY="30.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxNotarisItem" Width="1.5" PointX="17.375" PointY="30.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxManagement" Width="1.5" PointX="0.75" PointY="31.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.vwRekManagemenBL" Width="1.5" PointX="13.375" PointY="24.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxManagementP2PK" Width="1.5" PointX="31.375" PointY="14.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxNotificationDetail" Width="1.5" PointX="15.375" PointY="21.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxRegistrationRequest" Width="1.5" PointX="15.375" PointY="26.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstPertanyaan" Width="1.5" PointX="17.375" PointY="21.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxPertanyaan" Width="1.5" PointX="31.375" PointY="6.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxKonsolidasi" Width="1.5" PointX="3.375" PointY="32.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstKategoriResiko" Width="1.5" PointX="19.375" PointY="32.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxPertanyaanNilai" Width="1.5" PointX="31.375" PointY="22.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.vwPertanyaanNilai" Width="1.5" PointX="31.375" PointY="26.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.vwPertanyaanNilaiAkhir" Width="1.5" PointX="31.375" PointY="30.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxPeriodeScoring" Width="1.5" PointX="23.375" PointY="32.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstRekanan" Width="1.5" PointX="33.375" PointY="0.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.trxDocMandatoryVerification" Width="1.5" PointX="33.375" PointY="8.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.vwRegistrationRequest" Width="1.5" PointX="9.375" PointY="33.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.vwUserAdminPCP" Width="1.5" PointX="33.375" PointY="12.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstProdukAsuransi" Width="1.5" PointX="33.375" PointY="15.75" />
+        <EntityTypeShape EntityType="DB_SMARTModel.mstTypeOfDocument" Width="1.5" PointX="33.375" PointY="19.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,118 @@
+﻿@model MVCSmartClient01.Models.trxTenagaPendukung
+
+@{
+    Html.EnableClientValidation();
+}
+
+<script type="text/javascript">
+    @*function OnFilesUploadComplete(s, e) {
+        var imageBaseName = '@Model.ImageBaseName';
+        alert(imageBaseName);
+        if (imageBaseName.length > 0) {
+            document.getElementById('ImageTumb').src = "../Content/DocumentImages/" + imageBaseName + ".jpg";
+        }
+    }*@
+</script>
+
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">Tenaga Pendukung</legend>
+</div>
+
+@using (Html.BeginForm("_AddEditPendukung", "TrxDataOrganisasi", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.IdTenagaPendukung)
+    @Html.HiddenFor(model => model.IdRekanan)
+    @Html.HiddenFor(model => model.CreatedDate)
+    @Html.HiddenFor(model => model.CreatedUser)
+
+    <div class="row">
+        <form role="form">
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nama Lengkap";
+                settings.AssociatedControlName = "Name";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "Name";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+            }
+          ).Bind(Model.Name).GetHtml()
+                @Html.ValidationMessageFor(model => model.Name, null, new { @class = "validator" })
+                <div class="clearfix"></div>
+                <br/>
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nomor KTP";
+                settings.AssociatedControlName = "NomorKTP";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "NomorKTP";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+            }
+   ).Bind(Model.NomorKTP).GetHtml()
+                @Html.ValidationMessageFor(model => model.NomorKTP, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Alamat";
+                settings.AssociatedControlName = "Alamat";
+            }
+        ).GetHtml()
+                @Html.DevExpress().Memo(
+            settings =>
+            {
+                settings.Name = "Alamat";
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Height = 60;
+                settings.Width = 250;
+            }
+).Bind(Model.Alamat).GetHtml()
+                @Html.ValidationMessageFor(model => model.Alamat, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+        </form>
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Update";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxDataOrganisasi", Action = "GetByRekanan" }) + "'; }";
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdate').click();">
+            <span class="glyphicon glyphicon-ok"></span>&nbsp;Simpan
+        </button>
+        <button type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();">
+            <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+        </button>
+    </div>
+}
+

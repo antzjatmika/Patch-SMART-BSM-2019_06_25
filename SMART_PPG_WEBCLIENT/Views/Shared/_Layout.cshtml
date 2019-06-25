@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title style="position:relative;left: 120px;">SMART Web</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    <script src="~/Scripts/script.js"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")" type="text/javascript"></script>
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    @*<script type='text/javascript'>
+        function ConfirmBlacklistNew(IdManagemen) {
+            if (confirm("Partner ini akan dikenai sanksi ?")) {
+                $.ajax({
+                    url: '@Url.Action("BlacklistPartnerById", "TrxManagement", new { IdManagemen = "xyzParamxyz" })'.replace("xyzParamxyz", IdManagemen.toString()),
+                    type: "POST",
+                    success: function () {
+                        window.location.href = '@Url.Action("GetManagementPCP", "TrxManagement")';
+                    }
+                });
+            }
+            else
+                return false;
+        }
+        function ConfirmBlacklist(IdManagemen) {
+            if (confirm("Partner ini akan dikenai sanksi ?"))
+                window.location.href = '@Url.Action("_RekManagemenBL", "TrxManagement")';
+            else
+                return false;
+        }
+    </script>*@
+
+    @Html.DevExpress().GetScripts(
+        new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new Script { ExtensionSuite = ExtensionSuite.HtmlEditor },
+        new Script { ExtensionSuite = ExtensionSuite.GridView },
+        new Script { ExtensionSuite = ExtensionSuite.PivotGrid },
+        new Script { ExtensionSuite = ExtensionSuite.Editors },
+        new Script { ExtensionSuite = ExtensionSuite.Chart },
+        new Script { ExtensionSuite = ExtensionSuite.Report },
+        new Script { ExtensionSuite = ExtensionSuite.Scheduler },
+        new Script { ExtensionSuite = ExtensionSuite.TreeList },
+        new Script { ExtensionSuite = ExtensionSuite.Spreadsheet }
+    )
+    @Html.DevExpress().GetStyleSheets(
+        new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.HtmlEditor },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.GridView },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.PivotGrid },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Chart },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Report },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Scheduler },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.TreeList },
+        new StyleSheet { ExtensionSuite = ExtensionSuite.Spreadsheet }
+    )
+    @RenderSection("scripts", required: false)
+    <style>
+        .shadowed {
+        -webkit-filter: drop-shadow(12px 12px 25px rgba(0,0,0,0.5));
+        filter: url(#drop-shadow);
+        -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+        filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=12, OffY=12, Color='#444')";
+        }
+        .nopadding {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        padding-top: 30px; /* Location of the box */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    }
+
+    .mdlcontain {
+      object-fit: contain;
+      width: 95%;
+      height: 600px;
+      /*margin-bottom: 5px;*/
+    }
+
+    /* Modal Content */
+    .modal-content {
+        background-color: #fefefe;
+        margin: auto;
+        padding: 5px;
+        border: 1px solid #888;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+        max-width:800px;
+        max-height:800px;
+        width:auto;
+        height:auto
+    }
+
+        .close {
+        /*color: #aaaaaa;*/
+        color: red;
+        float: right;
+        font-size: 35px;
+        font-weight: bold;
+    }
+
+     .close-button {
+        float: right;
+        width: 1.5rem;
+        line-height: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 0.25rem;
+        background-color: lightgray;
+    }
+
+    .hiddencol {
+        display: none;
+    }
+    </style>
+</head>
+<body style="background-image:url('../../Content/Images/gplaypattern.png')">
+    <div>
+        @Html.Action("_Header", "Home")
+        <div id="dvCategoryResults">
+            @{Html.RenderPartial("_SideMenu");}
+        </div>
+        <div style="background-color:white">
+            <div style="margin-left:40px;margin-right:40px; margin-top:20px;">
+                @RenderBody()
+            </div>
+        </div>
+        @*<footer style="background-image:url('../../Content/Images/gplaypattern.png')">
+        <table width="100%" border="0">
+            <tr>
+                <th>
+                    <img width="100px" src="~/Content/Images/Liquid Gold.png" style="-webkit-filter: drop-shadow(1px 1px 1px #222); filter: drop-shadow(1px 1px 1px #222);" />
+                </th>
+                <th align="left" valign="top">
+                    <img width="250px" align="right" src="~/Content/Images/Logo on white.png" style="-webkit-filter: drop-shadow(1px 1px 1px #222); filter: drop-shadow(1px 1px 1px #222); margin-right:40px; margin-top:30px"/>
+                </th>
+            </tr>
+        </table>
+    </footer>*@
+    </div>
+</body>
+<footer id="mainFooter" style="background-image:url('../../Content/Images/gplaypattern.png')">
+    <table width="100%" border="0">
+        <tr>
+            <th>
+                <img width="100px" src="~/Content/Images/Liquid Gold.png" style="-webkit-filter: drop-shadow(1px 1px 1px #222); filter: drop-shadow(1px 1px 1px #222);" />
+            </th>
+            <th align="left" valign="top">
+                <img width="250px" align="right" src="~/Content/Images/logoBSM1.png" style="-webkit-filter: drop-shadow(1px 1px 1px #222); filter: drop-shadow(1px 1px 1px #222); margin-right:40px; margin-top:30px" />
+            </th>
+        </tr>
+    </table>
+</footer>
+@*<footer>
+        <hr />
+        <table width="100%" border="0">
+            <tr>
+                <th>
+                    <img width="100px" src="~/Content/Images/Liquid Gold.png" style="-webkit-filter: drop-shadow(1px 1px 1px #222); filter: drop-shadow(1px 1px 1px #222);" />
+                </th>
+                <th align="left" valign="top">
+                    <img width="150px" align="right" src="~/Content/Images/Logo on white.png" style="-webkit-filter: drop-shadow(1px 1px 1px #222); filter: drop-shadow(1px 1px 1px #222);" />
+                </th>
+            </tr>
+        </table>
+    </footer>*@
+</html>
+<script>
+    function GetMyMenu(pstrSideMenuCode) {
+        $("#dvCategoryResults").load('@(Url.Action("GetSideMenuByCode", "Home", null, Request.Url.Scheme))?pstrSideMenuCode=' + pstrSideMenuCode);
+    }
+</script>

@@ -1,0 +1,406 @@
+﻿@model MVCSmartClient01.Models.trxDetailPekerjaanSingle
+
+@{
+    Html.EnableClientValidation();
+}
+
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">Detail Pekerjaan</legend>
+</div>
+
+@using (Html.BeginForm("_AddEditDetail", "TrxDetailPekerjaan", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.IdDetailPekerjaan)
+    @Html.HiddenFor(model => model.IdRekanan)
+    @Html.HiddenFor(model => model.CreatedDate)
+    @Html.HiddenFor(model => model.CreatedUser)
+
+    <div class="row">
+        <form role="form">
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nama Debitur";
+                settings.AssociatedControlName = "DebiturName";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "DebiturName";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.ReadOnly = @ViewBag.IsPcp;
+            }
+).Bind(Model.DebiturName).GetHtml()
+                @Html.ValidationMessageFor(model => model.DebiturName, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nomor Laporan";
+                settings.AssociatedControlName = "NomorLaporan";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "NomorLaporan";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.ReadOnly = @ViewBag.IsPcp;
+            }
+).Bind(Model.NomorLaporan).GetHtml()
+                @Html.ValidationMessageFor(model => model.NomorLaporan, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Lokasi";
+                settings.AssociatedControlName = "DebiturLocation";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "DebiturLocation";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.ReadOnly = @ViewBag.IsPcp;
+            }
+).Bind(Model.DebiturLocation).GetHtml()
+                @Html.ValidationMessageFor(model => model.DebiturLocation, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Penandatangan Laporan (Partner)";
+                settings.AssociatedControlName = "PenanggungJawab";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "PenanggungJawab";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.ReadOnly = @ViewBag.IsPcp;
+            }
+).Bind(Model.PenanggungJawab).GetHtml()
+                @Html.ValidationMessageFor(model => model.PenanggungJawab, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Bidang Usaha Debitur";
+                settings.AssociatedControlName = "BidangUsahaDebitur";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "BidangUsahaDebitur";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.ReadOnly = @ViewBag.IsPcp;
+            }
+).Bind(Model.BidangUsahaDebitur).GetHtml()
+                @Html.ValidationMessageFor(model => model.BidangUsahaDebitur, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Tanggal Terima Order";
+                settings.AssociatedControlName = "TanggalMulaiPekerjaan";
+            }
+        ).GetHtml()
+                @Html.DevExpress().DateEdit(
+            settings =>
+            {
+                settings.Name = "TanggalMulaiPekerjaan";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Properties.DisplayFormatString = "dd/MM/yyyy";
+                settings.Properties.EditFormatString = "dd/MM/yyyy";
+                settings.ReadOnly = @ViewBag.IsPcp;
+            }
+            ).Bind(Model.TanggalMulaiPekerjaan).GetHtml()
+                @Html.ValidationMessageFor(model => model.TanggalMulaiPekerjaan, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Total Aset Perusahaan";
+                settings.AssociatedControlName = "TotalAsetPerusahaan";
+            }
+        ).GetHtml()
+                @Html.DevExpress().ComboBoxFor(x => x.TotalAsetPerusahaan,
+                settings =>
+                {
+                    settings.Name = "TotalAsetPerusahaan";
+                    settings.ControlStyle.CssClass = "control-field";
+                    settings.Properties.ValueField = "RefDesc";
+                    settings.Properties.TextField = "RefCode";
+                    settings.Width = 200;
+                    settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                    settings.ReadOnly = @ViewBag.IsPcp;
+                }).BindList(Model.TypeTotalAsetColls).GetHtml()
+                @*@Html.DevExpress().ComboBox(
+            settings =>
+            {
+                settings.Name = "TotalAsetPerusahaan";
+                settings.ControlStyle.CssClass = "editor";
+                //settings.Properties.SpinButtons.ShowIncrementButtons = false;
+            }
+).Bind(Model.TotalAsetPerusahaan).GetHtml()*@
+                @Html.ValidationMessageFor(model => model.TotalAsetPerusahaan, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Tanggal Selesai Pekerjaan";
+                settings.AssociatedControlName = "TanggalSelesaiPekerjaan";
+            }
+        ).GetHtml()
+                @Html.DevExpress().DateEdit(
+            settings =>
+            {
+                settings.Name = "TanggalSelesaiPekerjaan";
+                settings.Properties.DisplayFormatString = "dd/MM/yyyy";
+                settings.Properties.EditFormatString = "dd/MM/yyyy";
+                settings.ControlStyle.CssClass = "editor";
+                settings.ReadOnly = @ViewBag.IsPcp;
+            }
+).Bind(Model.TanggalSelesaiPekerjaan).GetHtml()
+                @Html.ValidationMessageFor(model => model.BidangUsahaDebitur, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Fee Imbalan Jasa (Rp. Nominal Lengkap)";
+                settings.AssociatedControlName = "FeeNominal";
+            }
+        ).GetHtml()
+                @Html.DevExpress().SpinEdit(
+            settings =>
+            {
+                settings.Name = "FeeNominal";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.Properties.SpinButtons.ShowIncrementButtons = false;
+                settings.Properties.DisplayFormatString = "N";
+                settings.ReadOnly = @ViewBag.IsPcp;
+            }
+).Bind(Model.FeeNominal).GetHtml()
+                @Html.ValidationMessageFor(model => model.FeeNominal, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Bisnis Unit";
+                settings.AssociatedControlName = "IdSegmentasi";
+            }
+        ).GetHtml()
+                @Html.DevExpress().ComboBoxFor(x => x.IdSegmentasi,
+                settings =>
+                {
+                    settings.Name = "IdSegmentasi";
+                    settings.ControlStyle.CssClass = "control-field";
+                    settings.Properties.ValueField = "IdSegmentasi";
+                    settings.Properties.TextField = "NamaSegmentasi";
+                    settings.Width = 250;
+                    settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                    settings.ReadOnly = @ViewBag.IsPcp;
+                }).BindList(Model.TypeOfSegmentasi5Colls).GetHtml()
+                @*@Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "UnitKerja";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+            }
+).Bind(Model.UnitKerja).GetHtml()*@
+                @Html.ValidationMessageFor(model => model.UnitKerja, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Jenis Jasa Rekanan";
+                settings.AssociatedControlName = "JenisJasa";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "JenisJasa";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.ReadOnly = @ViewBag.IsPcp;
+            }
+).Bind(Model.JenisJasa).GetHtml()
+                @Html.ValidationMessageFor(model => model.JenisJasa, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Cabang BSM";
+                settings.AssociatedControlName = "IdRegion"; //yang disimpan kode subRegion
+            }
+        ).GetHtml()
+                @Html.DevExpress().ComboBoxFor(x => x.IdRegion,
+                settings =>
+                {
+                    settings.Name = "IdRegion";
+                    settings.ControlStyle.CssClass = "control-field";
+                    settings.Properties.ValueField = "IdSubRegion";
+                    settings.Properties.TextField = "SubDescription";
+                    settings.Width = 250;
+                    settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                    settings.ReadOnly = @ViewBag.IsPcp;
+                }).BindList(Model.SubRegionColls).GetHtml()
+                @Html.ValidationMessageFor(model => model.IdRegion, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Catatan";
+                settings.AssociatedControlName = "Keterangan";
+            }
+        ).GetHtml()
+                @Html.DevExpress().Memo(
+            settings =>
+            {
+                settings.Name = "Keterangan";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Height = 60;
+                settings.Width = 250;
+                settings.ReadOnly = @ViewBag.IsPcp;
+            }
+   ).Bind(Model.Keterangan).GetHtml()
+                @Html.ValidationMessageFor(model => model.Keterangan, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "PIC BSM";
+                settings.AssociatedControlName = "PICBank";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "PICBank";
+                settings.Width = 250;
+                settings.ControlStyle.CssClass = "editor";
+                settings.ReadOnly = @ViewBag.IsPcp;
+            }
+).Bind(Model.PICBank).GetHtml()
+                @Html.ValidationMessageFor(model => model.PICBank, null, new { @class = "validator" })
+                <br/>
+                <div class="clearfix"></div>
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Tahun Buku";
+                settings.AssociatedControlName = "TahunBuku";
+            }
+        ).GetHtml()
+                @Html.DevExpress().SpinEdit(
+            settings =>
+            {
+                settings.Name = "TahunBuku";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.Properties.SpinButtons.ShowIncrementButtons = false;
+                settings.ReadOnly = @ViewBag.IsPcp;
+            }
+).Bind(Model.TahunBuku).GetHtml()
+                @Html.ValidationMessageFor(model => model.TahunBuku, null, new { @class = "validator" })
+            </div>
+            <div class="clearfix"></div>
+        </form>
+
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Update";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxDetailPekerjaan", Action = "GetByRekanan" }) + "'; }";
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnClose";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxDetailPekerjaan", Action = "GetByTypeKAP" }) + "'; }";
+                //settings.ClientSideEvents.Click = "function(s, e) { document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxDetailPekerjaan", Action = "GetByRekanan" }) + "?IdTypeOfRekanan=2' }";
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+
+    @if (ViewBag.IsPcp)
+    {
+        <button style="visibility:@ViewBag.ButTutup" type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnClose').click();">
+            <span class="glyphicon glyphicon-remove"></span>&nbsp;Tutup
+        </button>
+    }
+    else
+    {
+        <button style="visibility:@ViewBag.ButSimpan" type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdate').click();">
+            <span class="glyphicon glyphicon-ok"></span>&nbsp;Simpan
+        </button>
+        <button style="visibility:@ViewBag.ButBatal" type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();">
+            <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+        </button>
+    }
+    </div>
+}
+

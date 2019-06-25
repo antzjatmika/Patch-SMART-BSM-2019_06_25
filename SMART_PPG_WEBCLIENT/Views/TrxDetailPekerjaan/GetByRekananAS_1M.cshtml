@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">@ViewBag.JudulDetail</legend>
+</div>
+
+<script type="text/javascript">
+    var filterString = "";
+    function ApplyFilter(dateFrom, dateTo) {
+        var d1 = dateFrom.GetText();
+        var d2 = dateTo.GetText();
+        if (d1 == "" || d2 == "")
+            return;
+        filterString = d1 + "|" + d2;
+        _DetailPekerjaan.AutoFilterByColumn("TanggalSelesaiPekerjaan", d1 + "|" + d2);
+    }
+    function EndCallback(s, e) {
+        if (filterString != "" && s.cpFilter == "filter") {
+            dde.SetText(filterString);
+        }
+        else
+            filterString = "";
+    }
+    var ExportToExcel = function () {
+        //alert(_DetailPekerjaan.cp_FilterOri);
+        var postText = _DetailPekerjaan.cp_FilterOri;
+        var regexp = new RegExp('#', 'g');
+        postText = postText.replace(regexp, '\'');
+        //alert(postText);
+        regexp = new RegExp(' >= ', 'g');
+        postText = postText.replace(regexp, '$M$');
+        //alert(postText);
+        regexp = new RegExp(' <= ', 'g');
+        postText = postText.replace(regexp, '$L$');
+        //alert(postText);
+        window.location.href = '@Url.Action("GetByRekananXLS", "TrxDetailPekerjaan", new { strFilterExpression = "QWERTY" })'.replace("QWERTY", postText);
+        return false;
+    };
+</script>
+
+<button id="btnExportXls" name="button4xl" class="btn btn-secondary btn-sm" onclick="ExportToExcel()">Export To XLS</button>
+@Html.Partial("_GetByRekananAS_1M")

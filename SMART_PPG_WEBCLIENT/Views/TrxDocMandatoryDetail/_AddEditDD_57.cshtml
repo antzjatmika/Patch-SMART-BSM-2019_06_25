@@ -1,0 +1,208 @@
+﻿@model MVCSmartClient01.Models.trxDocMandatoryDetail
+
+@{
+    Html.EnableClientValidation();
+}
+<script type="text/javascript" src="~/Scripts/SmartApps.js"></script>
+<script type="text/javascript">
+    function OnFilesUploadComplete(s, e) {
+        var imageBaseName = '@Model.ImageBaseName';
+    }
+    function DisplayAttachmentDoc() {
+        //alert('@Model.ImageBaseName');
+        var fileEkstensi = '@Model.FileExt';
+        window.open(('../Content/DocumentImages/XYZ123456789' + fileEkstensi).replace('XYZ123456789', '@Model.ImageBaseName'), 'KTP', 'toolbar=no, left=100,top=25,location=no, directories=no, status=no, menubar=no, width=700, height=700');
+        return false;
+    }
+</script>
+
+@*InstansiPenerbit,TglTerbit,IntiPerubahan*@
+
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">@ViewBag.JudulDetail</legend>
+</div>
+
+<style>
+    #fileInputAtt {
+        width: 0;
+        height: 0;
+    }
+</style>
+
+@using (Html.BeginForm("_AddEditDocDetail", "TrxDocMandatoryDetail", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.IdDocMandatoryDetail)
+    @Html.HiddenFor(model => model.IdRekanan)
+    @Html.HiddenFor(model => model.IdTypeOfDocument)
+    @Html.HiddenFor(model => model.ImageBaseName)
+    @Html.HiddenFor(model => model.ProcInfo)
+    @Html.HiddenFor(model => model.CreatedUser)
+    @Html.HiddenFor(model => model.CreatedDate)
+
+    @Html.HiddenFor(model => model.FileExt, new { id = "id4FileExtAtt" })
+
+    <div class="row">
+        <form role="form">
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nama Perusahaan";
+                settings.AssociatedControlName = "namaPerusahaanlbl";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "catatan";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 300;
+            }
+          ).Bind(Model.catatan).GetHtml()
+                @Html.ValidationMessageFor(model => model.catatan, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                &nbsp;
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Prosentase Saham (%)";
+                settings.AssociatedControlName = "prosentaseSahamLbl";
+            }
+        ).GetHtml()
+                @Html.DevExpress().SpinEdit(
+            settings =>
+            {
+                settings.Name = "nomorDokumen";
+                settings.ControlStyle.CssClass = "col-xs-3 nopadding";
+                settings.Width = 50;
+                settings.Properties.MaxValue = 100;
+                settings.Properties.SpinButtons.ShowIncrementButtons = false;
+            }
+).Bind(Model.nomorDokumen).GetHtml()
+                @*@Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "prosentaseSaham";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 50;
+            }
+).Bind(Model.nomorDokumen).GetHtml()*@
+                @*@Html.ValidationMessageFor(model => model.nomorDokumen, null, new { @class = "validator" })*@
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Nominal Saham (Rp)";
+                settings.AssociatedControlName = "nominalSahamLbl";
+            }
+        ).GetHtml()
+                @Html.DevExpress().SpinEdit(
+            settings =>
+            {
+                settings.Name = "badanPembuatDokumen";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.Properties.SpinButtons.ShowIncrementButtons = false;
+                settings.Properties.DisplayFormatString = "N";
+            }
+).Bind(Model.badanPembuatDokumen).GetHtml()
+                @*@Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "nominalSaham";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 150;
+            }
+).Bind(Model.badanPembuatDokumen).GetHtml()
+                @Html.ValidationMessageFor(model => model.badanPembuatDokumen, null, new { @class = "validator" })*@
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                &nbsp;
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdate').click();">
+                    <span class="glyphicon glyphicon-ok"></span>&nbsp;Simpan
+                </button>
+                <button type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();">
+                    <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+                </button>
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                <div>
+                    &nbsp;
+                </div>
+            </div>
+        </form>
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Update";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxDocMandatoryDetail", Action = "GetByRekananTab" }) + "'; }";
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        @*<button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdate').click();">
+            <span class="glyphicon glyphicon-ok"></span>&nbsp;Simpan
+        </button>
+        <button type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();">
+            <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+        </button>*@
+    </div>
+}
+
+
+<script>
+
+    $(function () {
+
+        if ($('#id4FileExtAtt').val() == '') {
+            document.getElementById("MyDivAtt").style.display = "none";
+            document.getElementById("MyDelAtt").style.display = "none";
+            var $el = $('#fileInput');
+            $el.val('');
+        }
+
+        $('#btnUploadAtt').click(function (e) {
+            e.preventDefault();
+            $('#fileInputAtt').click();
+        }
+        );
+    });
+    ///ini yang digunakan
+    $('#fileInputAtt').change(function (e) {
+        file = e.target.files[0];
+        var myFileExt = (file.name.match(/[^\\\/]\.([^.\\\/]+)$/) || [null]).pop();
+        $('#id4FileExtAtt').val('.' + myFileExt);
+        DoUpload('@Model.ImageBaseName', 'MyDivAtt', 'MyDelAtt', '1');
+    });
+
+    function RemoveMeLocal1(elm) {
+        $('#id4FileExtAtt').val('');
+        RemoveMe(elm, 'MyDivAtt');
+    }
+
+    var myModal1 = document.getElementById('MyModal1');
+
+</script>

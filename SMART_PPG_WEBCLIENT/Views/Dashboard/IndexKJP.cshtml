@@ -1,0 +1,198 @@
+﻿<script>
+    function OnActiveTabChanging(s, e) {
+        var action = e.tab.name;
+        var actionUrl = "http://localhost:3239/Dashboard/" + action;
+        //alert(actionUrl);
+        $.ajax({
+            type: "POST",
+            url: actionUrl,
+            success: function (response) {
+                PageControl.SetTabContentHTML(e.tab, response);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    function PopulatePieChart(IdTypeOfRekanan) {
+        var urlAddress = '';
+        var typeOfRekanan = '';
+        switch (IdTypeOfRekanan) {
+            case 1:
+                urlAddress = '@Url.Action("Data_FeeByRekananKJP")';
+                typeOfRekanan = "KJPP";
+                break;
+            case 2:
+                urlAddress = '@Url.Action("Data_FeeByRekananKAP")';
+                typeOfRekanan = "KAP";
+                break;
+            case 3:
+                urlAddress = '@Url.Action("Data_FeeByRekananKMG")';
+                typeOfRekanan = "KMG";
+                break;
+            case 4:
+                urlAddress = '@Url.Action("Data_FeeByRekananASJ")';
+                typeOfRekanan = "ASJ";
+                break;
+            case 5:
+                urlAddress = '@Url.Action("Data_FeeByRekananASK")';
+                typeOfRekanan = "ASK";
+                break;
+            case 6:
+                urlAddress = '@Url.Action("Data_FeeByRekananBLG")';
+                typeOfRekanan = "BLG";
+                break;
+            case 7:
+                urlAddress = '@Url.Action("Data_FeeByRekananNOT")';
+                typeOfRekanan = "NOT";
+                break;
+            default:
+                urlAddress = '@Url.Action("Undefine")';
+                typeOfRekanan = "Undefine";
+                break;
+        }
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: urlAddress,
+            data: '{}',
+            success: function (chartsdata) {
+
+                // Callback that creates and populates a data table,
+                // instantiates the pie chart, passes in the data and
+                // draws it.
+
+                var data = new google.visualization.DataTable();
+
+                data.addColumn('string', 'NamaRekanan');
+                data.addColumn('number', 'TotalFee');
+
+                for (var i = 0; i < chartsdata.length; i++) {
+                    data.addRow([chartsdata[i].NamaRekanan, chartsdata[i].TotalFee]);
+                }
+
+                // Instantiate and draw our chart, passing in some options
+                var chart; // = new google.visualization.PieChart(document.getElementById('chartdivKJP'));
+                switch (IdTypeOfRekanan) {
+                    case 1:
+                        chart = new google.visualization.PieChart(document.getElementById('chartdivKJP'));
+                        break;
+                    case 2:
+                        chart = new google.visualization.PieChart(document.getElementById('chartdivKAP'));
+                        break;
+                }
+
+                chart.draw(data,
+                  {
+                      title: "Top 3 Total Fee : " + typeOfRekanan,
+                      position: "top",
+                      fontsize: "14px",
+                      chartArea: { width: '100%' },
+                      is3D: true,
+                  });
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+    }
+
+    function drawStuff() {
+        var button = document.getElementById('change-chart');
+        var chartDiv = document.getElementById('chart_div');
+
+        var data = google.visualization.arrayToDataTable([
+          ['Galaxy', 'Distance', 'Brightness'],
+          ['Canis Major Dwarf', 8000, 23.3],
+          ['Sagittarius Dwarf', 24000, 4.5],
+          ['Ursa Major II Dwarf', 30000, 14.3],
+          ['Lg. Magellanic Cloud', 50000, 0.9],
+          ['Bootes I', 60000, 13.1]
+        ]);
+
+        var materialOptions = {
+            width: 900,
+            chart: {
+                title: 'Nearby galaxies',
+                subtitle: 'distance on the left, brightness on the right'
+            },
+            series: {
+                0: { axis: 'distance' }, // Bind series 0 to an axis named 'distance'.
+                1: { axis: 'brightness' } // Bind series 1 to an axis named 'brightness'.
+            },
+            axes: {
+                y: {
+                    distance: { label: 'parsecs' }, // Left y-axis.
+                    brightness: { side: 'right', label: 'apparent magnitude' } // Right y-axis.
+                }
+            }
+        };
+
+        var classicOptions = {
+            width: 900,
+            series: {
+                0: { targetAxisIndex: 0 },
+                1: { targetAxisIndex: 1 }
+            },
+            title: 'Nearby galaxies - distance on the left, brightness on the right',
+            vAxes: {
+                // Adds titles to each axis.
+                0: { title: 'parsecs' },
+                1: { title: 'apparent magnitude' }
+            }
+        };
+
+        function drawMaterialChart() {
+            var materialChart = new google.charts.Bar(chartDiv);
+            materialChart.draw(data, google.charts.Bar.convertOptions(materialOptions));
+            button.innerText = 'Change to Classic';
+            button.onclick = drawClassicChart;
+        }
+
+        function drawClassicChart() {
+            var classicChart = new google.visualization.ColumnChart(chartDiv);
+            classicChart.draw(data, classicOptions);
+            button.innerText = 'Change to Material';
+            button.onclick = drawMaterialChart;
+        }
+        drawMaterialChart();
+    };
+</script>
+<style>
+    .ScrollStyle
+    {
+        max-height: 60%;
+        overflow-y: scroll;
+    }
+</style>
+
+@*@Html.DevExpress().PageControl(settingsPageControl =>
+{
+    settingsPageControl.Name = "pageControl";
+    settingsPageControl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settingsPageControl.ActiveTabIndex = 0;
+    settingsPageControl.ClientSideEvents.ActiveTabChanging = "OnActiveTabChanging";
+
+    //settingsPageControl.TabPages.Add("KAP", "_FeeByRekananKAP").SetContent(() =>
+    //{
+    //    Html.RenderAction("_FeeByRekananKAP");
+    //});
+    settingsPageControl.TabPages.Add("KJP", "_FeeByRekananKJP").SetContent(() =>
+    {
+        Html.RenderAction("_FeeByRekananKJP");
+    });
+}).GetHtml()*@
+@*<div>
+    @Html.Partial("_FeeByRekananKJP")
+</div>*@
+
+<div style="width: 50%; float:left">
+    @Html.Partial("_FeeByRekananKJP")
+</div>
+
+<div style="width: 50%; float:right">
+    @Html.Partial("_FeeByRekananKAP")
+    @*<button id="change-chart">Change to Classic</button>
+    <br><br>
+    <div id="chart_div" style="width: 800px; height: 500px;"></div>*@
+</div>

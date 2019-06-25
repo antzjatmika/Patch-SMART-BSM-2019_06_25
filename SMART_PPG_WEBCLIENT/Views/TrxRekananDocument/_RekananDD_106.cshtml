@@ -1,0 +1,141 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<MVCSmartClient01.Models.trxDocMandatoryDetail>
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "_RekananDocDetailByRek" + ViewData["IdTypeOfDocument"].ToString();
+    //settings.Name = "_RekananDocDetailByRek";
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+
+    settings.CallbackRouteValues = new { Controller = "TrxRekananDocument", Action = "_RekananDocDetailByRek", IdTypeOfDocument = ViewData["IdTypeOfDocument"] };
+    settings.Width = Unit.Percentage(100);
+
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "#";
+        column.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                "<table><tr><td>" +
+                Html.ActionLink("Edit", "_AddEditDocDetail", "TrxDocMandatoryDetail", new { @class = "updateLink"
+                    , IdDetDocument = DataBinder.Eval(c.DataItem, "IdDocMandatoryDetail")
+                }, new { }) + "&nbsp;" +
+                "</td><td>" +
+                Html.ActionLink("Delete", "Delete", "TrxDocMandatoryDetail", new { @class = "deleteLink", IdDetDocument = DataBinder.Eval(c.DataItem, "IdDocMandatoryDetail") },
+                    new { onclick = "return confirm('Apakah Anda yakin akan menghapus data ini ?')" })
+                + "</td></tr></table>"
+            );
+        });
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                Html.ActionLink("New", "_AddEditDocDetail", "TrxDocMandatoryDetail", new { IdDetDocument = -1, IdTypeOfDocument = ViewData["IdTypeOfDocument"] }, new { }).ToHtmlString()
+            );
+        });
+        column.Width = 70;
+    });
+
+    settings.KeyFieldName = "IdDocMandatoryDetail";
+
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        column.HeaderStyle.Font.Bold = true;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IdDocMandatoryDetail";
+        //column.Caption = "ID Dokumen";
+        //column.Width = 150;
+        //column.HeaderStyle.Font.Bold = true;
+        //column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        //column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        //column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.EditCellStyle.CssClass = "hiddencol";
+        column.CellStyle.CssClass = "hiddencol";
+        column.HeaderStyle.CssClass = "hiddencol";
+        column.FilterCellStyle.CssClass = "hiddencol";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IdTypeOfDocument";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Visible = false;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "nomorDokumen";
+        column.Caption = ViewBag.JudulNama;
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "tanggalAwal";
+        column.Caption = "Tanggal Daftar";
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "catatan";
+        column.Caption = "Catatan";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.SetDataItemTemplateContent(c =>
+        {
+            if (DataBinder.Eval(c.DataItem, "FileExt") != null)
+            {
+                ViewContext.Writer.Write("&nbsp;&nbsp;");
+                ViewContext.Writer.Write(string.Format("<span class=\"buttonB glyphicon glyphicon-list-alt\" style=\"font-size:19px;color:green\" onclick=\"Lampiran('{0}','{1}');\"></span>", DataBinder.Eval(c.DataItem, "ImageBaseName"), DataBinder.Eval(c.DataItem, "FileExt"), c.VisibleIndex));
+                ViewContext.Writer.Write("&nbsp;");
+            }
+        });
+        column.Width = 70;
+        column.Caption = "Lampiran";
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+    });
+}).Bind(Model).GetHtml()

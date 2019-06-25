@@ -1,0 +1,64 @@
+﻿@model MVCSmartClient01.Models.trxBranchOfficeHeaderForm
+@{
+    ViewBag.Title = "Index";
+}
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">Daftar Cabang</legend>
+</div>
+
+<div style="margin-bottom:10px">
+    @using (Html.BeginForm("AddEditBranchHeader", "TrxBranchOfficeHeader", FormMethod.Post))
+    {
+        @Html.HiddenFor(model => model.IdBranchHeader)
+        @Html.HiddenFor(model => model.GuidHeader)
+        @Html.HiddenFor(model => model.IdRekanan)
+        @Html.HiddenFor(model => model.CreatedDate)
+        @Html.HiddenFor(model => model.CreatedUser)
+
+        <div>
+            @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Update";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+            @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxDocMandatoryDetail", Action = "GetByRekananTab" }) + "'; }";
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        </div>
+    }
+</div>
+<div class="form-group">
+    <label for="textinput">Download Template :</label>
+    <div>
+        @*@Html.ActionLink("ListCabang.xlsx", "ListCabang", "TrxBranchOfficeHeader", new { fileName = "ListCabang" }, new { @target = "_blank" })*@
+        <a href='~/Content/FileDownload/ListCabang.xlsx' target="_blank">ListCabang.xlsx</a>
+    </div>
+</div>
+<label for="textinput">Upload File :</label>
+@using (Html.BeginForm("_PopulateBranchFromFile", "TrxBranchOfficeHeader", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="file" />
+    <input type="submit" value="OK" />
+    <input type="hidden" id="IdBranchHeader" name='IdBranchHeader' value=@Model.IdBranchHeader />
+}
+<div style="margin-bottom:10px;margin-top:10px">
+    @Html.Partial("_BranchByGuidHeader", Model.BranchOfficeColls, new ViewDataDictionary { { "GuidHeader", ViewData["GuidHeader"] } })
+</div>
+<button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdate').click();">
+    <span class="glyphicon glyphicon-ok"></span>&nbsp;Simpan
+</button>
+<button type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();">
+    <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+</button>

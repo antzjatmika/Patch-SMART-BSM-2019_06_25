@@ -1,0 +1,299 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<MVCSmartClient01.Models.vwRekManagemenBL>
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "BLByRekanan";
+    settings.Settings.ShowGroupPanel = false;
+    settings.Settings.ShowGroupedColumns = false;
+
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.CallbackRouteValues = new { Controller = "TrxManagement", Action = "_BLByRekanan" };
+    settings.Width = Unit.Percentage(100);
+    settings.SettingsPager.PageSize = 20;
+
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.SetDataItemTemplateContent(c => {
+            ViewContext.Writer.Write("&nbsp;");
+            if (Convert.ToBoolean(DataBinder.Eval(c.DataItem, "BlackListed")))
+            {
+                //ViewContext.Writer.Write(string.Format("<span class=\"buttonB glyphicon glyphicon-ok-sign\" style=\"font-size:18px;color:green\" onclick=\"ConfirmReleaseBL('{0}');\"></span>", DataBinder.Eval(c.DataItem, "IdManagemen"), c.VisibleIndex));
+                ViewContext.Writer.Write(string.Format("<span data-toggle=\"modal\" data-target=\"#myModal\" data-idmanagemen=\"{0}\" data-tipeaksi=\"release\" class=\"buttonB glyphicon glyphicon-ok-sign\" style=\"font-size:18px;color:green\"></span>", DataBinder.Eval(c.DataItem, "IdManagemen"), c.VisibleIndex));
+            }
+            else
+            {
+                //ViewContext.Writer.Write(string.Format("<span class=\"buttonB glyphicon glyphicon-remove-sign\" style=\"font-size:18px;color:red\" onclick=\"ConfirmBlacklist('{0}');\"></span>", DataBinder.Eval(c.DataItem, "IdManagemen"), c.VisibleIndex));
+                ViewContext.Writer.Write(string.Format("<span data-toggle=\"modal\" data-target=\"#myModal\" data-idmanagemen=\"{0}\" data-tipeaksi=\"blacklist\" class=\"buttonB glyphicon glyphicon-remove-sign\" style=\"font-size:18px;color:red\"></span>", DataBinder.Eval(c.DataItem, "IdManagemen"), c.VisibleIndex));
+            }
+            ViewContext.Writer.Write("&nbsp;&nbsp;");
+            //ViewContext.Writer.Write(string.Format("<span class=\"buttonB glyphicon glyphicon-remove-sign\" style=\"font-size:18px;color:red\" onclick=\"ConfirmBlacklist('{0}');\"></span>", DataBinder.Eval(c.DataItem, "IdManagemen"), c.VisibleIndex));
+            //ViewContext.Writer.Write("&nbsp;&nbsp;");
+            //ViewContext.Writer.Write(string.Format("<span class=\"buttonB glyphicon glyphicon-ok-sign\" style=\"font-size:18px;color:green\" onclick=\"ConfirmReleaseBL('{0}');\"></span>", DataBinder.Eval(c.DataItem, "IdManagemen"), c.VisibleIndex));
+        });
+
+        //column.SetDataItemTemplateContent(c =>
+        //{
+        //    //ViewContext.Writer.Write(
+        //    //    "<table><tr><td>" +
+        //    //    Html.ActionLink("Blacklist", "_BlacklistManagemen", new { @class = "deleteLink", IdNotification = DataBinder.Eval(c.DataItem, "IdManagemen"), FlgTraySent = false })
+        //    //    + "</td></tr></table>"
+        //    //);
+
+        //    ViewContext.Writer.Write("<div style='padding: 2px 0px 2px 2px'>");
+        //    Html.DevExpress().Button(settingsBtn =>
+        //    {
+        //        settingsBtn.Name = "btn" + c.KeyValue;
+        //        settingsBtn.ControlStyle.Font.Size = System.Web.UI.WebControls.FontUnit.Small;
+        //        settingsBtn.ControlStyle.CssClass = "glyphicon glyphicon-cog";
+        //        //settingsBtn.Text = "Blacklist!";
+        //        settingsBtn.Text = "";
+        //        settingsBtn.ClientSideEvents.Click = string.Format("function(s, e) {{ ConfirmBlacklistNew('{0}'); }}", DataBinder.Eval(c.DataItem, "IdManagemen"));
+        //    }).Render();
+        //    ViewContext.Writer.Write("</div>");
+        //});
+        column.Width = 60;
+        column.Caption = "Aksi";
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+    });
+
+    settings.KeyFieldName = "IdManagemen";
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Kode";
+        column.Caption = "Kode";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 50;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "RegistrationNumber";
+        column.Caption = "No. Reg";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 50;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Rekanan";
+        column.Caption = "Nama Rekanan";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 200;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Name";
+        column.Caption = "Nama Partner";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 200;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Alamat";
+        column.Caption = "Alamat";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NomorKTP";
+        column.Caption = "No. KTP";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 120;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NomorNPWP";
+        column.Caption = "No. NPWP";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 120;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TanggalLahir";
+        column.Caption = "Tgl. Lahir";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+        column.Width = 60;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "BlackListed";
+        column.Caption = "Status";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        column.Width = 30;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TanggalMulaiBlackList";
+        column.Caption = "Awal Sanksi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+        column.Width = 60;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TanggalAkhirBlacklist";
+        column.Caption = "Akhir Sanksi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+        column.Width = 60;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Catatan";
+        column.Caption = "Catatan";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 120;
+    });
+
+}).Bind(Model).GetHtml()
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h6 class="myStyle">Informasi</h6>
+            </div>
+            <div class="modal-body">
+                @*<input type="text" name="IdManagemen" value="" />*@
+                <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                    @Html.DevExpress().TextBox(
+                    settings =>
+                    {
+                        settings.Name = "IdManagemen";
+                        settings.ControlStyle.CssClass = "editor";
+                        settings.Width = 500;
+                        settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                        settings.ClientVisible = false;
+                    }
+                    ).GetHtml()
+                    @Html.DevExpress().TextBox(
+                    settings =>
+                    {
+                        settings.Name = "TipeAksi";
+                        settings.ControlStyle.CssClass = "editor";
+                        settings.Width = 500;
+                        settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                        settings.ClientVisible = false;
+                    }
+                    ).GetHtml()
+                    @Html.DevExpress().Label(
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-xs-6 control-label";
+                        settings.Text = "Catatan";
+                        settings.AssociatedControlName = "Catatan";
+                        settings.ControlStyle.CssClass = "myStyle";
+                    }
+                    ).GetHtml()
+                    @Html.DevExpress().TextBox(
+                    settings =>
+                    {
+                        settings.Name = "Catatan";
+                        settings.ControlStyle.CssClass = "editor";
+                        settings.Width = 500;
+                        settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                    }
+                    ).GetHtml()
+                    <br />
+                    @Html.DevExpress().Label(
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-xs-6 control-label";
+                        settings.Text = "Akhir Sanksi";
+                        settings.AssociatedControlName = "AkhirBL";
+                        settings.ControlStyle.CssClass = "myStyle";
+                    }
+                    ).GetHtml()
+
+                    @Html.DevExpress().DateEdit(
+                    settings =>
+                    {
+                        settings.Name = "AkhirBL";
+                        settings.ControlStyle.CssClass = "editor";
+                        //settings.Properties.DisplayFormatString = "dd/MM/yyyy";
+                        settings.Properties.DisplayFormatString = "yyyy-MM-dd";
+                        //settings.Properties.EditFormatString = "dd/MM/yyyy";
+                        settings.Properties.EditFormatString = "yyyy-MM-dd";
+                        settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                    }
+                    ).GetHtml()
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ConfirmBlacklist();">OK</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#myModal').on('show.bs.modal', function (e) {
+        //get data-id attribute of the clicked element
+        var myIdManagemen = $(e.relatedTarget).data('idmanagemen');
+        var myTipeAksi = $(e.relatedTarget).data('tipeaksi');
+        //alert(bookId);
+        //populate the textbox
+        $(e.currentTarget).find('input[name="IdManagemen"]').val(myIdManagemen);
+        $(e.currentTarget).find('input[name="TipeAksi"]').val(myTipeAksi);
+    });
+</script>

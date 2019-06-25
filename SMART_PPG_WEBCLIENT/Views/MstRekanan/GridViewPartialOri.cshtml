@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.mstRekanan>
+    @{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div>
+    @Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Name = "grdRekanan";
+        //settings.ClientSideEvents.BeginCallback = "beginCallbackFunction";
+        //settings.ClientSideEvents.EndCallback = "endCallbackFunction";
+        //settings.Width = Unit.Percentage(100);
+
+        settings.KeyFieldName = "IdRekanan";
+        settings.Columns.Add("IdRegion");
+        settings.Columns.Add("RegistrationNumber");
+        settings.Columns.Add("ClassOfRekanan");
+        settings.Columns.Add("IdTypeOfRekanan");
+        settings.Columns.Add("IdTypeOfBadanUsaha");
+        settings.Columns.Add("Name");
+        settings.Columns.Add("Address");
+
+        settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+        settings.SettingsDetail.ShowDetailRow = true;
+    })
+    .Bind(model).GetHtml()
+    </div>
+</body>
+</html>

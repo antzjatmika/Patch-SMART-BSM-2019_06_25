@@ -1,0 +1,21 @@
+﻿<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+@*<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>*@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+    google.load("visualization", "1", { packages: ["corechart"] });
+
+    //google.charts.load('current', { 'packages': ['corechart', 'bar'] });
+    //google.charts.setOnLoadCallback(drawStuff);
+
+</script>  
+<script type="text/javascript">
+    $(function () {
+        PopulatePieChart(parseInt('@ViewBag.IdTypeOfRekanan'));
+        @*alert(parseInt('@ViewBag.IdTypeOfRekanan'));    
+        alert('@ViewBag.PieName');*@
+        //PopulatePieChart(1);
+    })
+</script>
+
+<div id="@ViewBag.PieName" style="width: 600px; height: 350px;">
+</div>  

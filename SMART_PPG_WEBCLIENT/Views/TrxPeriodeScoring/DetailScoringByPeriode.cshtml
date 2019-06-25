@@ -1,0 +1,90 @@
+﻿@using System.Web.UI.WebControls
+@{
+    ViewBag.Title = "Index";
+}
+<script>
+    function OnActiveTabChanging(s, e) {
+        //alert(1122);
+        var action = e.tab.name;
+        var actionUrl = "http://localhost:3239/TrxNotificationHeader/" + action;
+        $.ajax({
+            type: "POST",
+            url: actionUrl,
+            success: function (response) {
+                PageControl.SetTabContentHTML(e.tab, response);
+            }
+        });
+    }
+</script>
+@Html.DevExpress().PageControl(settingsPageControl =>
+{
+    settingsPageControl.Name = "pageControl";
+    settingsPageControl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settingsPageControl.ActiveTabIndex = 0;
+    settingsPageControl.ClientSideEvents.ActiveTabChanging = "OnActiveTabChanging";
+    settingsPageControl.Width = Unit.Percentage(80);
+
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = ViewBag.Grup1;
+        tab.Name = "tabScoring1";
+        tab.TabStyle.Width = 150;
+        tab.TabStyle.Font.Size = 11;
+        tab.SetContent(() =>
+        {
+            {Html.RenderAction("_DetailScoringByPeriode", "TrxPeriodeScoring", new { IdRekanan = ViewBag.IdRekanan, TahunBulan = ViewBag.TahunBulan, IdTypeOfGroup = 1, IdPenilai = 1 });}
+            {Html.RenderAction("_DetailScoringByPeriode", "TrxPeriodeScoring", new { IdRekanan = ViewBag.IdRekanan, TahunBulan = ViewBag.TahunBulan, IdTypeOfGroup = 2, IdPenilai = 1 });}
+            {Html.RenderAction("_DetailScoringByPeriode", "TrxPeriodeScoring", new { IdRekanan = ViewBag.IdRekanan, TahunBulan = ViewBag.TahunBulan, IdTypeOfGroup = 3, IdPenilai = 1 });}
+        });
+    });
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = ViewBag.Grup2;
+        tab.Name = "tabScoring2";
+        tab.TabStyle.Width = 150;
+        tab.TabStyle.Font.Size = 11;
+        tab.SetContent(() =>
+        {
+            { Html.RenderAction("_DetailScoringByPeriode", "TrxPeriodeScoring", new { IdRekanan = ViewBag.IdRekanan, TahunBulan = ViewBag.TahunBulan, IdTypeOfGroup = 1, IdPenilai = 2 }); }
+            { Html.RenderAction("_DetailScoringByPeriode", "TrxPeriodeScoring", new { IdRekanan = ViewBag.IdRekanan, TahunBulan = ViewBag.TahunBulan, IdTypeOfGroup = 2, IdPenilai = 2 }); }
+            { Html.RenderAction("_DetailScoringByPeriode", "TrxPeriodeScoring", new { IdRekanan = ViewBag.IdRekanan, TahunBulan = ViewBag.TahunBulan, IdTypeOfGroup = 3, IdPenilai = 2 }); }
+        });
+    });
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Nilai Akhir";
+        tab.Name = "tabNilaiAkhir";
+        tab.TabStyle.Width = 150;
+        tab.TabStyle.Font.Size = 11;
+        tab.SetContent(() =>
+        {
+            { Html.RenderAction("_GetNilaiAkhir", "TrxPeriodeScoring", new { IdRekanan = ViewBag.IdRekanan, TahunBulan = ViewBag.TahunBulan }); }
+        });
+    });
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Resume Konsolidasi";
+        tab.Name = "tabResumeKonso";
+        tab.TabStyle.Width = 150;
+        tab.TabStyle.Font.Size = 11;
+        tab.SetContent(() =>
+        {
+            { Html.RenderAction("_GetKonsoPairByParam", "TrxKonsolidasi", new { IdRekanan = ViewBag.IdRekanan, TahunBulan = ViewBag.TahunBulan, IsEditable = false }); }
+            { Html.RenderAction("_GetKonsoResumeByPeriode", "TrxKonsolidasi", new { IdRekanan = ViewBag.IdRekanan, TahunBulan = ViewBag.TahunBulan, TipeUraian = 2 }); }
+            { Html.RenderAction("_GetKonsoResumeByPeriode", "TrxKonsolidasi", new { IdRekanan = ViewBag.IdRekanan, TahunBulan = ViewBag.TahunBulan, TipeUraian = 1 }); }
+            { Html.RenderAction("_GetResumeRoaByRekPeriode", "TrxKonsolidasi", new { IdRekanan = ViewBag.IdRekanan, TahunBulan = ViewBag.TahunBulan }); }
+        });
+    });
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Scoring Akhir";
+        tab.Name = "tabNScoreAkhir";
+        tab.TabStyle.Width = 200;
+        tab.TabStyle.Font.Size = 11;
+        tab.SetContent(() =>
+        {
+            { Html.RenderAction("_GetScoringMultiByRekPeriode", "TrxKonsolidasi", new { IdRekanan = ViewBag.IdRekanan, TahunBulan = ViewBag.TahunBulan }); }
+        });
+    });
+}).GetHtml()
+ 

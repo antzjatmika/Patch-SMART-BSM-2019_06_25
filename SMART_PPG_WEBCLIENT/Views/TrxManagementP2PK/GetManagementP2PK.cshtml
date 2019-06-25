@@ -1,0 +1,32 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.trxManagementP2PK>
+
+<h4>@ViewBag.InfoRekanan</h4>
+
+@Html.DevExpress().PageControl(settingsPageControl =>
+{
+    settingsPageControl.Name = "PageControl";
+    settingsPageControl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settingsPageControl.ActiveTabIndex = 0;
+
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Aktif";
+        tab.Name = "_ManagemenAktif";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("_GetManagementP2PK", "TrxManagementP2PK", new { idTypeOfRekanan = ViewData["IdTypeOfRekanan"], isActive = true });
+        });
+    });
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Ijin Dicabut";
+        tab.Name = "_ManagemenIjinDicabut";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("_GetManagementP2PK", "TrxManagementP2PK", new { idTypeOfRekanan = ViewData["IdTypeOfRekanan"], isActive = false });
+        });
+    });
+    
+}).GetHtml()

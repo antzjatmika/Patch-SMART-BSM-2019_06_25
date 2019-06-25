@@ -1,0 +1,74 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.trxNotificationHeader>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Notification</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdNotification)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdTipeNotification)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdLevelUrgensi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CaptionInfo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdDataProfilePart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.flgValidity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedUser)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdNotification)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdTipeNotification)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdLevelUrgensi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CaptionInfo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdDataProfilePart)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.flgValidity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedUser)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.IdNotification }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IdNotification })
+        </td>
+    </tr>
+}
+
+</table>

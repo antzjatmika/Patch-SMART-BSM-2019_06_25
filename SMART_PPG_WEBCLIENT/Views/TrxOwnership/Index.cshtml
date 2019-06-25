@@ -1,0 +1,92 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.trxOwnership>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KTP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KTPEndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Sertifikasi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PercentSaham)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NominalSaham)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsKeyPerson)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NPWP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdRekanan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KTP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.KTPEndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Sertifikasi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PercentSaham)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NominalSaham)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsKeyPerson)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NPWP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.IdOwnership }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IdOwnership })
+        </td>
+    </tr>
+}
+
+</table>

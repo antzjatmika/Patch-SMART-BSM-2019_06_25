@@ -1,0 +1,20 @@
+﻿@model MVCSmartClient01.Models.FullAndPartialViewModel
+<table>
+    <thead>
+        <tr>
+            <th>CID</th>
+            <th>CName</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.CategoryList)
+        {
+            <tr>
+                <td>@product.CategoryId</td>
+                <td>@product.CategoryName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<button class="btn btn-info" type="button" id="addressSearch"
+        onclick="location.href='@Url.Action("Register", "Account")'">

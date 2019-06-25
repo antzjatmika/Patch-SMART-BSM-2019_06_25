@@ -1,0 +1,102 @@
+﻿@using DevExpress.Data.Filtering;
+@using System.Web.UI.WebControls
+@using MVCSmartClient01.Models;
+
+@model IEnumerable<MVCSmartClient01.Models.fKonsoResumeByPeriode_Result>
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Caption = (ViewBag.TipeUraian == 2)? "Konsolidasi" : "Ikhtisar";
+    settings.Name = "GetKonsoResumeByPeriode" + ViewBag.TipeUraian;
+    settings.CallbackRouteValues = new { Controller = "TrxKonsolidasi", Action = "_GetKonsoResumeByPeriode", IdRekanan = "", PeriodeAwal = 201710, PeriodeAkhir = 201810, TipeUraian = 2 };
+    settings.Width = Unit.Percentage(70);
+    settings.SettingsPager.PageSize = 10;
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+
+    settings.KeyFieldName = "idMstKonsolidasi";
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        column.HeaderStyle.Font.Bold = true;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Ikhtisar";
+        column.Caption = "Ikhtisar";
+        column.HeaderStyle.Font.Bold = true;
+        column.ReadOnly = true;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "myValueAkhir";
+        column.Caption = "Nilai " + @ViewBag.PeriodeAkhir;
+        column.HeaderStyle.Font.Bold = true;
+        column.PropertiesEdit.DisplayFormatString = "N";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "myValueAwal";
+        column.Caption = "Nilai " + @ViewBag.PeriodeAwal;
+        column.HeaderStyle.Font.Bold = true;
+        column.PropertiesEdit.DisplayFormatString = "N";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TumbuhSign";
+        column.Caption = "#";
+        column.HeaderStyle.Font.Bold = true;
+        column.Width = 10;
+        column.CellStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(String.Format("<i style=\"font-size:18px;color:{1}\" class=\"glyphicon {0}\"></i>"
+                , ((int)DataBinder.Eval(c.DataItem, "TumbuhSign") == -1) ? "glyphicon-triangle-bottom" :
+                ((int)DataBinder.Eval(c.DataItem, "TumbuhSign") == 0) ? "glyphicon-stop" : "glyphicon-triangle-top"
+                
+                , ((int)DataBinder.Eval(c.DataItem, "TumbuhSign") == -1) ? "red" :
+                ((int)DataBinder.Eval(c.DataItem, "TumbuhSign") == 0) ? "darkgray" : "lime"));
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TumbuhPercent";
+        column.Caption = "Pertumbuhan %";
+        column.HeaderStyle.Font.Bold = true;
+        column.Width = 40;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SeqResume";
+        column.SortOrder = DevExpress.Data.ColumnSortOrder.Ascending;
+        column.EditCellStyle.CssClass = "hiddencol";
+        column.CellStyle.CssClass = "hiddencol";
+        column.HeaderStyle.CssClass = "hiddencol";
+    });
+}).Bind(Model).GetHtml()
+<style>
+    .hiddencol {
+        display: none;
+    }
+</style>

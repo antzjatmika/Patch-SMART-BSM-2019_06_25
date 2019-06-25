@@ -1,0 +1,119 @@
+﻿@using DevExpress.Data.Filtering;
+@using System.Web.UI.WebControls
+@using MVCSmartClient01.Models;
+
+@model IEnumerable<MVCSmartClient01.Models.fKategoriResiko_Result>
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "GetKategoriRisiko";
+    settings.CallbackRouteValues = new { Controller = "TrxKonsolidasi", Action = "_GetKategoriResikoByPenambah", decPenambah = 1.914444444 };
+    settings.Width = Unit.Percentage(70);
+    settings.SettingsPager.PageSize = 20;
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+
+    settings.KeyFieldName = "SeqPerKategori";
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Range1";
+        column.Caption = "Range Low Risk";
+        column.HeaderStyle.Font.Bold = true;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Score1";
+        column.Caption = "Score Low Risk";
+        column.HeaderStyle.Font.Bold = true;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ScoreAkhir1";
+        column.Caption = "Score Low Risk";
+        column.HeaderStyle.Font.Bold = true;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Range2";
+        column.Caption = "Range MTL Risk";
+        column.HeaderStyle.Font.Bold = true;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Score2";
+        column.Caption = "Score MTL Risk";
+        column.HeaderStyle.Font.Bold = true;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ScoreAkhir2";
+        column.Caption = "Score MTL Risk";
+        column.HeaderStyle.Font.Bold = true;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Range3";
+        column.Caption = "Range MTH Risk";
+        column.HeaderStyle.Font.Bold = true;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Score3";
+        column.Caption = "Score MTH Risk";
+        column.HeaderStyle.Font.Bold = true;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ScoreAkhir3";
+        column.Caption = "Score MTH Risk";
+        column.HeaderStyle.Font.Bold = true;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Range4";
+        column.Caption = "Range High Risk";
+        column.HeaderStyle.Font.Bold = true;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Score4";
+        column.Caption = "Score High Risk";
+        column.HeaderStyle.Font.Bold = true;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ScoreAkhir4";
+        column.Caption = "Score High Risk";
+        column.HeaderStyle.Font.Bold = true;
+    });
+}).Bind(Model).GetHtml()
+<style>
+    .hiddencol {
+        display: none;
+    }
+</style>

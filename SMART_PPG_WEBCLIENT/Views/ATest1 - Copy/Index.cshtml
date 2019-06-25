@@ -1,0 +1,25 @@
+﻿@model MVCSmartClient01.Models.FullAndPartialViewModel
+@{
+    ViewBag.Title = "My Master Page";
+}
+
+<script type="text/javascript" src="CDN or local jquery file"></script>
+
+<div id="container">
+    <label for="ddlCategory"><strong>Select a category</strong></label>
+    @Html.DropDownListFor(m => m.CategoryId,
+        new SelectList(Model.CategoryList, "CategoryId", "CategoryName", Model.CategoryId), new { id = "ddlCategory", @class = "test" })
+    <br /><br />
+    <div id="dvCategoryResults">
+        @{Html.RenderPartial("CategoryResults", Model);}
+    </div>
+</div>  
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#ddlCategory").change(function () {
+            var categoryId = $("#ddlCategory").val();
+            $("#dvCategoryResults").load('@(Url.Action("GetCategoryProducts","ATest1",null, Request.Url.Scheme))?categoryId=' + categoryId);
+        });
+    });
+</script>

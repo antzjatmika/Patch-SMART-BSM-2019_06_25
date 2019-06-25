@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<script>
+    function OnActiveTabChanging(s, e) {
+        var action = e.tab.name;
+        var actionUrl = "http://localhost:3239/TrxNotificationHeader/" + action;
+        //alert(actionUrl);
+        $.ajax({
+            type: "POST",
+            url: actionUrl,
+            success: function (response) {
+                PageControl.SetTabContentHTML(e.tab, response);
+            }
+        });
+    }
+</script>
+
+@Html.DevExpress().PageControl(settingsPageControl => {
+    settingsPageControl.Name = "pageControl";
+    settingsPageControl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settingsPageControl.ActiveTabIndex = 0;
+    settingsPageControl.ClientSideEvents.ActiveTabChanging = "OnActiveTabChanging";
+
+    settingsPageControl.TabPages.Add("Kritikal", "_NotificationKritikal").SetContent(() => {
+        Html.RenderAction("_NotificationKritikal");
+    });
+    settingsPageControl.TabPages.Add("Penting", "_NotificationPenting").SetContent(() => {
+        Html.RenderAction("_NotificationPenting");
+    });
+    settingsPageControl.TabPages.Add("Normal", "_NotificationNormal").SetContent(() => {
+        Html.RenderAction("_NotificationNormal");
+    });
+}).GetHtml()

@@ -1,0 +1,122 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.trxMonitoringFeeBased_ARC>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdFeeBased)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdRegion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdArea)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdCabang)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NomorPolis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Produk)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NilaiPertanggungan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Periode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NilaiPremi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NilaiFeeBased)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NilaiPPNBasedNet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NilaiPPNBased)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PercentFeeBased)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdChannel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SudahBayar)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdFeeBased)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdRekanan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdRegion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdArea)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdCabang)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NomorPolis)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Produk)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NilaiPertanggungan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Periode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NilaiPremi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NilaiFeeBased)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NilaiPPNBasedNet)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NilaiPPNBased)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PercentFeeBased)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdChannel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SudahBayar)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.IdFeeBased }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IdFeeBased })
+        </td>
+    </tr>
+}
+
+</table>

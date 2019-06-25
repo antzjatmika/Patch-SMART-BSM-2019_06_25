@@ -1,0 +1,50 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.trxNotificationContent>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>List of Notification Content</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdNotificationContent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BodyContent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedUser)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdNotificationContent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BodyContent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedUser)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.IdNotificationContent }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IdNotificationContent })
+        </td>
+    </tr>
+}
+
+</table>

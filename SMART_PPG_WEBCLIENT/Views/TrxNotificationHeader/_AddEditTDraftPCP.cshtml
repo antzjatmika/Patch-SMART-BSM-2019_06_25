@@ -1,0 +1,463 @@
+﻿@using System.Web.UI.WebControls
+@model MVCSmartClient01.Models.AddEditTDraftCaptionForm
+
+@{
+    Html.EnableClientValidation();
+}
+<link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+<script type="text/javascript" src="~/Scripts/SmartApps.js"></script>
+<script type="text/javascript">
+    function OnFilesUploadComplete(s, e) {
+        var imageBaseName = '@Model.Attachment';
+    }
+
+    function SelectionChanged(s, e) {
+        s.GetSelectedFieldValues("IdRekanan;Kode;RegistrationNumber;Name;EmailAddress", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+        SelectedRows.BeginUpdate();
+        try {
+            SelectedRows.ClearItems();
+            for (var i = 0; i < values.length; i++) {
+                //SelectedRows.AddItem(values[i]);
+                var RekInfoArr = new Array();
+                s = "";
+                for (j = 0; j < values[i].length; j++) {
+                    s = s + values[i][j] + "&nbsp;";
+                    RekInfoArr[0] = values[i][0];
+                    RekInfoArr[1] = values[i][1];
+                    RekInfoArr[2] = values[i][2];
+                    RekInfoArr[3] = values[i][3];
+                }
+                //SelectedRows.AddItem(s);
+                SelectedRows.AddItem(RekInfoArr);
+            }
+        } finally {
+            SelectedRows.EndUpdate();
+        }
+        $("#count").html(gvRowSelection.GetSelectedRowCount());
+    }
+
+    function DisplayAttachmentDoc(imageType) {
+        var fileEkstensi = '.jpg';
+        switch (imageType) {
+            case '1':
+                fileEkstensi = '_1' + '@Model.FileExt1';
+                break;
+            case '2':
+                fileEkstensi = '_2' + '@Model.FileExt2';
+                break;
+            case '3':
+                fileEkstensi = '_3' + '@Model.FileExt3';
+                break;
+        }
+        //alert(fileEkstensi);
+        //172283c6-ef5e-42f6-98ae-50c55523d414.pdf
+        window.open(('../Content/DocumentImages/XYZ123456789' + fileEkstensi).replace('XYZ123456789', '@Model.Attachment'), 'KTP', 'toolbar=no, left=100,top=25,location=no, directories=no, status=no, menubar=no, width=700, height=700');
+        return false;
+        }
+
+</script>
+<style>
+    #fileInputAtt1 {
+        width: 0;
+        height: 0;
+    }
+
+    #fileInputAtt2 {
+        width: 0;
+        height: 0;
+    }
+
+    #fileInputAtt3 {
+        width: 0;
+        height: 0;
+    }
+</style>
+@using (Html.BeginForm("_AddEditTDraft", "TrxNotificationHeader", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.IdNotification)
+    @Html.HiddenFor(model => model.IdNotificationContent)
+    @Html.HiddenFor(model => model.IdNotificationDetail)
+    @Html.HiddenFor(model => model.SubjectTo)
+    @Html.HiddenFor(model => model.SubjectFrom)
+    @Html.HiddenFor(model => model.SubjectFromStr)
+    @Html.HiddenFor(model => model.Attachment)
+    @Html.Hidden("customValue");
+    @Html.Hidden("RecipientList");
+
+    @Html.HiddenFor(model => model.FileExt1, new { id = "id4FileExtAtt1" })
+    @Html.HiddenFor(model => model.FileExt2, new { id = "id4FileExtAtt2" })
+    @Html.HiddenFor(model => model.FileExt3, new { id = "id4FileExtAtt3" })
+
+    <div class="row">
+        <form role="form">
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-2 control-label";
+                settings.Text = "Penerima";
+                settings.AssociatedControlName = "SubjectToStr";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "SubjectToStr";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.ReadOnly = true;
+            }
+).Bind(Model.SubjectToStr).GetHtml()
+                @Html.ValidationMessageFor(model => model.SubjectToStr, null, new { @class = "validator" })
+                <br />
+                <div class="clearfix"></div>
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-2 control-label";
+                settings.Text = "Judul";
+                settings.AssociatedControlName = "CaptionInfo";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "CaptionInfo";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 350;
+            }
+   ).Bind(Model.CaptionInfo).GetHtml()
+                @Html.ValidationMessageFor(model => model.CaptionInfo, null, new { @class = "validator" })
+                <br />
+                <div class="clearfix"></div>
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-2 control-label";
+                settings.Text = "Level Urgensi";
+                settings.AssociatedControlName = "IdLevelUrgensi";
+            }
+        ).GetHtml()
+                @Html.DevExpress().ComboBoxFor(x => x.IdLevelUrgensi,
+                settings =>
+                {
+                    settings.Name = "IdLevelUrgensi";
+                    settings.ControlStyle.CssClass = "control-field";
+                    settings.Properties.ValueField = "RefId";
+                    settings.Properties.TextField = "RefDescription";
+                    settings.Width = 200;
+                    settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                }).BindList(Model.LevelUrgensiColls).GetHtml()
+                @Html.ValidationMessageFor(model => model.IdLevelUrgensi, null, new { @class = "validator" })
+                <br />
+                <div class="clearfix"></div>
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-2 control-label";
+                settings.Text = "Isi Pesan";
+                settings.AssociatedControlName = "BodyContent";
+            }
+        ).GetHtml()
+            @Html.DevExpress().Memo(
+                    settings =>
+                    {
+                        settings.Name = "BodyContent";
+                        settings.ControlStyle.CssClass = "editor";
+                        settings.Height = 175;
+                        settings.Width = 350;
+                    }
+            ).Bind(Model.BodyContent).GetHtml()
+                        </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @if (!ViewBag.IsRekanan)
+                {
+                    <button type="button" class="btn btn-success dropdown-toggle" onclick="displayRekananGrid()">
+                        <span class="glyphicon glyphicon-th-list"></span>&nbsp;Daftar Penerima
+                    </button>
+                
+                    @Html.DevExpress().ListBox(
+                settings =>
+                {
+                    settings.Name = "SelectedRows";
+                    settings.Width = 400;
+                    settings.Height = 250;
+                    settings.Properties.Columns.Add("IdRekanan", "IdRekanan").Width = 100;
+                    settings.Properties.Columns.Add("Kode", "Jenis").Width = 40;
+                    settings.Properties.Columns.Add("RegistrationNumber","Reg.No").Width = 60;
+                    settings.Properties.Columns.Add("Name", "Nama Rekanan").Width = 200;
+                    settings.Properties.Columns.Add("EmailAddress","Email").Width = Unit.Percentage(100); 
+                    settings.Properties.EnableClientSideAPI = true;
+                    //settings.ClientVisible = !@ViewBag.IsRekanan;
+                    //settings.Properties.ClientSideEvents.SelectedIndexChanged = "LBChanged";
+                    //settings.Properties.ClientSideEvents.ValueChanged = "LBChanged";
+                }).GetHtml()
+
+                    <div class="text">
+                        Total Penerima :&nbsp;<strong id="count">0</strong>
+                    </div>
+                }
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-2 control-label";
+                settings.Text = "Attachment 1";
+                settings.AssociatedControlName = "Upload1";
+            }
+        ).GetHtml()
+
+                <div class="col-xs-1 nopadding">
+                    <input type='file' id='fileInputAtt1' name='file' style='display: none'/>
+                    <button id='btnUploadAtt1' class="fa fa-upload" data-toggle="tooltip" title="Upload dokumen !"></button>
+                </div>
+                <div id="MyDivAtt1" class="col-xs-3 nopadding">
+                    <a href="javascript:void(0);" id="MyDivAtt1" onclick="DisplayMe1(this)">File yang diupload</a>
+                </div>
+                <div id="MyDelAtt1" class="col-xs-1 nopadding">
+                    <a href="javascript:void(0);" id="MyDelAtt1" onclick="RemoveMeLocal1(this)">X</a>
+                </div>
+                <div class="clearfix"></div>
+                <div id="DisplayAtt1">
+                    <!-- The Modal -->
+                    <div id="MyModal1" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="CloseMe1()" style=padding:0px;>&times;</span>
+                            <object data=@Html.Raw("/Content/DocumentImages/" + @Model.Attachment + "_1" + @Model.FileExt1 + "?" + DateTime.Now.Ticks.ToString()) class="mdlcontain"></object>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().CheckBox(
+                settings =>
+                {
+                    settings.Name = "IsSaluranEmail";
+                    settings.Text = "Kirim Via Email";
+                    settings.ClientVisible = true;
+                }
+            ).Bind(Model.IsSaluranEmail).GetHtml()
+                @Html.ValidationMessageFor(model => model.IsSaluranEmail, null, new { @class = "validator" })
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-2 control-label";
+                settings.Text = "Attachment 2";
+                settings.AssociatedControlName = "Upload2";
+            }
+        ).GetHtml()
+
+                <div class="col-xs-1 nopadding">
+                    <input type='file' id='fileInputAtt2' name='file' style='display: none'/>
+                    <button id='btnUploadAtt2' class="fa fa-upload" data-toggle="tooltip" title="Upload dokumen !"></button>
+                </div>
+                <div id="MyDivAtt2" class="col-xs-3 nopadding">
+                    <a href="javascript:void(0);" id="MyDivAtt2" onclick="DisplayMe2(this)">File yang diupload</a>
+                </div>
+                <div id="MyDelAtt2" class="col-xs-1 nopadding">
+                    <a href="javascript:void(0);" id="MyDelAtt2" onclick="RemoveMeLocal2(this)">X</a>
+                </div>
+                <div class="clearfix"></div>
+                <div id="DisplayAtt2">
+                    <!-- The Modal -->
+                    <div id="MyModal2" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="CloseMe2()" style=padding:0px;>&times;</span>
+                            <object data=@Html.Raw("/Content/DocumentImages/" + @Model.Attachment + "_2" + @Model.FileExt2 + "?" + DateTime.Now.Ticks.ToString()) class="mdlcontain"></object>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().CheckBox(
+                settings =>
+                {
+                    settings.Name = "IsSaluranWhatsapp";
+                    settings.Text = "Kirim Via Whatsapp";
+                    settings.ClientVisible = true;
+                }
+            ).Bind(Model.IsSaluranWhatsapp).GetHtml()
+                @Html.ValidationMessageFor(model => model.IsSaluranWhatsapp, null, new { @class = "validator" })
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-2 control-label";
+                settings.Text = "Attachment 3";
+                settings.AssociatedControlName = "Upload3";
+            }
+        ).GetHtml()
+
+                <div class="col-xs-1 nopadding">
+                    <input type='file' id='fileInputAtt3' name='file' style='display: none'/>
+                    <button id='btnUploadAtt3' class="fa fa-upload" data-toggle="tooltip" title="Upload dokumen !"></button>
+                </div>
+                <div id="MyDivAtt3" class="col-xs-3 nopadding">
+                    <a href="javascript:void(0);" id="MyDivAtt3" onclick="DisplayMe3(this)">File yang diupload</a>
+                </div>
+                <div id="MyDelAtt3" class="col-xs-1 nopadding">
+                    <a href="javascript:void(0);" id="MyDelAtt3" onclick="RemoveMeLocal3(this)">X</a>
+                </div>
+                <div class="clearfix"></div>
+                <div id="DisplayAtt3">
+                    <!-- The Modal -->
+                    <div id="MyModal3" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="CloseMe3()" style=padding:0px;>&times;</span>
+                            <object data=@Html.Raw("/Content/DocumentImages/" + @Model.Attachment + "_3" + @Model.FileExt3 + "?" + DateTime.Now.Ticks.ToString()) class="mdlcontain"></object>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdateD').click();">
+                    <span class="glyphicon glyphicon-floppy-save"></span>&nbsp;Simpan
+                </button>
+                <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdateK').click();">
+                    <span class="glyphicon glyphicon-send"></span>&nbsp;Kirim
+                </button>
+                <button type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();">
+                    <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+                </button>
+            </div>
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                <div>
+                    &nbsp;
+                </div>
+            </div>
+
+        </form>
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdateD";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "UpdateD";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = false;
+                settings.ClientSideEvents.Click = "function (s, e) { document.getElementById('customValue').value = 'D';GetRecipient()}";
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdateK";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "UpdateK";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = false;
+                settings.ClientSideEvents.Click = "function (s, e) { if(confirm('Notifikasi akan langsung dikirim ?')){document.getElementById('customValue').value = 'K';} else {document.getElementById('customValue').value = 'D';} GetRecipient()}";
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "TrxNotificationHeader", Action = "GetNotiInboxSentDraft" }) + "'; }";
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+    </div>    
+}
+
+<script>
+
+    $(function () {
+        if ($('#id4FileExtAtt1').val() == '') {
+            document.getElementById("MyDivAtt1").style.display = "none";
+            document.getElementById("MyDelAtt1").style.display = "none";
+            var $el = $('#fileInput1');
+            $el.val('');
+        }
+        if ($('#id4FileExtAtt2').val() == '') {
+            document.getElementById("MyDivAtt2").style.display = "none";
+            document.getElementById("MyDelAtt2").style.display = "none";
+            var $el = $('#fileInput2');
+            $el.val('');
+        }
+        if ($('#id4FileExtAtt3').val() == '') {
+            document.getElementById("MyDivAtt3").style.display = "none";
+            document.getElementById("MyDelAtt3").style.display = "none";
+            var $el = $('#fileInput3');
+            $el.val('');
+        }
+
+        $('#btnUploadAtt1').click(function (e) {
+            debugger;
+            e.preventDefault();
+            $('#fileInputAtt1').click();
+        }
+        );
+        $('#btnUploadAtt2').click(function (e) {
+            e.preventDefault();
+            $('#fileInputAtt2').click();
+        }
+        );
+        $('#btnUploadAtt3').click(function (e) {
+            e.preventDefault();
+            $('#fileInputAtt3').click();
+        }
+        );
+    });
+
+    $('#fileInputAtt1').change(function (e) {
+        file = e.target.files[0];
+        var myFileExt = (file.name.match(/[^\\\/]\.([^.\\\/]+)$/) || [null]).pop();
+        $('#id4FileExtAtt1').val('.' + myFileExt);
+        DoUpload('@Model.Attachment' + '_1', 'MyDivAtt1', 'MyDelAtt1', 1);
+    });
+    $('#fileInputAtt2').change(function (e) {
+        file = e.target.files[0];
+        var myFileExt = (file.name.match(/[^\\\/]\.([^.\\\/]+)$/) || [null]).pop();
+        $('#id4FileExtAtt2').val('.' + myFileExt);
+        DoUpload('@Model.Attachment' + '_2', 'MyDivAtt2', 'MyDelAtt2', 2);
+    });
+    $('#fileInputAtt3').change(function (e) {
+        file = e.target.files[0];
+        var myFileExt = (file.name.match(/[^\\\/]\.([^.\\\/]+)$/) || [null]).pop();
+        $('#id4FileExtAtt3').val('.' + myFileExt);
+        DoUpload('@Model.Attachment' + '_3', 'MyDivAtt3', 'MyDelAtt3', 3);
+    });
+
+    function RemoveMeLocal1(elm) {
+        $('#id4FileExtAtt1').val('');
+        RemoveMe(elm, 'MyDivAtt1');
+    }
+    function RemoveMeLocal2(elm) {
+        $('#id4FileExtAtt2').val('');
+        RemoveMe(elm, 'MyDivAtt2');
+    }
+    function RemoveMeLocal3(elm) {
+        $('#id4FileExtAtt3').val('');
+        RemoveMe(elm, 'MyDivAtt3');
+    }
+
+    var myModal1 = document.getElementById('MyModal1');
+    var myModal2 = document.getElementById('MyModal2');
+    var myModal3 = document.getElementById('MyModal3');
+
+    function GetRecipient()
+    {
+        var RecipientList = [];
+        for (var i = 0; i < SelectedRows.GetItemCount() ; i++)
+            RecipientList.push(SelectedRows.GetItem(i).value);
+        var dataToSend = JSON.stringify(RecipientList);
+        //alert(dataToSend);
+        $("#RecipientList").val(dataToSend);
+    }
+</script>

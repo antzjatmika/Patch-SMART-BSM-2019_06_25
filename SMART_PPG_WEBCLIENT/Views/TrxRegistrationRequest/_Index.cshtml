@@ -1,0 +1,341 @@
+﻿@using System.Web.UI.WebControls
+@model MVCSmartClient01.Models.trxRegistrationRequestMulti
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "grdRegRekanan" + ViewBag.IsActive.ToString();
+    settings.KeyFieldName = "IdRegRequest";
+    settings.Settings.ShowGroupPanel = false;
+    settings.Settings.ShowGroupedColumns = false;
+
+    settings.HtmlRowPrepared = (s, e) =>
+    {
+        if (e.RowType != GridViewRowType.Data) return;
+
+        int kelengkapan = (int) e.GetValue("Kelengkapan");
+        kelengkapan = (int)e.GetValue("IdRegRequest") % 2;
+        if (kelengkapan == 1)
+        {
+            e.Row.Font.Bold = true;
+            e.Row.ForeColor = System.Drawing.Color.Green;
+        }
+        else
+        {
+            e.Row.Font.Bold = false;
+            e.Row.ForeColor = System.Drawing.Color.Red;
+        }
+    };
+
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+    //settings.CallbackRouteValues = new { Controller = "TrxRegistrationRequest", Action = "_IndexIsActive", IsActive = 2 };
+    settings.CallbackRouteValues = new { Controller = "TrxRegistrationRequest", Action = "_IndexIsActive", IsActive = ViewBag.IsActive };
+    settings.Width = Unit.Percentage(100);
+
+    settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+    settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "TrxRegistrationRequest", Action = "AddUpdateRegRekanan" };
+    settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "TrxRegistrationRequest", Action = "AddUpdateRegRekanan" };
+
+    settings.CommandColumn.Visible = true;
+    if (ViewBag.IsActive == 1)
+    {
+        settings.CommandColumn.ShowNewButtonInHeader = true;
+    }
+    else
+    {
+        settings.CommandColumn.ShowNewButtonInHeader = false;
+    }
+    //settings.CommandColumn.ShowEditButton = true;
+    settings.SettingsPager.PageSize = 5;
+
+    settings.CellEditorInitialize = (sender, e) =>
+    {
+        MVCxGridView gridView = sender as MVCxGridView;
+        if (sender == null || !gridView.IsNewRowEditing)
+            return;
+
+        e.Editor.Value = string.Format("Default{0}", e.Column.FieldName);
+    };
+
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+    if (ViewBag.IsActive >= 1)
+    {
+        settings.Columns.Add(column =>
+        {
+            column.Caption = "Password";
+            column.HeaderStyle.Font.Bold = true;
+            column.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write(
+                    "<table><tr><td>" +
+                    Html.ActionLink("Reset", "_ResetPasswordDefault", new { @class = "updateLink", myUserName = DataBinder.Eval(c.DataItem, "UserName") },
+                        new { onclick = "return confirm('Password untuk username ini akan di-reset ?')" }) + "&nbsp;"
+                    + "</td></tr></table>"
+                );
+            });
+            column.Width = 70;
+        });
+    }
+    //PADA TAB CALON : TOMBOL APPROVE/REJECT
+    if (ViewBag.IsActive == 2)
+    {
+        settings.Columns.Add(column =>
+        {
+            column.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write("&nbsp;");
+                ViewContext.Writer.Write(string.Format("<span class=\"buttonB glyphicon glyphicon-ok-circle\" style=\"font-size:19px;color:green\" onclick=\"ConfirmApproval('{0}', 3);\"></span>", DataBinder.Eval(c.DataItem, "UserName"), c.VisibleIndex));
+                ViewContext.Writer.Write("&nbsp;&nbsp;");
+                //yang belum bisa diproses masuk ke kategori IsActive 3
+                ViewContext.Writer.Write(string.Format("<span class=\"buttonB glyphicon glyphicon-remove-circle\" style=\"font-size:19px;color:red\" onclick=\"ConfirmApproval('{0}', 4);\"></span>", DataBinder.Eval(c.DataItem, "UserName"), c.VisibleIndex));
+            });
+            column.Width = 70;
+            column.Caption = "Approval";
+            column.HeaderStyle.Font.Bold = true;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+    }
+    //PADA TAB AKTIVE : TOMBOL NON AKTIFKAN
+    if (ViewBag.IsActive == 1)
+    {
+        settings.Columns.Add(column =>
+        {
+            column.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                ViewContext.Writer.Write(string.Format("<span class=\"buttonB glyphicon glyphicon-ban-circle\" style=\"font-size:19px;color:red\" onclick=\"ConfirmApproval('{0}', 0);\"></span>", DataBinder.Eval(c.DataItem, "UserName"), c.VisibleIndex));
+                ViewContext.Writer.Write("&nbsp;");
+            });
+            column.Width = 50;
+            column.Caption = "Non Aktif";
+            column.HeaderStyle.Font.Bold = true;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+    }
+    //PADA TAB NON AKTIVE : TOMBOL AKTIFKAN
+    if (ViewBag.IsActive == 0)
+    {
+        settings.Columns.Add(column =>
+        {
+            column.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                ViewContext.Writer.Write(string.Format("<span class=\"buttonB glyphicon glyphicon-ok-circle\" style=\"font-size:19px;color:green\" onclick=\"ConfirmApproval('{0}', 1);\"></span>", DataBinder.Eval(c.DataItem, "UserName"), c.VisibleIndex));
+                ViewContext.Writer.Write("&nbsp;");
+            });
+            column.Width = 50;
+            column.Caption = "Non Aktif";
+            column.HeaderStyle.Font.Bold = true;
+            column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        });
+    }
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+    settings.Columns.Add("IdRegRequest").Visible = false;
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Nama Rekanan";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.SetDataItemTemplateContent(container =>
+        {
+            Html.DevExpress().HyperLink(hyperlink =>
+            {
+                hyperlink.Name = "hl" + Convert.ToString(DataBinder.Eval(container.DataItem, "IdRegRequest"));
+                hyperlink.Properties.Text = Convert.ToString(DataBinder.Eval(container.DataItem, "NamaLengkap"));
+                hyperlink.NavigateUrl = "~/MstRekanan/RekananDetailedInfo" 
+                    + "?IdRekanan=" + Convert.ToString(DataBinder.Eval(container.DataItem, "ImageBaseName"))
+                    + "&IdTypeOfRekanan=" + Convert.ToString(DataBinder.Eval(container.DataItem, "IdTypeOfRekanan"))
+                    + "&RegistrationNumber=" + Convert.ToString(DataBinder.Eval(container.DataItem, "UserName")).ToUpper();
+            }).Render();
+        });
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "AlamatLengkap";
+        column.Caption = "Alamat Lengkap";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "AlamatEmail";
+        column.Caption = "Alamat Email";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IdTypeOfRekanan";
+        column.Caption = "Jenis Rekanan";
+        column.HeaderStyle.Font.Bold = true;
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        var comboBoxProperties = (DevExpress.Web.ASPxEditors.ComboBoxProperties)column.PropertiesEdit;
+        comboBoxProperties.ClientSideEvents.Init = "function(s, e) {s.InsertItem(0, '(ALL)', '');}";
+        comboBoxProperties.DataSource = Model.TypeOfRekananColls;
+        comboBoxProperties.TextField = "Name";
+        comboBoxProperties.ValueField = "IdTypeOfRekanan";
+        comboBoxProperties.ValueType = typeof(int);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "UserName";
+        column.Caption = "User Name";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "UserPassKey";
+        column.Caption = "Password";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+
+    settings.SetEditFormTemplateContent(
+    c =>
+    {
+        var user = ViewData["UserInfo"] != null ? ViewData["UserInfo"] : c.DataItem;
+
+        //BARIS 1
+        ViewContext.Writer.Write("<div style=\"float : left; display : inline-block; width : 65%; margin-bottom: 7px;\">");
+        ViewContext.Writer.Write("<span style=\"width : 150px; display : inline-block; margin-bottom: 3px;\">Nama Perusahaan Rekanan</span>");
+        Html.DevExpress().TextBox(
+            edtSettings =>
+            {
+                edtSettings.Name = "NamaLengkap";
+                edtSettings.ControlStyle.CssClass = "editor";
+                edtSettings.ShowModelErrors = true;
+                edtSettings.Width = 500;
+            }
+        )
+        .Bind(DataBinder.Eval(user, "NamaLengkap"))
+        .Render();
+        ViewContext.Writer.Write("</div>");
+
+        //ViewContext.Writer.Write("<div style=\"float : left; display : inline-block; width : 25%; margin-bottom: 7px;\">");
+        //ViewContext.Writer.Write("<span style=\"width : 150px; display : inline-block; margin-bottom: 3px;\">Alamat Lengkap</span>");
+        //Html.DevExpress().TextBox(
+        //    edtSettings =>
+        //    {
+        //        edtSettings.Name = "AlamatLengkap";
+        //        edtSettings.ControlStyle.CssClass = "editor";
+        //        edtSettings.ShowModelErrors = true;
+        //        edtSettings.Width = 200;
+        //    }
+        //)
+        //.Bind(DataBinder.Eval(user, "AlamatLengkap"))
+        //.Render();
+        //ViewContext.Writer.Write("</div>");
+
+        //ViewContext.Writer.Write("<div style=\"float : left; display : inline-block; width : 25%; margin-bottom: 7px;\">");
+        //ViewContext.Writer.Write("<span style=\"width : 150px; display : inline-block; margin-bottom: 3px;\">Alamat Email</span>");
+        //Html.DevExpress().TextBox(
+        //    edtSettings =>
+        //    {
+        //        edtSettings.Name = "AlamatEmail";
+        //        edtSettings.ControlStyle.CssClass = "editor";
+        //        edtSettings.ShowModelErrors = true;
+        //        edtSettings.Width = 200;
+        //    }
+        //)
+        //.Bind(DataBinder.Eval(user, "AlamatEmail"))
+        //.Render();
+        //ViewContext.Writer.Write("</div>");
+
+        if (DataBinder.Eval(user, "IdRegRequest") == null)
+        {
+            ViewContext.Writer.Write("<div style=\"float : left; display : inline-block; width : 25%; margin-bottom: 7px;\">");
+            ViewContext.Writer.Write("<span style=\"width : 150px; display : inline-block; margin-bottom: 3px;\">Tipe Rekanan</span>");
+            Html.DevExpress().ComboBox(
+            edtSettings =>
+            {
+                edtSettings.Name = "IdTypeOfRekanan";
+                edtSettings.Properties.DataSource = Model.TypeOfRekananColls;
+                edtSettings.Properties.TextField = "Name";
+                edtSettings.Properties.ValueField = "IdTypeOfRekanan";
+                edtSettings.Properties.ValueType = typeof(int);
+                edtSettings.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                edtSettings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+            }).BindList(Model.TypeOfRekananColls)
+            .Bind(DataBinder.Eval(user, "IdTypeOfRekanan"))
+            .Render();
+        }
+        ViewContext.Writer.Write("</div><br /><div class=\"clearfix\"></div>");
+        ViewContext.Writer.Write(
+            "<div style=\"text-align: right; padding: 2px 2px 2px 2px\">" +
+                string.Format("<a href=\"#\" onclick=\"{0}.UpdateEdit()\">Update</a> ", settings.Name) +
+                string.Format("<a href=\"#\" onclick=\"{0}.CancelEdit()\">Cancel</a>", settings.Name) +
+            "</div>"
+        );
+        ViewContext.Writer.Write("</div>");
+    }
+);
+
+}).Bind(Model.RegistrationColls).GetHtml()
+
+<script>
+    function ConfirmApproval(UserName, IsActive) {
+        var alasan = "";
+        var strApproval3 = UserName.toUpperCase() + " , pendaftaran sudah berhasil. \nAlasan pendaftar akan diproses lebih lanjut (* wajib diisi !) : ";
+        var strReject4 = UserName.toUpperCase() + " dokumen belum lengkap. \nAlasan tidak diproses lebih lanjut (* wajib diisi !) : ";
+        var strNonAktif0 = UserName.toUpperCase() + " sudah tidak memenuhi persyaratan sebagai rekanan aktif. \nAlasan di-non aktifkan (* wajib diisi !) : ";
+        var strAktif1 = UserName.toUpperCase() + " terdaftar kembali menjadi rekanan aktif. \nAlasan pengaktifan (* wajib diisi !) : ";
+        if (IsActive == 3)
+        {
+            alasan = prompt(strApproval3, "");
+        }
+        else if (IsActive == 4)
+        {
+            alasan = prompt(strReject4, "");
+        }
+        else if (IsActive == 1) {
+            alasan = prompt(strAktif1, "");
+        }
+        else if (IsActive == 0) {
+            alasan = prompt(strNonAktif0, "");
+        }
+
+        //alert(alasan);
+        //alert(IsActive);
+        if (alasan == null || alasan == "") {
+            return false;
+        } else {
+
+            $.ajax({
+                url: "TrxRegistrationRequest/ApprovalWithReason",
+                data: { myUserName: UserName.toString(), IsActive: IsActive.toString(), Catatan: alasan },
+                success: function () {
+                    window.location.href = '@Url.Action("Index", "TrxRegistrationRequest")';
+                }
+            });
+        }
+    }
+</script>

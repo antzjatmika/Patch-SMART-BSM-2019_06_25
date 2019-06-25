@@ -1,0 +1,75 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<MVCSmartClient01.Models.trxBranchOfficeHeader>
+
+@*<div id="legend" style="margin-bottom:-10px">
+    <legend class="">Daftar Kantor Cabang</legend>
+</div>*@
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "KantorCabang" + Guid.NewGuid().ToString();
+    settings.CallbackRouteValues = new { Controller = "TrxBranchOfficeHeader", Action = "GetByRekanan" };
+    settings.Width = Unit.Percentage(100);
+
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "#";
+        column.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                "<table><tr><td>" +
+                Html.ActionLink("Detail", "AddEditBranchHeader", "TrxBranchOffice", new { @class = "updateLink", GuidHeader = DataBinder.Eval(c.DataItem, "GuidHeader") }, new { }) + "&nbsp;" +
+                "</td></tr></table>"
+            );
+        });
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                Html.ActionLink("New", "AddEditBranchHeader", "TrxBranchOffice", new { GuidHeader = Guid.Empty }, new { }).ToHtmlString()
+            );
+        });
+        column.Width = 70;
+    });
+
+    settings.KeyFieldName = "IdBranchHeader";
+
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "JudulDokumen";
+        column.Caption = "Keterangan";
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+}).Bind(Model).GetHtml()
+
+

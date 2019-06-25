@@ -1,0 +1,63 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<MVCSmartClient01.Models.VmNotiBySubject>
+@{
+    var callbackRouteValues = new { Controller = "TrxNotificationHeader", Action = "_NotificationNormal" };
+}
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "myGridViewNormal";
+    settings.Settings.ShowGroupPanel = true;
+    settings.Settings.ShowGroupedColumns = true;
+
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.CallbackRouteValues = new { Controller = "TrxNotificationHeader", Action = "_NotificationNormal" };
+    settings.Width = Unit.Percentage(100);
+
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+
+    settings.KeyFieldName = "IdNotificationDetail";
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CaptionInfo";
+        column.Caption = "CaptionInfo";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Pengirim";
+        column.Caption = "Pengirim";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "IdTypeOfBadanUsaha";
+    //    column.Caption = "Tipe Badan Usaha";
+    //    column.HeaderStyle.Font.Bold = true;
+    //    column.ColumnType = MVCxGridViewColumnType.ComboBox;
+    //    var comboBoxProperties = (DevExpress.Web.ASPxEditors.ComboBoxProperties)column.PropertiesEdit;
+    //    comboBoxProperties.ClientSideEvents.Init = "function(s, e) {s.InsertItem(0, '(ALL)', '');}";
+    //    comboBoxProperties.DataSource = Model.TypeOfBadanUsahaColls;
+    //    comboBoxProperties.TextField = "Name";
+    //    comboBoxProperties.ValueField = "IdTypeOfBadanUsaha";
+    //    comboBoxProperties.ValueType = typeof(int);
+    //});
+
+}).Bind(Model).GetHtml()

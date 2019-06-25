@@ -1,0 +1,102 @@
+﻿@model MVCSmartClient01.Models.trxDataOrganisasiForm
+<script language="JavaScript" type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+<script language="JavaScript" type="text/javascript" src="~/Scripts/jquery.ui.datepicker.js"></script>
+<link type="text/css" href='@Url.Content("~/Content/jquery.ui.datepicker.css")' rel="stylesheet" />
+<link type="text/css" href='@Url.Content("~/Content/bootstrap.css")' rel="stylesheet" />
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@*<h2>Create</h2>*@
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" value="@ViewBag.IsEditable" id="hiddenFlagEdit" />
+    @Html.HiddenFor(model => model.IdRekanan)
+    @Html.HiddenFor(model => model.IdOrganisasi)
+    <div class="form-horizontal">
+        <h4>TrxDataOrganisasi Info</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.OfficeStatus, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.OfficeStatus, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.OfficeStatus, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NumberOfBranch, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NumberOfBranch, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NumberOfBranch, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NumberOfFixEmpl, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NumberOfFixEmpl, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NumberOfFixEmpl, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NumberOfNonFixEmpl, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NumberOfNonFixEmpl, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NumberOfNonFixEmpl, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.NumberOfAgent, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NumberOfAgent, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.NumberOfAgent, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+                <input id="enableAll" class="disb" value="Edit" onclick="location.href = '@Url.Action("CreateEdit", "TrxDataOrganisasi")'; return false;">
+            </div>
+        </div>
+    </div>
+}
+
+@*<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var h1 = document.getElementById('hiddenFlagEdit');
+        if (h1.value == 'IsReadOnly') {
+            $('input:not(.disb), textarea, table, select')
+            .attr('disabled', 'disabled');
+            $('div').attr('disabled', 'disabled');
+        }
+    });
+    $(function () {
+        $("#disableAll").click(function () {
+            $('input:not(.disb), textarea, table, select')
+            .attr('disabled', 'disabled');
+            $('div').attr('disabled', 'disabled');
+        });
+    });
+    $(function () {
+        $("#enableAll").click(function () {
+            @*alert(@Html.Raw(Json.Encode(Model.IdRekanan)));
+            alert(@Html.Raw(Json.Encode(Model.IdOrganisasi)));
+            alert(@Html.Raw(Json.Encode(Model.NumberOfAgent)));*@
+            $('input, textarea, table, select')
+            .removeAttr('disabled');
+            $('div').removeAttr('disabled');
+        });
+    });
+</script>

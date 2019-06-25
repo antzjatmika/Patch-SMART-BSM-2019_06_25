@@ -1,0 +1,262 @@
+﻿
+@{
+    ViewBag.Title = "GetKelengkapanDokumenByRek";
+}
+<script type="text/javascript">
+    function AddSelectedItems(lbAvailable, lbChoosen) {
+            MoveSelectedItems(lbAvailable, lbChoosen);
+            UpdateButtonState();
+        }
+    function RemoveSelectedItems(lbChoosen, lbAvailable) {
+            MoveSelectedItems(lbChoosen, lbAvailable);
+            UpdateButtonState();
+        }
+    function GoMoveUpItems(lbChoosen, lbTemp) {
+            MoveUpItems(lbChoosen, lbTemp);
+            UpdateButtonState();
+        }
+    function GoMoveDownItems(lbChoosen, lbTemp) {
+            MoveDownItems(lbChoosen, lbTemp);
+            UpdateButtonState();
+    }
+    function SaveItems(lbChoosen, idTypeOfRekanan, isAdminDoc) {
+        var isAdminBol = true;
+        if (isAdminDoc == 0)
+        {
+            isAdminBol = false;
+        }
+        SaveAllItems(lbChoosen, idTypeOfRekanan, isAdminBol);
+        UpdateButtonState();
+    }
+
+    function SaveAllItems(srcListBox, idTypeOfRekanan, isAdminDoc) {
+        var daftarDokumen = "";
+        srcListBox.BeginUpdate();
+        var count = srcListBox.GetItemCount();
+        for (var i = 0; i < count; i++) {
+            var item = srcListBox.GetItem(i);
+            daftarDokumen += item.value + "|";
+        }
+        daftarDokumen = daftarDokumen.substring(0, daftarDokumen.length - 1)
+        srcListBox.EndUpdate();
+
+        if (confirm("Daftar kelengkapan dokumen ini akan disimpan ?")) {
+            $.ajax({
+                url: "AddEditDocMandatory",
+                data: { pDaftarDokumen: daftarDokumen, pIdTypeOfRekanan: idTypeOfRekanan, pIsAdminDoc: isAdminDoc },
+                type: "POST",
+                success: function () {
+                    window.location.href = '@Url.Action("GetKelengkapanDokumenByRek", "TrxDocumentMandatory")';
+                }
+            });
+        }
+        else
+            return false;
+    }
+
+    function MoveSelectedItems(srcListBox, dstListBox) {
+        srcListBox.BeginUpdate();
+        dstListBox.BeginUpdate();
+        var items = srcListBox.GetSelectedItems();
+        for (var i = items.length - 1; i >= 0; i = i - 1) {
+            //dstListBox.AddItem(items[i].text, items[i].value);
+            dstListBox.AddItem([items[i].GetColumnText(0), items[i].GetColumnText(1)], items[i].value);
+            srcListBox.RemoveItem(items[i].index);
+        }
+        srcListBox.EndUpdate();
+        dstListBox.EndUpdate();
+    }
+
+    function MoveUpItems(srcListBox, dstListBox) {
+        srcListBox.BeginUpdate();
+        dstListBox.BeginUpdate();
+        var LengthItem = srcListBox.GetItemCount();
+        //item yg diselect
+        var CurItems = srcListBox.GetSelectedItems();
+        //index ysng diselect
+        var IdxSelected = CurItems[0].index;
+        var items = srcListBox.GetSelectedItems();
+        if (IdxSelected > 0) {
+            //misal banyak item 10, current selected = 7
+            for (var i = IdxSelected - 1; i < LengthItem; i = i + 1) {
+                if (i != IdxSelected) {
+                    var CurItem = srcListBox.GetItem(i);
+                    dstListBox.AddItem([CurItem.GetColumnText(0), CurItem.GetColumnText(1)], CurItem.value);
+                }
+            }
+            //hapus yang sebelum
+            srcListBox.RemoveItem(IdxSelected - 1);
+            //hapus sisanya
+            while (IdxSelected < srcListBox.GetItemCount()) {
+                srcListBox.RemoveItem(IdxSelected);
+            }
+            //balikin lagi
+            MoveAllItems(dstListBox, srcListBox);
+        }
+        srcListBox.EndUpdate();
+        dstListBox.EndUpdate();
+    }
+
+    function MoveDownItems(srcListBox, dstListBox) {
+        srcListBox.BeginUpdate();
+        dstListBox.BeginUpdate();
+        var LengthItem = srcListBox.GetItemCount();
+        //item yg diselect
+        var CurItems = srcListBox.GetSelectedItems();
+        //index ysng diselect
+        var IdxSelected = CurItems[0].index;
+        if (IdxSelected < LengthItem - 1) {
+            //dstListBox.AddItem(CurItems[0].text, CurItems[0].value);
+            dstListBox.AddItem([CurItems[0].GetColumnText(0), CurItems[0].GetColumnText(1)], CurItems[0].value);
+            srcListBox.RemoveItem(IdxSelected);
+
+            //misal banyak item 10, current selected = 7
+            for (var i = IdxSelected + 1; i < LengthItem - 1; i = i + 1) {
+                var CurItem = srcListBox.GetItem(i);
+                //dstListBox.AddItem(CurItem.text, CurItem.value);
+                dstListBox.AddItem([CurItem.GetColumnText(0), CurItem.GetColumnText(1)], CurItem.value);
+            }
+            //hapus sisanya
+            while (IdxSelected + 1 < srcListBox.GetItemCount()) {
+                srcListBox.RemoveItem(IdxSelected + 1);
+            }
+            MoveAllItems(dstListBox, srcListBox);
+        }
+        srcListBox.SelectedIndex = 3;
+        srcListBox.EndUpdate();
+        dstListBox.EndUpdate();
+    }
+
+    function MoveAllItems(srcListBox, dstListBox) {
+        srcListBox.BeginUpdate();
+        var count = srcListBox.GetItemCount();
+        for (var i = 0; i < count; i++) {
+            var item = srcListBox.GetItem(i);
+            //dstListBox.AddItem(item.text, item.value);
+            dstListBox.AddItem([item.GetColumnText(0), item.GetColumnText(1)], item.value);
+        }
+        srcListBox.EndUpdate();
+        srcListBox.ClearItems();
+    }
+    function UpdateButtonState() {
+        btnMoveSelectedItemsToRight1.SetEnabled(lbAvailable1.GetSelectedItems().length > 0);
+        btnMoveSelectedItemsToLeft1.SetEnabled(lbChoosen1.GetSelectedItems().length > 0);
+
+        btnMoveSelectedItemsToRight2.SetEnabled(lbAvailable2.GetSelectedItems().length > 0);
+        btnMoveSelectedItemsToLeft2.SetEnabled(lbChoosen2.GetSelectedItems().length > 0);
+
+        btnMoveSelectedItemsToRight4.SetEnabled(lbAvailable4.GetSelectedItems().length > 0);
+        btnMoveSelectedItemsToLeft4.SetEnabled(lbChoosen4.GetSelectedItems().length > 0);
+
+        btnMoveSelectedItemsToRight5.SetEnabled(lbAvailable5.GetSelectedItems().length > 0);
+        btnMoveSelectedItemsToLeft5.SetEnabled(lbChoosen5.GetSelectedItems().length > 0);
+
+        btnMoveSelectedItemsToRight7.SetEnabled(lbAvailable7.GetSelectedItems().length > 0);
+        btnMoveSelectedItemsToLeft7.SetEnabled(lbChoosen7.GetSelectedItems().length > 0);
+
+        btnMoveSelectedItemsToRight11.SetEnabled(lbAvailable11.GetSelectedItems().length > 0);
+        btnMoveSelectedItemsToLeft11.SetEnabled(lbChoosen11.GetSelectedItems().length > 0);
+
+        btnMoveSelectedItemsToRight12.SetEnabled(lbAvailable12.GetSelectedItems().length > 0);
+        btnMoveSelectedItemsToLeft12.SetEnabled(lbChoosen12.GetSelectedItems().length > 0);
+
+        btnMoveSelectedItemsToRight13.SetEnabled(lbAvailable13.GetSelectedItems().length > 0);
+        btnMoveSelectedItemsToLeft13.SetEnabled(lbChoosen13.GetSelectedItems().length > 0);
+    }
+    MVCxClientGlobalEvents.AddControlsInitializedEventHandler(function (s, e) {
+        UpdateButtonState();
+    });
+</script>
+
+<h4>Kelengkapan Dokumen Per Tipe Rekanan</h4>
+@Html.DevExpress().PageControl(settingsPageControl =>
+{
+    settingsPageControl.Name = "PageKelengkapan";
+    settingsPageControl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settingsPageControl.ActiveTabIndex = 0;
+    //settingsPageControl.ClientSideEvents.ActiveTabChanging = "OnActiveTabChanging";
+
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "KJPP";
+        tab.Name = "_KD_KJPP";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("_GetKelengkapanDokumenByRek", "TrxDocumentMandatory", new { idTypeOfRekanan = 1, IsAdminDoc = @ViewBag.IsAdminDoc });
+        });
+    });
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "KAP";
+        tab.Name = "_KD_KAP";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("_GetKelengkapanDokumenByRek", "TrxDocumentMandatory", new { idTypeOfRekanan = 2, IsAdminDoc = @ViewBag.IsAdminDoc });
+        });
+    });
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Asuransi Jiwa";
+        tab.Name = "_KD_ASJ";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("_GetKelengkapanDokumenByRek", "TrxDocumentMandatory", new { idTypeOfRekanan = 4, IsAdminDoc = @ViewBag.IsAdminDoc });
+        });
+    });
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Asuransi Kerugian";
+        tab.Name = "_KD_ASK";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("_GetKelengkapanDokumenByRek", "TrxDocumentMandatory", new { idTypeOfRekanan = 5, IsAdminDoc = @ViewBag.IsAdminDoc });
+        });
+    });
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Notaris";
+        tab.Name = "_KD_NOT";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("_GetKelengkapanDokumenByRek", "TrxDocumentMandatory", new { idTypeOfRekanan = 7, IsAdminDoc = @ViewBag.IsAdminDoc });
+        });
+    });
+    
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Penjaminan";
+        tab.Name = "_KD_PJA";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("_GetKelengkapanDokumenByRek", "TrxDocumentMandatory", new { idTypeOfRekanan = 11, IsAdminDoc = @ViewBag.IsAdminDoc });
+        });
+    });
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Pialang Asuransi";
+        tab.Name = "_KD_PAS";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("_GetKelengkapanDokumenByRek", "TrxDocumentMandatory", new { idTypeOfRekanan = 12, IsAdminDoc = @ViewBag.IsAdminDoc });
+        });
+    });
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Lawyer";
+        tab.Name = "_KD_LAW";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("_GetKelengkapanDokumenByRek", "TrxDocumentMandatory", new { idTypeOfRekanan = 13, IsAdminDoc = @ViewBag.IsAdminDoc });
+        });
+    });
+
+}).GetHtml()
+

@@ -1,0 +1,115 @@
+﻿
+@model MVCSmartClient01.Models.mstSubRegionForm
+
+@{
+    Html.EnableClientValidation();
+}
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">Data Sub Region</legend>
+</div>
+
+@using (Html.BeginForm("CreateEdit", "MstSubRegion", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.IdSubRegion)
+    @Html.HiddenFor(model => model.CreatedUser)
+    @Html.HiddenFor(model => model.CreatedDate)
+
+    <div class="row">
+        <form role="form">
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Region";
+                settings.AssociatedControlName = "IdRegionAdmin";
+            }
+        ).GetHtml()
+                @Html.DevExpress().ComboBoxFor(x => x.IdRegionAdmin,
+                settings =>
+                {
+                    settings.Name = "IdRegionAdmin";
+                    settings.ControlStyle.CssClass = "control-field";
+                    settings.Properties.ValueField = "IdRegionAdmin";
+                    settings.Properties.TextField = "RegionAdminDescription";
+                    settings.Width = 250;
+                    settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                }).BindList(Model.RegionColls).GetHtml()
+                @Html.ValidationMessageFor(model => model.IdRegionAdmin, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.Text = "Judul";
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.AssociatedControlName = "SubDescription";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "SubDescription";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+            }
+).Bind(Model.SubDescription).GetHtml()
+                @Html.ValidationMessageFor(model => model.SubDescription, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Deskripsi";
+                settings.AssociatedControlName = "LongDescription";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "LongDescription";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+            }
+).Bind(Model.LongDescription).GetHtml()
+                @Html.ValidationMessageFor(model => model.LongDescription, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+            </div>
+            <div class="clearfix"></div>
+        </form>
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Update";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "MstSubRegion", Action = "Index" }) + "'; }";
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+    </div>
+    <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdate').click();">
+        <span class="glyphicon glyphicon-ok"></span>&nbsp;Simpan
+    </button>
+    <button type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();">
+        <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+    </button>
+}

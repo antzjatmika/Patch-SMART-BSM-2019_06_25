@@ -1,0 +1,441 @@
+﻿@model MVCSmartClient01.Models.rptAsuransi
+
+@{
+    Html.EnableClientValidation();
+}
+@using (Html.BeginForm("_Edit_Rek", "RptAsuransi", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.IdRptAsuransi)
+    <br />
+    <div id="legend">
+        <legend class="">Data Asuransi</legend>
+    </div>
+    <div class="row">
+        <form role="form">
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Cadangan Teknis";
+                    settings.AssociatedControlName = "r_CadanganTeknis";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_CadanganTeknis";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                ).Bind(Model.r_CadanganTeknis).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_CadanganTeknis, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Total Investasi";
+                    settings.AssociatedControlName = "r_TotalInvestasi";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_TotalInvestasi";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_TotalInvestasi).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_TotalInvestasi, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Hasil Investasi";
+                    settings.AssociatedControlName = "r_HasilInvestasi";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_HasilInvestasi";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_HasilInvestasi).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_HasilInvestasi, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Laba Before Tax";
+                    settings.AssociatedControlName = "r_LabaBeforeTax";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_LabaBeforeTax";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_LabaBeforeTax).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_LabaBeforeTax, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Premi Netto";
+                    settings.AssociatedControlName = "r_PremiNetto";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_PremiNetto";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_PremiNetto).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_PremiNetto, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Premi Bruto Tahun Ini";
+                    settings.AssociatedControlName = "r_PremiBruttoPrevY";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_PremiBruttoPrevY";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_PremiBruttoPrevY).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_PremiBruttoPrevY, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Premi Bruto Tahun Lalu";
+                    settings.AssociatedControlName = "r_PremiBruttoCurY";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_PremiBruttoCurY";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_PremiBruttoCurY).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_PremiBruttoCurY, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Total Aktiva";
+                    settings.AssociatedControlName = "r_TotalAktiva";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_TotalAktiva";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_TotalAktiva).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_TotalAktiva, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Aktiva Lancar";
+                    settings.AssociatedControlName = "r_AktivaLancar";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_AktivaLancar";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_AktivaLancar).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_AktivaLancar, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Kewajiban Lancar";
+                    settings.AssociatedControlName = "r_KewajibanLancar";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_KewajibanLancar";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_KewajibanLancar).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_KewajibanLancar, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Beban Komisi Bersih";
+                    settings.AssociatedControlName = "r_BebanKomisiBersih";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_BebanKomisiBersih";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_BebanKomisiBersih).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_BebanKomisiBersih, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Beban Usaha";
+                    settings.AssociatedControlName = "r_BebanUsaha";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_BebanUsaha";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_BebanUsaha).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_BebanUsaha, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Tanah dan Bangunan";
+                    settings.AssociatedControlName = "r_TanahBangunan";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_TanahBangunan";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_TanahBangunan).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_TanahBangunan, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Jumlah Kewajiban Kepada Pemegang Polis";
+                    settings.AssociatedControlName = "r_JumlahKewajibanPolis";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_JumlahKewajibanPolis";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_JumlahKewajibanPolis).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_JumlahKewajibanPolis, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Jumlah Klaim dan Manfaat";
+                    settings.AssociatedControlName = "r_JumlahKlaimManfaat";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_JumlahKlaimManfaat";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_JumlahKlaimManfaat).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_JumlahKlaimManfaat, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "RBC Q4 Tahun Ini";
+                    settings.AssociatedControlName = "r_RBC_Q4";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_RBC_Q4";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_RBC_Q4).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_RBC_Q4, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Total Ekuitas Tahun Lalu";
+                    settings.AssociatedControlName = "r_TotalEkuitasPrevY";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_TotalEkuitasPrevY";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_TotalEkuitasPrevY).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_TotalEkuitasPrevY, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Total Ekuitas Tahun Ini";
+                    settings.AssociatedControlName = "r_TotalEkuitasCurY";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_TotalEkuitasCurY";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_TotalEkuitasCurY).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_TotalEkuitasCurY, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Jaringan Kantor";
+                    settings.AssociatedControlName = "r_JaringanKantor";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_JaringanKantor";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_JaringanKantor).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_JaringanKantor, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Kapasitas Treaty";
+                    settings.AssociatedControlName = "r_KapasitasTreaty";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_KapasitasTreaty";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_KapasitasTreaty).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_KapasitasTreaty, null, new { @class = "validator" })
+            </div>
+
+            <div class="form-group col-xs-10 col-sm-6 col-md-6 col-lg-6">
+                @Html.DevExpress().Label(
+                settings =>
+                {
+                    settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                    settings.Text = "Rasio Dana Investasi Group";
+                    settings.AssociatedControlName = "r_RasioDanaInvestasi";
+                }
+                ).GetHtml()
+                @Html.DevExpress().TextBox(
+                settings =>
+                {
+                    settings.Name = "r_RasioDanaInvestasi";
+                    settings.ControlStyle.CssClass = "editor";
+                }
+                 ).Bind(Model.r_RasioDanaInvestasi).GetHtml()
+                @Html.ValidationMessageFor(model => model.r_RasioDanaInvestasi, null, new { @class = "validator" })
+            </div>
+
+        </form>
+        <div class="form-group">
+            <div class="col-sm-offset-1 col-sm-4">
+                <div class="pull-left">
+                    @Html.DevExpress().Button(
+                    settings =>
+                    {
+                        settings.Name = "btnPemohonUPD";
+                        settings.ControlStyle.CssClass = "button";
+                        settings.Text = "Simpan";
+                        settings.UseSubmitBehavior = true;
+                    }
+                ).GetHtml()
+                    @Html.DevExpress().Button(
+                settings =>
+                {
+                    settings.Name = "btnPemohonCNC";
+                    settings.ControlStyle.CssClass = "button";
+                    settings.Text = "Sebelumnya";
+                    settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "RptAsuransi", Action = "_GetByRekanan_Rek" }) + "'; }";
+                }
+                ).GetHtml()
+                </div>
+            </div>
+        </div>
+
+    </div>
+}

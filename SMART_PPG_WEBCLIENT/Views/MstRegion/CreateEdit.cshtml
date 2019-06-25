@@ -1,0 +1,113 @@
+﻿@model MVCSmartClient01.Models.mstRegionAdmin
+
+@{
+    Html.EnableClientValidation();
+}
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">Data Region</legend>
+</div>
+
+@using (Html.BeginForm("CreateEdit", "MstRegion", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.IdRegionAdmin)
+    @Html.HiddenFor(model => model.CreatedUser)
+    @Html.HiddenFor(model => model.CreatedDate)
+
+    <div class="row">
+        <form role="form">
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Id Supervisor";
+                settings.AssociatedControlName = "IdSupervisor";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "IdSupervisor";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+            }
+   ).Bind(Model.IdSupervisor).GetHtml()
+                @Html.ValidationMessageFor(model => model.IdSupervisor, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.Text = "Kode Region";
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.AssociatedControlName = "RegionAdminCode";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "RegionAdminCode";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 150;
+                settings.Properties.MaxLength = 5;
+            }
+    ).Bind(Model.RegionAdminCode).GetHtml()
+                @Html.ValidationMessageFor(model => model.RegionAdminCode, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Deskripsi Region";
+                settings.AssociatedControlName = "RegionAdminDescription";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "RegionAdminDescription";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+            }
+).Bind(Model.RegionAdminDescription).GetHtml()
+                @Html.ValidationMessageFor(model => model.RegionAdminDescription, null, new { @class = "validator" })
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+            </div>
+            <div class="clearfix"></div>
+        </form>
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Update";
+                settings.UseSubmitBehavior = true;
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "function(s, e){ document.location='" + DevExpressHelper.GetUrl(new { Controller = "MstRegion", Action = "Index" }) + "'; }";
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+    </div>
+    <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdate').click();">
+        <span class="glyphicon glyphicon-ok"></span>&nbsp;Simpan
+    </button>
+    <button type="button" class="btn btn-danger dropdown-toggle" onclick="$('#btnCancel').click();">
+        <span class="glyphicon glyphicon-remove"></span>&nbsp;Batal
+    </button>
+}

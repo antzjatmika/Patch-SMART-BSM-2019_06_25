@@ -1,0 +1,367 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<MVCSmartClient01.Models.trxManagement>
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "_ManagemenBLPart";
+    settings.KeyFieldName = "IdManagemen";
+    settings.Settings.ShowGroupPanel = false;
+    settings.Settings.ShowGroupedColumns = false;
+
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.CallbackRouteValues = new { Controller = "TrxManagement", Action = "_ManagemenBLPart" };
+    settings.Width = Unit.Percentage(100);
+
+    settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+    settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "TrxManagement", Action = "AddUpdateManagemenBL" };
+    settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "TrxManagement", Action = "AddUpdateManagemenBL" };
+    settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "TrxManagement", Action = "DeleteManagemenBL" };
+    settings.SettingsBehavior.ConfirmDelete = true;
+
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowNewButton = true;
+    settings.CommandColumn.ShowDeleteButton = true;
+    settings.CommandColumn.ShowEditButton = true;
+
+    //settings.SetStatusBarTemplateContent(c =>
+    //{
+    //    ViewContext.Writer.Write(
+    //        "<span id=\"lblLoading\">&nbsp;</span>"
+    //        );
+    //});
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+    settings.Columns.Add(column =>
+    {
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<div style='padding: 2px 0px 2px 2px'>");
+            Html.DevExpress().Button(settingsBtn =>
+            {
+                settingsBtn.Name = "btnAddBL";
+                settingsBtn.Text = "New";
+                settingsBtn.RouteValues = new { Controller = "TrxManagement", Action = "New", IdNotification = -1 };
+            }).Render();
+            ViewContext.Writer.Write("</div>");
+        });
+        //column.SetDataItemTemplateContent(c =>
+        //{
+        //    ViewContext.Writer.Write("<div style='padding: 2px 0px 2px 2px'>");
+        //    Html.DevExpress().Button(settingsBtn =>
+        //    {
+        //        settingsBtn.Name = "btnEditBL" + DataBinder.Eval(c.DataItem, "IdManagemenBL").ToString();
+        //        settingsBtn.Text = "Edit";
+        //        settingsBtn.RouteValues = new { Controller = "TrxManagement", Action = "_AddEditManagemenBL", IdNotification = DataBinder.Eval(c.DataItem, "IdManagemenBL") };
+        //    }).Render();
+        //    ViewContext.Writer.Write("</div>");
+        //});
+        column.Width = 50;
+    });
+
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+    settings.Columns.Add("IdManagemen").Visible = false;
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Name";
+        column.Caption = "Nama Lengkap";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "Alamat";
+    //    column.Caption = "Alamat";
+    //    column.HeaderStyle.Font.Bold = true;
+    //    column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+    //    column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    //    column.Width = 150;
+    //});
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NomorKTP";
+        column.Caption = "Nomor KTP";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "NomorNPWP";
+        column.Caption = "Nomor NPWP";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "TanggalLahir";
+    //    column.Caption = "Tgl. Lahir";
+    //    column.HeaderStyle.Font.Bold = true;
+    //    column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+    //    column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    //    column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+    //});
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "Email1";
+    //    column.Caption = "Email";
+    //    column.HeaderStyle.Font.Bold = true;
+    //    column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+    //    column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    //});
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "Handphone1";
+    //    column.Caption = "Handphone";
+    //    column.HeaderStyle.Font.Bold = true;
+    //    column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+    //    column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    //});
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "Telephone1";
+    //    column.Caption = "Telephone";
+    //    column.HeaderStyle.Font.Bold = true;
+    //    column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+    //    column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    //});
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Catatan";
+        column.Caption = "Catatan";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TanggalMulaiBlackList";
+        column.Caption = "Awal Sanksi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy";
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "StatusBlackList";
+        column.Caption = "Status Sanksi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        column.Width = 35;
+    });
+
+
+
+    settings.SetEditFormTemplateContent(
+    c =>
+    {
+        var user = ViewData["UserInfo"] != null ? ViewData["UserInfo"] : c.DataItem;
+
+        //BARIS 1
+        //ViewContext.Writer.Write("<div style=\"float : left; display : inline-block; width : 25%; margin-bottom: 7px;\">");
+        //ViewContext.Writer.Write("<span style=\"width : 150px; display : inline-block; margin-bottom: 3px;\">Nama Lengkap</span>");
+        //Html.DevExpress().TextBox(
+        //    edtSettings =>
+        //    {
+        //        edtSettings.Name = "Name";
+        //        edtSettings.ControlStyle.CssClass = "editor";
+        //        edtSettings.ShowModelErrors = true;
+        //        edtSettings.Width = 200;
+        //    }
+        //)
+        //.Bind(DataBinder.Eval(user, "Name"))
+        //.Render();
+        //ViewContext.Writer.Write("</div>");
+
+        //ViewContext.Writer.Write("<div style=\"float : left; display : inline-block; width : 75%; margin-bottom: 7px;\">");
+        //ViewContext.Writer.Write("<span style=\"width : 150px; display : inline-block; margin-bottom: 3px;\">Alamat</span>");
+        //Html.DevExpress().TextBox(
+        //    edtSettings =>
+        //    {
+        //        edtSettings.Name = "Alamat";
+        //        //edtSettings.ControlStyle.CssClass = "editor";
+        //        edtSettings.ShowModelErrors = true;
+        //        edtSettings.Width = 800;
+        //    }
+        //)
+        //.Bind(DataBinder.Eval(user, "Alamat"))
+        //.Render();
+        //ViewContext.Writer.Write("</div><br /><div class=\"clearfix\"></div>");
+
+        //BARIS 2
+        //ViewContext.Writer.Write("<div style=\"float : left; display : inline-block; width : 25%; margin-bottom: 7px;\">");
+        //ViewContext.Writer.Write("<span style=\"width : 150px; display : inline-block; margin-bottom: 3px;\">Nomor KTP</span>");
+        //Html.DevExpress().TextBox(
+        //    edtSettings =>
+        //    {
+        //        edtSettings.Name = "NomorKTP";
+        //        edtSettings.ControlStyle.CssClass = "editor";
+        //        edtSettings.ShowModelErrors = true;
+        //        edtSettings.Width = 200;
+        //    }
+        //)
+        //.Bind(DataBinder.Eval(user, "NomorKTP"))
+        //.Render();
+        //ViewContext.Writer.Write("</div>");
+
+        //ViewContext.Writer.Write("<div style=\"float : left; display : inline-block; width : 25%; margin-bottom: 7px;\">");
+        //ViewContext.Writer.Write("<span style=\"width : 150px; display : inline-block; margin-bottom: 3px;\">Nomor NPWP</span>");
+        //Html.DevExpress().TextBox(
+        //    edtSettings =>
+        //    {
+        //        edtSettings.Name = "NomorNPWP";
+        //        edtSettings.ControlStyle.CssClass = "editor";
+        //        edtSettings.ShowModelErrors = true;
+        //        edtSettings.Width = 200;
+        //    }
+        //)
+        //.Bind(DataBinder.Eval(user, "NomorNPWP"))
+        //.Render();
+        //ViewContext.Writer.Write("</div>");
+
+        //ViewContext.Writer.Write("<div style=\"float: left; display: inline-block; width: 25%;\">");
+        //ViewContext.Writer.Write("<span style=\"width: 150px; display: inline-block; margin-bottom: 3px;\">Tanggal Lahir</span>");
+        //Html.DevExpress().DateEdit(
+        //    edtSettings =>
+        //    {
+        //        edtSettings.Name = "TanggalLahir";
+        //        edtSettings.ControlStyle.CssClass = "editor";
+        //        edtSettings.ShowModelErrors = true;
+        //        edtSettings.Width = 100;
+        //    }
+        //)
+        //.Bind(DataBinder.Eval(user, "TanggalLahir"))
+        //.Render();
+        //ViewContext.Writer.Write("</div>");
+
+        //ViewContext.Writer.Write("<div style=\"float : left; display : inline-block; width : 25%; margin-bottom: 7px;\">");
+        //ViewContext.Writer.Write("<span style=\"width : 150px; display : inline-block; margin-bottom: 3px;\">Email</span>");
+        //Html.DevExpress().TextBox(
+        //    edtSettings =>
+        //    {
+        //        edtSettings.Name = "Email1";
+        //        edtSettings.ControlStyle.CssClass = "editor";
+        //        edtSettings.ShowModelErrors = true;
+        //        edtSettings.Width = 200;
+        //    }
+        //)
+        //.Bind(DataBinder.Eval(user, "Email1"))
+        //.Render();
+        //ViewContext.Writer.Write("</div><br /><div class=\"clearfix\"></div>");
+
+        //BARIS 3
+        //ViewContext.Writer.Write("<div style=\"float : left; display : inline-block; width : 25%; margin-bottom: 7px;\">");
+        //ViewContext.Writer.Write("<span style=\"width : 150px; display : inline-block; margin-bottom: 3px;\">Handphone</span>");
+        //Html.DevExpress().TextBox(
+        //    edtSettings =>
+        //    {
+        //        edtSettings.Name = "Handphone1";
+        //        edtSettings.ControlStyle.CssClass = "editor";
+        //        edtSettings.ShowModelErrors = true;
+        //        edtSettings.Width = 200;
+        //    }
+        //)
+        //.Bind(DataBinder.Eval(user, "Handphone1"))
+        //.Render();
+        //ViewContext.Writer.Write("</div>");
+
+        //ViewContext.Writer.Write("<div style=\"float : left; display : inline-block; width : 25%; margin-bottom: 7px;\">");
+        //ViewContext.Writer.Write("<span style=\"width : 150px; display : inline-block; margin-bottom: 3px;\">Telephone</span>");
+        //Html.DevExpress().TextBox(
+        //    edtSettings =>
+        //    {
+        //        edtSettings.Name = "Telephone1";
+        //        edtSettings.ControlStyle.CssClass = "editor";
+        //        edtSettings.ShowModelErrors = true;
+        //        edtSettings.Width = 200;
+        //    }
+        //)
+        //.Bind(DataBinder.Eval(user, "Telephone1"))
+        //.Render();
+        //ViewContext.Writer.Write("</div><br /><div class=\"clearfix\"></div>");
+
+
+
+        //BARIS 4
+        //ViewContext.Writer.Write("<div style=\"float : left; display : inline-block; width : 50%; margin-bottom: 7px;\">");
+        //ViewContext.Writer.Write("<span style=\"width : 150px; display : inline-block; margin-bottom: 3px;\">Catatan</span>");
+        //Html.DevExpress().TextBox(
+        //    edtSettings =>
+        //    {
+        //        edtSettings.Name = "Catatan";
+        //        edtSettings.ControlStyle.CssClass = "editor";
+        //        edtSettings.ShowModelErrors = true;
+        //        edtSettings.Width = 400;
+        //    }
+        //)
+        //.Bind(DataBinder.Eval(user, "Catatan"))
+        //.Render();
+        //ViewContext.Writer.Write("</div>");
+
+        //ViewContext.Writer.Write("<div style=\"float: left; display: inline-block; width: 25%;\">");
+        //ViewContext.Writer.Write("<span style=\"width: 150px; display: inline-block; margin-bottom: 3px;\">Tanggal Mulai BlackList</span>");
+        //Html.DevExpress().DateEdit(
+        //    edtSettings =>
+        //    {
+        //        edtSettings.Name = "TanggalMulaiBlackList";
+        //        edtSettings.ControlStyle.CssClass = "editor";
+        //        edtSettings.ShowModelErrors = true;
+        //        edtSettings.Width = 100;
+        //    }
+        //)
+        //.Bind(DataBinder.Eval(user, "TanggalMulaiBlackList"))
+        //.Render();
+        //ViewContext.Writer.Write("</div>");
+
+        //ViewContext.Writer.Write("<div style=\"float : left; display : inline-block; width : 25%;\">");
+        //ViewContext.Writer.Write("<span style=\"width : 150px; display : inline-block; margin-bottom: 3px;\">Status BlackList</span>");
+        //Html.DevExpress().CheckBox(
+        //    edtSettings =>
+        //    {
+        //        edtSettings.Name = "StatusBlackList";
+        //        edtSettings.ShowModelErrors = true;
+        //        edtSettings.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        //        edtSettings.Width = 200;
+        //    }
+        //)
+        //.Bind(DataBinder.Eval(user, "StatusBlackList"))
+        //.Render();
+        //ViewContext.Writer.Write("</div><br /><div class=\"clearfix\"></div>");
+
+        ViewContext.Writer.Write(
+            "<div style=\"text-align: right; padding: 2px 2px 2px 2px\">" +
+                string.Format("<a href=\"#\" onclick=\"{0}.UpdateEdit()\">Update</a> ", settings.Name) +
+                string.Format("<a href=\"#\" onclick=\"{0}.CancelEdit()\">Cancel</a>", settings.Name) +
+            "</div>"
+        );
+        ViewContext.Writer.Write("</div>");
+    }
+);
+
+}).Bind(Model).GetHtml()

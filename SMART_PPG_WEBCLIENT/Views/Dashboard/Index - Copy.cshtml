@@ -1,0 +1,496 @@
+﻿@*<script type="text/javascript" src="https://www.google.com/jsapi"></script>*@
+<script>
+    function OnActiveTabChanging(s, e) {
+        var action = e.tab.name;
+        var actionUrl = "http://localhost:3239/Dashboard/" + action;
+        //alert(actionUrl);
+        $.ajax({
+            type: "POST",
+            url: actionUrl,
+            success: function (response) {
+                PageControl.SetTabContentHTML(e.tab, response);
+            }
+        });
+    }
+</script>
+<script type="text/javascript">
+    //google.load("visualization", "1", { packages: ["corechart"] });
+    //google.charts.load("current", {
+    //    "packages": ["map"],
+    //    "callback": PopulateMap(1),
+    //    // Note: you will need to get a mapsApiKey for your project.
+    //    // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+    //    "mapsApiKey": "AIzaSyATBrkORUyvPS_C16PWT9Drkjp_Ed1h8iQ"
+    //});
+
+    @*function PopulatePieChart(IdTypeOfRekanan) {
+        var urlAddress = '';
+        var typeOfRekanan = '';
+        urlAddress = '@Url.Action("Data_FeeByRekanan", "Dashboard", new { IdTypeOfRekanan = "myaabbcc"})'.replace("myaabbcc", IdTypeOfRekanan);
+        switch (IdTypeOfRekanan) {
+            case 1:
+                typeOfRekanan = "KJPP";
+                break;
+            case 2:
+                typeOfRekanan = "KAP";
+                break;
+            case 3:
+                typeOfRekanan = "Konsultan Management";
+                break;
+            case 4:
+                typeOfRekanan = "Asuransi Jiwa";
+                break;
+            case 5:
+                typeOfRekanan = "Asuransi Kerugian";
+                break;
+            case 6:
+                typeOfRekanan = "Balai Lelang";
+                break;
+            case 7:
+                typeOfRekanan = "Notaris";
+                break;
+            default:
+                typeOfRekanan = "Undefine";
+                break;
+        }
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: urlAddress,
+            data: '{}',
+            success: function (chartsdata) {
+
+                // Callback that creates and populates a data table,
+                // instantiates the pie chart, passes in the data and
+                // draws it.
+
+                var data = new google.visualization.DataTable();
+
+                data.addColumn('string', 'NamaRekanan');
+                data.addColumn('number', 'TotalFee');
+
+                for (var i = 0; i < chartsdata.length; i++) {
+                    data.addRow([chartsdata[i].NamaRekanan, chartsdata[i].TotalFee]);
+                }
+
+                // Instantiate and draw our chart, passing in some options
+                var chart; // = new google.visualization.PieChart(document.getElementById('pieKJP'));
+                switch (IdTypeOfRekanan) {
+                    case 1:
+                        chart = new google.visualization.PieChart(document.getElementById('pieKJP'));
+                        break;
+                    case 2:
+                        chart = new google.visualization.PieChart(document.getElementById('pieKAP'));
+                        break;
+                    case 3:
+                        chart = new google.visualization.PieChart(document.getElementById('pieKMG'));
+                        break;
+                    case 4:
+                        chart = new google.visualization.PieChart(document.getElementById('pieASJ'));
+                        break;
+                    case 5:
+                        chart = new google.visualization.PieChart(document.getElementById('pieASK'));
+                        break;
+                    case 6:
+                        chart = new google.visualization.PieChart(document.getElementById('pieBLG'));
+                        break;
+                    case 7:
+                        chart = new google.visualization.PieChart(document.getElementById('pieNOT'));
+                        break;
+                }
+
+                chart.draw(data,
+                  {
+                      title: "Top 3 Total Fee, Tahun 2017 : " + typeOfRekanan,
+                      position: "top",
+                      fontsize: "14px",
+                      chartArea: { width: '100%' },
+                      is3D: true,
+                  });
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+    }*@
+
+    @*function PopulatePieJumlahPek(IdTypeOfRekanan) {
+        var urlAddress = '';
+        var typeOfRekanan = '';
+        urlAddress = '@Url.Action("Data_PekerjaanByRekanan", "Dashboard", new { IdTypeOfRekanan = "myaabbcc" })'.replace("myaabbcc", IdTypeOfRekanan);
+        switch (IdTypeOfRekanan) {
+            case 1:
+                typeOfRekanan = "KJPP";
+                break;
+            case 2:
+                typeOfRekanan = "KAP";
+                break;
+            case 3:
+                typeOfRekanan = "Konsultan Management";
+                break;
+            case 4:
+                typeOfRekanan = "Asuransi Jiwa";
+                break;
+            case 5:
+                typeOfRekanan = "Asuransi Kerugian";
+                break;
+            case 6:
+                typeOfRekanan = "Balai Lelang";
+                break;
+            case 7:
+                typeOfRekanan = "Notaris";
+                break;
+            default:
+                typeOfRekanan = "Undefine";
+                break;
+        }
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: urlAddress,
+            data: '{}',
+            success: function (chartsdata) {
+
+                // Callback that creates and populates a data table,
+                // instantiates the pie chart, passes in the data and
+                // draws it.
+
+                var data = new google.visualization.DataTable();
+
+                data.addColumn('string', 'NamaRekanan');
+                data.addColumn('number', 'JumlahPekerjaan');
+
+                for (var i = 0; i < chartsdata.length; i++) {
+                    data.addRow([chartsdata[i].NamaRekanan, chartsdata[i].JumlahPekerjaan]);
+                }
+
+                // Instantiate and draw our chart, passing in some options
+                var chart; // = new google.visualization.PieChart(document.getElementById('pieKJP'));
+                switch (IdTypeOfRekanan) {
+                    case 1:
+                        chart = new google.visualization.PieChart(document.getElementById('piePekerjaanKJP'));
+                        break;
+                    case 2:
+                        chart = new google.visualization.PieChart(document.getElementById('piePekerjaanKAP'));
+                        break;
+                    case 3:
+                        chart = new google.visualization.PieChart(document.getElementById('piePekerjaanKMG'));
+                        break;
+                    case 4:
+                        chart = new google.visualization.PieChart(document.getElementById('piePekerjaanASJ'));
+                        break;
+                    case 5:
+                        chart = new google.visualization.PieChart(document.getElementById('piePekerjaanASK'));
+                        break;
+                    case 6:
+                        chart = new google.visualization.PieChart(document.getElementById('piePekerjaanBLG'));
+                        break;
+                    case 7:
+                        chart = new google.visualization.PieChart(document.getElementById('piePekerjaanNOT'));
+                        break;
+                }
+
+                chart.draw(data,
+                  {
+                      title: "Top 3 Total Pekerjaan, Tahun 2017 : " + typeOfRekanan,
+                      position: "top",
+                      fontsize: "14px",
+                      chartArea: { width: '100%' },
+                      is3D: true,
+                  });
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+    }*@
+
+
+
+    @*function PopulateMap(IdTypeOfRekanan) {
+        var urlAddress = '';
+        var typeOfRekanan = '';
+        urlAddress = '@Url.Action("Data_LatLongByRekanan", "Dashboard", new { IdTypeOfRekanan = "myaabbcc"})'.replace("myaabbcc", IdTypeOfRekanan);
+        switch (IdTypeOfRekanan) {
+            case 1:
+                typeOfRekanan = "KJPP";
+                break;
+            case 2:
+                typeOfRekanan = "KAP";
+                break;
+            case 3:
+                typeOfRekanan = "Konsultan Management";
+                break;
+            case 4:
+                typeOfRekanan = "Asuransi Jiwa";
+                break;
+            case 5:
+                typeOfRekanan = "Asuransi Kerugian";
+                break;
+            case 6:
+                typeOfRekanan = "Balai Lelang";
+                break;
+            case 7:
+                typeOfRekanan = "Notaris";
+                break;
+            default:
+                typeOfRekanan = "Undefine";
+                break;
+        }
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: urlAddress,
+            data: '{}',
+            success: function (chartsdata) {
+                //var data = google.visualization.arrayToDataTable([
+                //  ['Lat', 'Long', 'Name'],
+                //  [37.4232, -122.0853, 'Work'],
+                //  [37.4289, -122.1697, 'University'],
+                //  [37.6153, -122.3900, 'Airport'],
+                //  [37.4422, -122.1731, 'Shopping']
+                //]);
+
+                var data = new google.visualization.DataTable();
+
+                data.addColumn('number', 'Lat');
+                data.addColumn('number', 'Long');
+                data.addColumn('string', 'Name');
+
+                for (var i = 0; i < chartsdata.length; i++) {
+                    data.addRow([chartsdata[i].Latitude, chartsdata[i].Longitude, chartsdata[i].Name]);
+                }
+
+                // Instantiate and draw our chart, passing in some options
+                var chart; // = new google.visualization.PieChart(document.getElementById('pieKJP'));
+                switch (IdTypeOfRekanan) {
+                    case 1:
+                        chart = new google.visualization.Map(document.getElementById('mapKJP'));
+                        break;
+                    case 2:
+                        chart = new google.visualization.Map(document.getElementById('mapKAP'));
+                        break;
+                    case 3:
+                        chart = new google.visualization.Map(document.getElementById('mapKMG'));
+                        break;
+                    case 4:
+                        chart = new google.visualization.Map(document.getElementById('mapASJ'));
+                        break;
+                    case 5:
+                        chart = new google.visualization.Map(document.getElementById('mapASK'));
+                        break;
+                    case 6:
+                        chart = new google.visualization.Map(document.getElementById('mapBLG'));
+                        break;
+                    case 7:
+                        chart = new google.visualization.Map(document.getElementById('mapNOT'));
+                        break;
+                }
+
+                chart.draw(data,
+                  {
+                      //title: "Sebaran Lokasi Rekanan : " + typeOfRekanan,
+                      showTooltip: true
+                      //showInfoWindow: true,
+                      //position: "top",
+                      //fontsize: "14px",
+                      //chartArea: { width: '100%' },
+                      //is3D: true,
+                  });
+            },
+            error: function () {
+                alert("Error loading data! Please try again.");
+            }
+        });
+    }*@
+
+    function drawChart() {
+        alert('asem');
+        var data = google.visualization.arrayToDataTable([
+          ['Lat', 'Long', 'Name'],
+          [37.4232, -122.0853, 'Work'],
+          [37.4289, -122.1697, 'University'],
+          [37.6153, -122.3900, 'Airport'],
+          [37.4422, -122.1731, 'Shopping']
+        ]);
+
+        var map = new google.visualization.Map(document.getElementById('map_div'));
+        map.draw(data, {
+            showTooltip: true,
+            showInfoWindow: true
+        });
+    }
+
+
+    function drawStuff() {
+        var button = document.getElementById('change-chart');
+        var chartDiv = document.getElementById('chart_div');
+
+        var data = google.visualization.arrayToDataTable([
+          ['Galaxy', 'Distance', 'Brightness'],
+          ['Canis Major Dwarf', 8000, 23.3],
+          ['Sagittarius Dwarf', 24000, 4.5],
+          ['Ursa Major II Dwarf', 30000, 14.3],
+          ['Lg. Magellanic Cloud', 50000, 0.9],
+          ['Bootes I', 60000, 13.1]
+        ]);
+
+        var materialOptions = {
+            width: 900,
+            chart: {
+                title: 'Nearby galaxies',
+                subtitle: 'distance on the left, brightness on the right'
+            },
+            series: {
+                0: { axis: 'distance' }, // Bind series 0 to an axis named 'distance'.
+                1: { axis: 'brightness' } // Bind series 1 to an axis named 'brightness'.
+            },
+            axes: {
+                y: {
+                    distance: { label: 'parsecs' }, // Left y-axis.
+                    brightness: { side: 'right', label: 'apparent magnitude' } // Right y-axis.
+                }
+            }
+        };
+
+        var classicOptions = {
+            width: 900,
+            series: {
+                0: { targetAxisIndex: 0 },
+                1: { targetAxisIndex: 1 }
+            },
+            title: 'Nearby galaxies - distance on the left, brightness on the right',
+            vAxes: {
+                // Adds titles to each axis.
+                0: { title: 'parsecs' },
+                1: { title: 'apparent magnitude' }
+            }
+        };
+
+        function drawMaterialChart() {
+            var materialChart = new google.charts.Bar(chartDiv);
+            materialChart.draw(data, google.charts.Bar.convertOptions(materialOptions));
+            button.innerText = 'Change to Classic';
+            button.onclick = drawClassicChart;
+        }
+
+        function drawClassicChart() {
+            var classicChart = new google.visualization.ColumnChart(chartDiv);
+            classicChart.draw(data, classicOptions);
+            button.innerText = 'Change to Material';
+            button.onclick = drawMaterialChart;
+        }
+        drawMaterialChart();
+    };
+</script>
+<style>
+    .ScrollStyle
+    {
+        max-height: 60%;
+        overflow-y: scroll;
+    }
+
+    /*div{
+      display:inline-block;
+      float:left;
+      color:#fff;
+      font-size:40px;
+    }*/
+
+    .one{
+      width:600px;
+      height:300px;
+    }
+
+    .two{
+        width:100px;
+      height:200px;
+    }
+
+    .three{
+        width:100px;
+      height:200px;
+    }
+
+    .four{
+      width:300px;
+      height:300px;
+    }
+    .five{
+      width:300px;
+      height:300px;
+    }
+
+
+    .column {
+    float: left;
+    padding: 10px;
+    height: 300px; /* Should be removed. Only for demonstration */
+}
+
+.left {
+  width: 50%;
+}
+
+.right {
+  width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+</style>
+
+@*@Html.DevExpress().PageControl(settingsPageControl =>
+{
+    settingsPageControl.Name = "pageControl";
+    settingsPageControl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settingsPageControl.ActiveTabIndex = 0;
+    settingsPageControl.ClientSideEvents.ActiveTabChanging = "OnActiveTabChanging";
+
+    //settingsPageControl.TabPages.Add("KAP", "_FeeByRekananKAP").SetContent(() =>
+    //{
+    //    Html.RenderAction("_FeeByRekananKAP");
+    //});
+    settingsPageControl.TabPages.Add("KJP", "_FeeByRekananKJP").SetContent(() =>
+    {
+        Html.RenderAction("_FeeByRekananKJP");
+    });
+}).GetHtml()*@
+@*<div>
+    @Html.Partial("_FeeByRekananKJP")
+</div>*@
+
+@*<div style="width: 50%; float:left">
+    @Html.Partial("_FeeByRekanan")
+</div>
+<div style="width: 50%; float:right">
+    @Html.Partial("_JumlahPekerjaanByRekanan")
+</div>
+<div style="width: 100%; float:right">
+    @Html.Partial("_JumlahPekerjaanByRekanan")
+</div>*@
+
+<div class="row">
+    <div class="column left">
+        <div class="four">@Html.Partial("_FeeByRekanan")</div>
+        <div class="five">@Html.Partial("_JumlahPekerjaanByRekanan")</div>
+    </div>
+    <div class="column right">
+        <h6 style="font-weight:bold">Peta Sebaran Lokasi Rekanan</h6>
+        <div class="one">@Html.Partial("_LatLongByRekanan")</div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $("#mainFooter").hide();
+    });
+</script>

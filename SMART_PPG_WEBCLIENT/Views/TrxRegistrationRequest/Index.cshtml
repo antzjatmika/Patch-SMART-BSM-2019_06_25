@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<script>
+    function OnActiveTabChanging(s, e) {
+        //alert(1122);
+        var action = e.tab.name;
+        var actionUrl = "http://localhost:3239/TrxNotificationHeader/" + action;
+        $.ajax({
+            type: "POST",
+            url: actionUrl,
+            success: function (response) {
+                PageControl.SetTabContentHTML(e.tab, response);
+            }
+        });
+    }
+</script>
+@Html.DevExpress().PageControl(settingsPageControl =>
+{
+    settingsPageControl.Name = "pageControl";
+    settingsPageControl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settingsPageControl.ActiveTabIndex = 0;
+    settingsPageControl.ClientSideEvents.ActiveTabChanging = "OnActiveTabChanging";
+
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Pendaftar";
+        tab.Name = "_RekananPendaftar";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("_IndexIsActive", "TrxRegistrationRequest", new { IsActive = 2 });
+        });
+    });
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Aktif";
+        tab.Name = "_RekananAktif";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("_IndexIsActive", "TrxRegistrationRequest", new { IsActive = 1 });
+        });
+    });
+    settingsPageControl.TabPages.Add(tab =>
+    {
+        tab.Text = "Non Aktif";
+        tab.Name = "_RekananNonAktif";
+        tab.TabStyle.Width = 150;
+        tab.SetContent(() =>
+        {
+            Html.RenderAction("_IndexIsActive", "TrxRegistrationRequest", new { IsActive = 0 });
+        });
+    });
+    //settingsPageControl.TabPages.Add(tab =>
+    //{
+    //    tab.Text = "Calon";
+    //    tab.Name = "_RekananCalon";
+    //    tab.TabStyle.Width = 150;
+    //    tab.SetContent(() =>
+    //    {
+    //        Html.RenderAction("_IndexIsActive", "TrxRegistrationRequest", new { IsActive = 3 });
+    //    });
+    //});
+    //settingsPageControl.TabPages.Add(tab =>
+    //{
+    //    tab.Text = "Pendaftaran Ditolak";
+    //    tab.Name = "_PendaftaranDitolak";
+    //    tab.TabStyle.Width = 150;
+    //    tab.SetContent(() =>
+    //    {
+    //        Html.RenderAction("_IndexIsActive", "TrxRegistrationRequest", new { IsActive = 4 });
+    //    });
+    //});
+}).GetHtml()

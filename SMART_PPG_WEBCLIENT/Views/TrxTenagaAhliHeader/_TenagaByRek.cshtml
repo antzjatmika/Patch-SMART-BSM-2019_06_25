@@ -1,0 +1,91 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<MVCSmartClient01.Models.trxTenagaAhliHeader>
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "_TenagaByRek" + ViewData["IdTenaga"].ToString();
+    settings.CallbackRouteValues = new { Controller = "TrxTenagaAhliHeader", Action = "_TATetapByRek", IdTenaga = ViewData["IdTenaga"] };
+    settings.Width = Unit.Percentage(100);
+
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "#";
+        column.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                "<table><tr><td>" +
+                Html.ActionLink("Detail", "AddEditTAHeader", new
+                {
+                    @class = "updateLink",
+                    IdTenagaAhliHeader = DataBinder.Eval(c.DataItem, "IdTenagaAhliHeader")
+                    , GuidHeader = DataBinder.Eval(c.DataItem, "GuidHeader") }) + "&nbsp;" +
+                //"</td><td>" +
+                //Html.ActionLink("Delete", "_DeleteTAhli", new { @class = "deleteLink", IdHeader = DataBinder.Eval(c.DataItem, "IdTenagaAhliHeader") },
+                //    new { onclick = "return confirm('Apakah Anda yakin akan menghapus data ini ?')" })
+                "</td></tr></table>"
+            );
+        });
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                Html.ActionLink("New", "AddEditTAHeader", new { IdTenagaAhliHeader = -1, GuidHeader = Guid.Empty, IdTenaga = ViewData["IdTenaga"] }).ToHtmlString()
+            );
+        });
+        column.Width = 70;
+    });
+
+    settings.KeyFieldName = "IdTenagaAhliHeader";
+    
+    //DISPLAY ROW NUMBER
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "No.";
+        column.UnboundType = DevExpress.Data.UnboundColumnType.Integer;
+        column.Width = 10;
+        column.Settings.AllowAutoFilter = DefaultBoolean.False;
+    });
+    settings.CustomColumnDisplayText = (sender, e) =>
+    {
+        if (e.Column.FieldName == "No.")
+        {
+            e.DisplayText = (e.VisibleRowIndex + 1).ToString();
+        }
+    };
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IdTenagaAhliHeader";
+        column.Caption = "ID Dokumen";
+        column.Width = 150;
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.SortOrder = DevExpress.Data.ColumnSortOrder.Descending;
+        column.Visible = false;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "JudulDokumen";
+        column.Caption = "Keterangan";
+        column.HeaderStyle.Font.Bold = true;
+        column.HeaderStyle.HorizontalAlign = HorizontalAlign.Center;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        //column.SortOrder = DevExpress.Data.ColumnSortOrder.Descending;
+    });
+}).Bind(Model).GetHtml()
+
+

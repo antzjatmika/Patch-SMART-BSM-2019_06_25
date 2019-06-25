@@ -1,0 +1,62 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.trxNotification>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CaptionNoti)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ContentNoti)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdTypeOfStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdTypeOfNoti)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JatuhTempo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdRekanan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CaptionNoti)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContentNoti)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdTypeOfStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdTypeOfNoti)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JatuhTempo)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.IdNotification }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IdNotification })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,96 @@
+﻿@{
+    Layout = "";
+}
+<head>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <style>
+        div.demo {
+            display: table;
+            width: 100%;
+            table-layout: fixed; /* For cells of equal size */
+        }
+
+            div.demo span {
+                display: table-cell;
+                text-align: center;
+            }
+
+        spanX {
+            display: table;
+            margin: 0 auto;
+        }
+
+        .badge {
+            padding: 1px 9px 2px;
+            font-size: 10px;
+            font-weight: bold;
+            white-space: nowrap;
+            color: #ffffff;
+            background-color: #999999;
+            -webkit-border-radius: 9px;
+            -moz-border-radius: 9px;
+            border-radius: 9px;
+        }
+
+        .badge-error {
+            background-color: red;
+        }
+
+        .badge-warning {
+            background-color: #f89406;
+        }
+
+        .badge-success {
+            background-color: #468847;
+        }
+
+    </style>
+</head>
+@*REGISTER/LOGIN*@
+<div class="demo">
+    <div class="container" id="slideMenu">
+        <div class="row">
+            @if (ViewBag.TestRole != null)
+            {
+                switch ((string)ViewBag.TestRole)
+                {
+                    case "Rek_Profile":
+                        <button style="border-right: rgba(255,255,255,0.2) 1px solid;position:relative;left:0;height:50px;width:50px;color: #fff;display: block;" onclick="document.getElementById('slideMenu').style.display = 'none'">X</button>
+                        <ul>
+                            <li><a href="@Url.Action("CreateEdit", "MstRekanan")">Identitas Rekanan</a></li>
+                            <li><a href="@Url.Action("CreateEdit", "TrxNotaris")">DataNotaris</a></li>
+                            <li><a href="@Url.Action("GetByRekanan", "TrxRekananDocument")">Daftar Dokumen</a></li>
+                            <li><a href="@Url.Action("CreateEdit", "TrxDataOrganisasi")">Data Organisasi</a></li>
+                            <li><a href="@Url.Action("GetByRekanan", "TrxOwnership")">Kepemilikan Perusahaan</a></li>
+                            <li><a href="@Url.Action("GetByIdOrganisasi", "TrxBranchOffice")">Daftar Cabang</a></li>
+                            <li><a href="@Url.Action("GetByRekanan", "TrxTenagaAhli")">Daftar Tenaga Ahli</a></li>
+                            <li><a href="@Url.Action("GetByRekanan", "MstContact")">Daftar Kontak</a></li>
+                        </ul>
+                        break;
+                    case "Pcp_Konfigurasi":
+                        <li><a href="@Url.Action("GetEmailConfig", "MstReference")">Konfigurasi Email</a></li>
+                        <li><a href="@Url.Action("GetReport01Config", "MstReference")">Konfigurasi Laporan</a></li>
+                        <li><a href="@Url.Action("GetDashboard01Config", "MstReference")">Konfigurasi Dashboard</a></li>
+                        break;
+                    case "Pcp_Laporan":
+                    <ul>
+                        <li><a href="#">Laporan 11</a></li>
+                        <li><a href="#">Laporan 22</a></li>
+                        <li><a href="#">Laporan 33</a></li>
+                        <li><a href="#">Laporan 44</a></li>
+                        <li><a href="#">Laporan 55</a></li>
+                    </ul>
+                        break;
+                    case "Adm_Konfigurasi":
+                    <ul>
+                        <li><a href="#">Konfigurasi Satu</a></li>
+                        <li><a href="#">Konfigurasi Dua</a></li>
+                        <li><a href="#">Konfigurasi Tiga</a></li>
+                    </ul>
+                        break;
+                }
+            }
+        </div>
+    </div>
+</div>
+

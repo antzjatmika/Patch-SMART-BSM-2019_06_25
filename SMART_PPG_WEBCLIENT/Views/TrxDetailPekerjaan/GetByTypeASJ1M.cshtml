@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<div id="legend" style="margin-bottom:-10px">
+    <legend style="font-size:medium" class="">@ViewBag.JudulDetail</legend>
+</div>
+<script type="text/javascript">
+    var ExportToExcel = function () {
+        //alert(_DetailPekerjaan.cp_FilterOri);
+        var postText = _DetailPekerjaan_1M.cp_FilterOri;
+        //alert(postText);
+        window.location.href = '@Url.Action("XLS_ListPekerjaanASJ1M", "TrxDetailPekerjaan", new { strFilterExpression = "QWERTY" })'.replace("QWERTY", postText);
+        return false;
+    };
+</script>
+<button id="btnExportXls" name="button4xl" class="btn btn-secondary btn-sm" onclick="ExportToExcel()">Export To XLS</button>
+@Html.Partial("_GetByRekananAS_1M")

@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>MY DASHBOARD</h2>
+
+@Html.DevExpress().Chart(settings =>
+{
+    settings.Name = "chart";
+    settings.Width = 920;
+    settings.Height = 500;
+    
+    settings.Titles.Add(new ChartTitle()
+    {
+        Text = "Historic, current and future population"
+    });
+
+    //Series series1 = new Series("Year1", DevExpress.XtraCharts.ViewType.Bar);
+    
+    //series1.ArgumentDataMember = "Region";
+    //series1.ValueDataMembers[0] = "Sales";
+    //settings.Series.Add(series1);
+
+    Series series1 = new Series("Series 1", DevExpress.XtraCharts.ViewType.Bar);
+    Series series2 = new Series("Series 2", DevExpress.XtraCharts.ViewType.Bar);
+    Series series3 = new Series("Series 3", DevExpress.XtraCharts.ViewType.Bar);
+    Series series4 = new Series("Series 4", DevExpress.XtraCharts.ViewType.Bar);
+
+    // Add points to them
+    series1.Points.Add(new SeriesPoint("A", 10));
+    series1.Points.Add(new SeriesPoint("B", 12));
+    series1.Points.Add(new SeriesPoint("C", 14));
+    series1.Points.Add(new SeriesPoint("D", 17));
+
+    series2.Points.Add(new SeriesPoint("A", 15));
+    series2.Points.Add(new SeriesPoint("B", 18));
+    series2.Points.Add(new SeriesPoint("C", 25));
+    series2.Points.Add(new SeriesPoint("D", 33));
+
+    series3.Points.Add(new SeriesPoint("A", 11));
+    series3.Points.Add(new SeriesPoint("B", 13));
+    series3.Points.Add(new SeriesPoint("C", 15));
+    series3.Points.Add(new SeriesPoint("D", 18));
+
+    series4.Points.Add(new SeriesPoint("A", 16));
+    series4.Points.Add(new SeriesPoint("B", 19));
+    series4.Points.Add(new SeriesPoint("C", 26));
+    series4.Points.Add(new SeriesPoint("D", 34));
+
+    // Add all series to the chart.
+    settings.Series.AddRange
+        (new Series[] { series1, series2, series3, series4 });
+    
+    XYDiagram diagram = (XYDiagram)settings.Diagram;
+    diagram.AxisY.Title.Text = "Population mid-year, millions";
+    diagram.AxisY.Title.Visible = true;
+}).Bind(Model).GetHtml()

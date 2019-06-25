@@ -1,0 +1,313 @@
+﻿@using System.Web.UI.WebControls
+@model MVCSmartClient01.Models.readInfoByIdNotiForm
+
+<script type="text/javascript" src="~/Scripts/SmartApps.js"></script>
+<script>
+    function DisplayAttachmentDoc(imageType) {
+        var fileEkstensi = '.jpg';
+        switch (imageType) {
+            case '1':
+                fileEkstensi = '_1' + '@Model.ReadInfoByNoti.FileExt1';
+                break;
+            case '2':
+                fileEkstensi = '_2' + '@Model.ReadInfoByNoti.FileExt2';
+                break;
+            case '3':
+                fileEkstensi = '_3' + '@Model.ReadInfoByNoti.FileExt3';
+                break;
+        }
+        //alert(fileEkstensi);
+        //172283c6-ef5e-42f6-98ae-50c55523d414.pdf
+        window.open(('../Content/DocumentImages/XYZ123456789' + fileEkstensi).replace('XYZ123456789', '@Model.ReadInfoByNoti.Attachment'), 'KTP', 'toolbar=no, left=100,top=25,location=no, directories=no, status=no, menubar=no, width=700, height=700');
+        return false;
+    }
+</script>
+@using (Html.BeginForm("_ReadNotiDetail", "TrxNotificationHeader", new { IdNotificationDetail = @Model.ReadInfoByNoti.IdNotificationDetail, FlgTraySent = ViewData["FlgTraySent"] }))
+{
+    @Html.HiddenFor(model => model.ReadInfoByNoti.IdNotificationDetail)
+    @Html.HiddenFor(model => model.ReadInfoByNoti.SubjectFrom)
+    @Html.HiddenFor(model => model.ReadInfoByNoti.flgValidity)
+    @Html.Hidden("AllowReply");
+
+    @Html.HiddenFor(model => model.ReadInfoByNoti.FileExt1, new { id = "id4FileExtAtt1" })
+    @Html.HiddenFor(model => model.ReadInfoByNoti.FileExt2, new { id = "id4FileExtAtt2" })
+    @Html.HiddenFor(model => model.ReadInfoByNoti.FileExt3, new { id = "id4FileExtAtt3" })
+
+
+    <div class="row">
+        <form role="form">
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Pengirim";
+                settings.AssociatedControlName = "From_Name";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "From_Name";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.ReadOnly = true;
+            }
+).Bind(Model.ReadInfoByNoti.From_Name).GetHtml()
+                <br />
+                <div class="clearfix"></div>
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.Name = "LblToName";
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Penerima";
+                settings.AssociatedControlName = "From_Name";
+                if (ViewBag.IsHead != null && ViewBag.IsHead == true)
+                {
+                    settings.ClientVisible = false;
+                }
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "To_Name";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 250;
+                settings.ReadOnly = true;
+                if (ViewBag.IsHead != null && ViewBag.IsHead == true)
+                {
+                    settings.ClientVisible = false;
+                }
+            }
+            ).Bind(Model.ReadInfoByNoti.To_Name).GetHtml()
+                <br />
+                <div class="clearfix"></div>
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Judul";
+                settings.AssociatedControlName = "CaptionInfo";
+            }
+        ).GetHtml()
+                @Html.DevExpress().TextBox(
+            settings =>
+            {
+                settings.Name = "CaptionInfo";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = 350;
+                settings.ReadOnly = true;
+            }
+).Bind(Model.ReadInfoByNoti.CaptionInfo).GetHtml()
+                <br />
+                <div class="clearfix"></div>
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Level Urgensi";
+                settings.AssociatedControlName = "IdLevelUrgensi";
+            }
+        ).GetHtml()
+                @Html.DevExpress().ComboBoxFor(x => x.ReadInfoByNoti.IdLevelUrgensi,
+                settings =>
+                {
+                    settings.Name = "IdLevelUrgensi";
+                    settings.ControlStyle.CssClass = "control-field";
+                    settings.Properties.ValueField = "RefId";
+                    settings.Properties.TextField = "RefDescription";
+                    settings.Width = 200;
+                    settings.Properties.ValidationSettings.RequiredField.IsRequired = true;
+                    settings.ReadOnly = true;
+                }).BindList(Model.LevelUrgensiColls).GetHtml()
+                <br />
+                <div class="clearfix"></div>
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Isi Pesan";
+                settings.AssociatedControlName = "BodyContent";
+            }
+        ).GetHtml()
+            @Html.DevExpress().Memo(
+                settings =>
+                {
+                    settings.Name = "BodyContent";
+                    settings.ControlStyle.CssClass = "editor";
+                    settings.Height = 175;
+                    settings.Width = 350;
+                    settings.ReadOnly = true;
+                }
+        ).Bind(Model.ReadInfoByNoti.BodyContent).GetHtml()
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Attachment 1";
+                settings.AssociatedControlName = "Upload1";
+            }
+        ).GetHtml()
+            @*<button style="font-size:small" type="button" onclick="return DisplayAttachmentDoc('1')">Gambar</button>*@
+
+                <div id="MyDivAtt1" class="col-xs-3 nopadding">
+                    <a href="javascript:void(0);" id="MyDivAtt1" onclick="DisplayMe1(this)">File yang diupload</a>
+                </div>
+                <div class="clearfix"></div>
+                <div id="DisplayAtt1">
+                    <!-- The Modal -->
+                    <div id="MyModal1" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="CloseMe1()" style=padding:0px;>&times;</span>
+                            <object data=@Html.Raw("/Content/DocumentImages/" + @Model.ReadInfoByNoti.Attachment + "_1" + @Model.ReadInfoByNoti.FileExt1 + "?" + DateTime.Now.Ticks.ToString()) class="mdlcontain"></object>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                &nbsp;
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Attachment 2";
+                settings.AssociatedControlName = "Upload2";
+            }
+        ).GetHtml()
+                @*<button style="font-size:small" type="button" onclick="return DisplayAttachmentDoc('2')">Gambar</button>*@
+                <div id="MyDivAtt2" class="col-xs-3 nopadding">
+                    <a href="javascript:void(0);" id="MyDivAtt2" onclick="DisplayMe2(this)">File yang diupload</a>
+                </div>
+                <div class="clearfix"></div>
+                <div id="DisplayAtt2">
+                    <!-- The Modal -->
+                    <div id="MyModal2" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="CloseMe2()" style=padding:0px;>&times;</span>
+                            <object data=@Html.Raw("/Content/DocumentImages/" + @Model.ReadInfoByNoti.Attachment + "_2" + @Model.ReadInfoByNoti.FileExt2 + "?" + DateTime.Now.Ticks.ToString()) class="mdlcontain"></object>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                &nbsp;
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-xs-3 control-label";
+                settings.Text = "Attachment 3";
+                settings.AssociatedControlName = "Upload3";
+            }
+        ).GetHtml()
+                @*<button style="font-size:small" type="button" onclick="return DisplayAttachmentDoc('3')">Gambar</button>*@
+                <div id="MyDivAtt3" class="col-xs-3 nopadding">
+                    <a href="javascript:void(0);" id="MyDivAtt3" onclick="DisplayMe3(this)">File yang diupload</a>
+                </div>
+                <div class="clearfix"></div>
+                <div id="DisplayAtt3">
+                    <!-- The Modal -->
+                    <div id="MyModal3" class="modal">
+                        <div class="modal-content">
+                            <span class="close" onclick="CloseMe3()" style=padding:0px;>&times;</span>
+                            <object data=@Html.Raw("/Content/DocumentImages/" + @Model.ReadInfoByNoti.Attachment + "_3" + @Model.ReadInfoByNoti.FileExt3 + "?" + DateTime.Now.Ticks.ToString()) class="mdlcontain"></object>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                &nbsp;
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnUpdateK').click();">
+                    <span class="glyphicon glyphicon-folder-close"></span>&nbsp;Tutup
+                </button>
+                @if ((bool)ViewData["AllowReply"])
+                {
+                    <button type="button" class="btn btn-success dropdown-toggle" onclick="$('#btnReply').click();">
+                        <span class="glyphicon glyphicon-folder-close"></span>&nbsp;Reply
+                    </button>
+                }
+            </div>
+            <div class="form-group col-xs-10 col-sm-5 col-md-5 col-lg-5">
+                <div>
+                    &nbsp;
+                </div>
+            </div>
+
+        </form>
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdateK";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "UpdateK";
+                if (ViewBag.IsHead != null && ViewBag.IsHead == true)
+                {
+                    settings.ClientSideEvents.Click = "function (s, e) {window.location.href = \"/TrxNotificationHeader/GetNotiInboxSentDraft\";}";
+                }
+                else
+                {
+                    settings.UseSubmitBehavior = true;
+                    settings.ClientSideEvents.Click = "function (s, e) { document.getElementById('AllowReply').value = false;}";
+                }
+                settings.ClientVisible = false;
+                //settings.ClientSideEvents.Click = "function (s, e) { if(confirm('Notifikasi akan langsung dikirim ?')){document.getElementById('customValue').value = 'K';} else {document.getElementById('customValue').value = 'D';} GetRecipient()}";
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnReply";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Reply";
+                settings.UseSubmitBehavior = true;
+                settings.ClientSideEvents.Click = "function (s, e) { document.getElementById('AllowReply').value = true;}"; 
+                settings.ClientVisible = false;
+            }
+        ).GetHtml()
+    </div>
+
+}
+
+<script>
+    $(function () {
+        if ($('#id4FileExtAtt1').val() == '') {
+            document.getElementById("MyDivAtt1").style.display = "none";
+            var $el = $('#fileInput1');
+            $el.val('');
+        }
+        if ($('#id4FileExtAtt2').val() == '') {
+            document.getElementById("MyDivAtt2").style.display = "none";
+            var $el = $('#fileInput2');
+            $el.val('');
+        }
+        if ($('#id4FileExtAtt3').val() == '') {
+            document.getElementById("MyDivAtt3").style.display = "none";
+            var $el = $('#fileInput3');
+            $el.val('');
+        }
+    });
+    var myModal1 = document.getElementById('MyModal1');
+    var myModal2 = document.getElementById('MyModal2');
+    var myModal3 = document.getElementById('MyModal3');
+
+</script>

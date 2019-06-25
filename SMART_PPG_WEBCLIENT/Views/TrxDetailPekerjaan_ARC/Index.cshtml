@@ -1,0 +1,134 @@
+﻿@model IEnumerable<MVCSmartClient01.Models.trxDetailPekerjaan_ARC>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdAction)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdDetailPekerjaan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IdRekanan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DebiturName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DebiturLocation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BidangUsahaDebitur)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JenisJasa)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NamaPemberiPekerjaan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitKerja)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalAsetPerusahaan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FeeNominal)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NilaiPenutupan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TanggalMulaiPekerjaan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TanggalSelesaiPekerjaan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NomorPolis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PICRekanan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PICBank)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Keterangan)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdAction)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdDetailPekerjaan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdRekanan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DebiturName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DebiturLocation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BidangUsahaDebitur)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JenisJasa)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NamaPemberiPekerjaan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnitKerja)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalAsetPerusahaan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FeeNominal)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NilaiPenutupan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TanggalMulaiPekerjaan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TanggalSelesaiPekerjaan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NomorPolis)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PICRekanan)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PICBank)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Keterangan)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.IdDetailPekerjaan }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IdDetailPekerjaan })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,44 @@
+﻿@model MVCSmartClient01.Models.AddEditTDraftCaptionForm
+@{
+    ViewBag.Title = "Home Page";
+}
+<script>
+    function OnActiveTabChanging(s, e) {
+        //var action = e.tab.name;
+        //var actionUrl = "http://localhost:3239/TrxNotificationHeader/" + action;
+        ////alert(actionUrl);
+        //$.ajax({
+        //    type: "POST",
+        //    url: actionUrl,
+        //    success: function (response) {
+        //        draftContainer.SetTabContentHTML(e.tab, response);
+        //    }
+        //});
+    }
+    function displayRekananGrid()
+    {
+        var tab = draftContainer.GetTab(1);
+        draftContainer.SetActiveTab(tab);
+        return false;
+    }
+</script>
+
+@Html.DevExpress().PageControl(settingsPageControl =>
+{
+    settingsPageControl.Name = "draftContainer";
+    settingsPageControl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settingsPageControl.ActiveTabIndex = 0;
+    settingsPageControl.ClientSideEvents.ActiveTabChanging = "OnActiveTabChanging";
+    
+    settingsPageControl.TabPages.Add("Draft", "_AddEditTDraft").SetContent(() =>
+    {
+        Html.RenderAction("_AddEditTDraft", new { IdNotification = @ViewBag.IdNotification });
+    });
+    if (@ViewBag.IsRekanan == false)
+    {
+        settingsPageControl.TabPages.Add("Daftar Penerima", "_GridSubjectTo").SetContent(() =>
+        {
+            Html.RenderAction("_GridSubjectTo");
+        });        
+    }
+}).GetHtml()

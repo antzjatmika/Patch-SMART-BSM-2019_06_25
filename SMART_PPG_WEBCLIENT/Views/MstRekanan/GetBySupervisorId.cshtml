@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<script type="text/javascript">
+    var ExportToExcel = function () {
+        window.location.href = '@Url.Action("XLS_ListRekanan", "MstRekanan", new { strFilterExpression = "QWERTY" })'.replace("QWERTY", myGridView.cp_FilterOri);
+        return false;
+    };
+</script>
+
+@*<input type="button" id="action" value="ExportToExcel" onclick="return ExportToExcel()" />*@
+<button id="btnExportXls" name="button4xl" class="btn btn-secondary btn-sm" onclick="ExportToExcel()">Export To XLS</button>
+@Html.Partial("GridViewPartial")
+

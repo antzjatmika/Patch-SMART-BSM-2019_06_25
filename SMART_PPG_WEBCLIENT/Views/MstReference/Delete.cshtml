@@ -1,0 +1,59 @@
+﻿@model MVCSmartClient01.Models.mstReference
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>EmployeeInfo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdRef)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdRef)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RefType)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RefType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RefCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RefCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RefDesc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RefDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

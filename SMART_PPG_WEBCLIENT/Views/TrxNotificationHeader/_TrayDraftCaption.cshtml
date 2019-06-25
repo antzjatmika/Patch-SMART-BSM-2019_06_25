@@ -1,0 +1,146 @@
+﻿
+@using System.Web.UI.WebControls
+@model MVCSmartClient01.Models.draftCaptionForm
+@{
+    var callbackRouteValues = new { Controller = "TrxNotificationHeader", Action = "_TrayDraftCaption" };
+}
+
+@Html.DevExpress().GridView(
+settings =>
+{
+    settings.Name = "gridTrayDraft";
+    settings.Settings.ShowGroupPanel = true;
+    settings.Settings.ShowGroupedColumns = true;
+
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowFilterRowMenu = false;
+    settings.CallbackRouteValues = new { Controller = "TrxNotificationHeader", Action = "_TrayDraftCaption" };
+    settings.Width = Unit.Percentage(100);
+
+    settings.SetStatusBarTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "<span id=\"lblLoading\">&nbsp;</span>"
+            );
+    });
+    settings.SetEmptyDataRowTemplateContent(c =>
+    {
+        ViewContext.Writer.Write(
+            "No data"
+            );
+    });
+    settings.Columns.Add(column =>
+    {
+    //    column.Caption = "#";
+    //    column.SetDataItemTemplateContent(c =>
+    //    {
+    //        ViewContext.Writer.Write(
+    //            "<table><tr><td>" +
+    //            Html.ActionLink("Edit", "_AddEditTDraftContainer", new { @class = "updateLink", IdData = DataBinder.Eval(c.DataItem, "IdNotification") }) + "&nbsp;" +
+    //            "</td><td>" +
+    //            Html.ActionLink("Delete", "_DeleteContact", new { @class = "deleteLink", IdData = DataBinder.Eval(c.DataItem, "IdNotification") },
+    //                new { onclick = "return confirm('Apakah Anda yakin akan menghapus data ini ?')" })
+    //            + "</td></tr></table>"
+    //        );
+    //    });
+        column.SetHeaderTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                Html.ActionLink("New", "_AddEditTDraftContainer", new { IdNotification = -1 }).ToHtmlString()
+            );
+        });
+
+        column.SetDataItemTemplateContent(c =>
+        {
+            if (Convert.ToInt32(DataBinder.Eval(c.DataItem, "BelumKirim")) == 0)
+                
+                ViewContext.Writer.Write(
+                "<table><tr><td>" +
+                Html.ActionLink("Edit", "_AddEditTDraftContainer", new { @class = "updateLink", IdNotification = DataBinder.Eval(c.DataItem, "IdNotification") }) + "&nbsp;"
+                + "</td></tr></table>"
+                );
+            else
+                ViewContext.Writer.Write("<table><tr><td></td></tr></table>");
+
+        });
+
+        column.Width = 45;
+    });
+
+    settings.KeyFieldName = "IdNotification";
+
+    //settings.Columns.Add(column =>
+    //{
+    //    column.Caption = "#";
+    //    column.SetDataItemTemplateContent(c =>
+    //    {
+    //        if(Convert.ToInt32(DataBinder.Eval(c.DataItem, "BelumKirim")) == 0) 
+    //        ViewContext.Writer.Write(
+    //            "<table><tr><td>" +
+    //            "Detail"
+    //            + "</td></tr></table>"
+    //        );
+    //        else
+    //        ViewContext.Writer.Write(
+    //            "<table><tr><td>" +
+    //            ""
+    //            + "</td></tr></table>"
+    //        );
+                
+    //    });
+    //    column.Width = 70;
+    //});
+
+    
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CaptionInfo";
+        column.Caption = "Judul Notifikasi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IdTipeNotification";
+        column.Caption = "Tipe Notifikasi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 200;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "IdLevelUrgensi";
+        column.Caption = "Tingkat Urgensi";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        var comboBoxProperties = (DevExpress.Web.ASPxEditors.ComboBoxProperties)column.PropertiesEdit;
+        comboBoxProperties.ClientSideEvents.Init = "function(s, e) {s.InsertItem(0, '(ALL)', '');}";
+        comboBoxProperties.DataSource = Model.LevelUrgensiColls;
+        comboBoxProperties.TextField = "RefDescription";
+        comboBoxProperties.ValueField = "RefId";
+        comboBoxProperties.ValueType = typeof(int);
+        column.Width = 150;
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "BelumKirim";
+        column.Caption = "Total Belum Dikirim";
+        column.HeaderStyle.Font.Bold = true;
+        column.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+        column.Settings.ShowFilterRowMenu = DevExpress.Utils.DefaultBoolean.False;
+        column.Width = 150;
+    });
+
+    settings.SettingsDetail.ShowDetailRow = true;
+    settings.SettingsDetail.AllowOnlyOneMasterRowExpanded = false;
+
+    settings.SetDetailRowTemplateContent(c =>
+    {
+        Html.RenderAction("_TrayDraftDetail", new { IdNotification = DataBinder.Eval(c.DataItem, "IdNotification") });
+    });
+
+}).Bind(Model.DraftCaptionColls).GetHtml()
